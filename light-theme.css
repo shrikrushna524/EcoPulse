@@ -1,0 +1,347 @@
+/* ===== LIGHT THEME SPECIFIC STYLES ===== */
+/* This file contains light theme overrides and specific light mode styles */
+
+[data-theme="light"] {
+    /* Base colors */
+    --bg-primary: #f5f9f5;
+    --bg-secondary: #e8f0e8;
+    --bg-card: #ffffff;
+    --bg-hover: #d0e0d0;
+    --bg-elevated: #e0e8e0;
+    --text-primary: #1a2f1a;
+    --text-secondary: #2a4a2a;
+    --text-muted: #5a7a5a;
+    --accent-green: #2e7d32;
+    --accent-green-light: #4CAF50;
+    --accent-green-dark: #1b5e20;
+    --border-color: #b0d0b0;
+    --border-light: #c0e0c0;
+    --shadow-color: rgba(0, 100, 0, 0.1);
+    --shadow-strong: rgba(0, 100, 0, 0.2);
+    
+    /* Gradients */
+    --gradient-1: linear-gradient(135deg, #e8f0e8 0%, #d0e0d0 100%);
+    --gradient-2: linear-gradient(45deg, #2e7d32, #4CAF50);
+    --gradient-3: linear-gradient(45deg, #1976D2, #4CAF50);
+    --gradient-light: linear-gradient(135deg, #f5f9f5, #e8f0e8);
+}
+
+/* Light mode specific component styles */
+[data-theme="light"] .card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 50, 0, 0.1);
+}
+
+[data-theme="light"] .card:hover {
+    border-color: var(--accent-green);
+    box-shadow: 0 8px 30px rgba(46, 125, 50, 0.2);
+}
+
+[data-theme="light"] .navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="light"] .logo {
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .logo i {
+    color: var(--accent-green);
+}
+
+[data-theme="light"] .nav-links a {
+    color: #2a4a2a;
+}
+
+[data-theme="light"] .nav-links a:hover {
+    background: #d0e0d0;
+    color: #1b5e20;
+}
+
+[data-theme="light"] .nav-links a.active {
+    background: #d0e0d0;
+    color: #1b5e20;
+}
+
+[data-theme="light"] .module-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .module-card:hover {
+    border-color: var(--accent-green);
+    box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
+}
+
+[data-theme="light"] .module-title {
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .module-stats {
+    color: #5a7a5a;
+}
+
+[data-theme="light"] .btn-outline {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    background: transparent;
+}
+
+[data-theme="light"] .btn-outline:hover {
+    background: var(--accent-green);
+    color: white;
+}
+
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select,
+[data-theme="light"] .form-group textarea {
+    background: white;
+    border-color: #b0d0b0;
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .form-group input:focus,
+[data-theme="light"] .form-group select:focus,
+[data-theme="light"] .form-group textarea:focus {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+    background: white;
+}
+
+[data-theme="light"] .ai-assistant {
+    background: white;
+    border-color: var(--border-color);
+    box-shadow: 0 10px 40px rgba(0, 50, 0, 0.15);
+}
+
+[data-theme="light"] .ai-header {
+    background: #e8f0e8;
+}
+
+[data-theme="light"] .message.ai .message-content {
+    background: #e8f0e8;
+    border-color: var(--accent-green);
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .message.user .message-content {
+    background: #d0e0d0;
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .progress-bar {
+    background: #d0e0d0;
+}
+
+[data-theme="light"] .badge {
+    background: #e8f0e8;
+    border-color: var(--border-color);
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .badge.earned {
+    background: rgba(46, 125, 50, 0.1);
+    border-color: var(--accent-green);
+}
+
+[data-theme="light"] th {
+    background: #2e7d32;
+    color: white;
+}
+
+[data-theme="light"] td {
+    border-bottom-color: #d0e0d0;
+}
+
+[data-theme="light"] tr:hover {
+    background: #e8f0e8;
+}
+
+[data-theme="light"] .glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(46, 125, 50, 0.2);
+}
+
+[data-theme="light"] .alert-success {
+    background: rgba(46, 125, 50, 0.1);
+    border-color: #2e7d32;
+    color: #1b5e20;
+}
+
+[data-theme="light"] .alert-warning {
+    background: rgba(255, 152, 0, 0.1);
+    border-color: #ff9800;
+    color: #c66900;
+}
+
+[data-theme="light"] .alert-danger {
+    background: rgba(244, 67, 54, 0.1);
+    border-color: #f44336;
+    color: #b71c1c;
+}
+
+[data-theme="light"] .alert-info {
+    background: rgba(33, 150, 243, 0.1);
+    border-color: #2196F3;
+    color: #0d47a1;
+}
+
+[data-theme="light"] .modal {
+    background: white;
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .tooltip .tooltiptext {
+    background: white;
+    border-color: var(--accent-green);
+    color: #1a2f1a;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .energy-card {
+    background: white;
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .energy-card:hover {
+    border-color: var(--accent-green);
+}
+
+[data-theme="light"] .weather-widget {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+}
+
+[data-theme="light"] .stat-box {
+    background: #e8f0e8;
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .stat-value {
+    color: #2e7d32;
+}
+
+[data-theme="light"] .region-btn {
+    background: white;
+    border-color: var(--border-color);
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .region-btn.active {
+    background: #2e7d32;
+    color: white;
+    border-color: #2e7d32;
+}
+
+[data-theme="light"] .region-btn:hover {
+    border-color: #2e7d32;
+}
+
+[data-theme="light"] .pesticide-card {
+    background: #e8f0e8;
+    border-color: var(--border-color);
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .pesticide-card:hover {
+    border-color: #2e7d32;
+}
+
+[data-theme="light"] .farmer-data-table {
+    background: white;
+}
+
+[data-theme="light"] .farmer-data-table th {
+    background: #2e7d32;
+}
+
+[data-theme="light"] .farmer-data-table td {
+    border-bottom-color: #d0e0d0;
+}
+
+[data-theme="light"] .farmer-data-table tr:hover {
+    background: #e8f0e8;
+}
+
+[data-theme="light"] .welcome-section {
+    background: linear-gradient(135deg, #e8f0e8, #d0e0d0);
+    color: #1a2f1a;
+}
+
+[data-theme="light"] .eco-score-card {
+    background: white;
+}
+
+[data-theme="light"] .score-circle {
+    background: conic-gradient(#2e7d32 0deg 288deg, #d0e0d0 288deg 360deg);
+}
+
+[data-theme="light"] .score-value {
+    color: #2e7d32;
+}
+
+/* Light mode specific text colors */
+[data-theme="light"] .text-green {
+    color: #2e7d32;
+}
+
+[data-theme="light"] .text-muted {
+    color: #5a7a5a;
+}
+
+/* Light mode scrollbar */
+[data-theme="light"] ::-webkit-scrollbar-track {
+    background: #e8f0e8;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: #2e7d32;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: #1b5e20;
+}
+
+/* Light mode placeholder */
+[data-theme="light"] ::placeholder {
+    color: #5a7a5a;
+    opacity: 0.7;
+}
+
+/* Light mode selection */
+[data-theme="light"] ::selection {
+    background: #2e7d32;
+    color: white;
+}
+
+/* Light mode focus outline */
+[data-theme="light"] :focus {
+    outline-color: #2e7d32;
+}
+
+/* Light mode specific animations */
+@keyframes lightPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(46, 125, 50, 0.2); }
+    50% { box-shadow: 0 0 40px rgba(46, 125, 50, 0.3); }
+}
+
+[data-theme="light"] .pulse-animation {
+    animation: lightPulse 2s infinite;
+}
+
+/* Light mode borders */
+[data-theme="light"] .border-green {
+    border-color: #2e7d32;
+}
+
+/* Light mode shadows */
+[data-theme="light"] .shadow-green {
+    box-shadow: 0 4px 20px rgba(46, 125, 50, 0.15);
+}
