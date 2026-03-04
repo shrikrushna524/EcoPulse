@@ -1,0 +1,279 @@
+/* ===== DARK THEME SPECIFIC STYLES ===== */
+/* This file contains dark theme overrides and specific dark mode styles */
+
+[data-theme="dark"] {
+    /* Base colors */
+    --bg-primary: #0a0f0a;
+    --bg-secondary: #111811;
+    --bg-card: #1a231a;
+    --bg-hover: #253025;
+    --bg-elevated: #2a352a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0c4b0;
+    --text-muted: #708070;
+    --accent-green: #4CAF50;
+    --accent-green-light: #6fbf73;
+    --accent-green-dark: #2e7d32;
+    --border-color: #2a3a2a;
+    --border-light: #3a4a3a;
+    --shadow-color: rgba(0, 255, 0, 0.15);
+    --shadow-strong: rgba(0, 255, 0, 0.25);
+    
+    /* Gradients */
+    --gradient-1: linear-gradient(135deg, #1a2f1a 0%, #0f1a0f 100%);
+    --gradient-2: linear-gradient(45deg, #2e7d32, #4CAF50);
+    --gradient-3: linear-gradient(45deg, #2196F3, #4CAF50);
+    --gradient-dark: linear-gradient(135deg, #0a120a, #1a2f1a);
+}
+
+/* Dark mode specific component styles */
+[data-theme="dark"] .card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .card:hover {
+    border-color: var(--accent-green);
+    box-shadow: 0 8px 30px rgba(76, 175, 80, 0.3);
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(10, 15, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .module-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .module-card:hover {
+    border-color: var(--accent-green);
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+}
+
+[data-theme="dark"] .btn-outline {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+}
+
+[data-theme="dark"] .btn-outline:hover {
+    background: var(--accent-green);
+    color: #000;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background: #1e2a1e;
+    border-color: var(--border-color);
+    color: #fff;
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+    border-color: var(--accent-green);
+    background: #253025;
+}
+
+[data-theme="dark"] .ai-assistant {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .message.ai .message-content {
+    background: #253025;
+    border-color: var(--accent-green);
+}
+
+[data-theme="dark"] .message.user .message-content {
+    background: #1e2a1e;
+}
+
+[data-theme="dark"] .progress-bar {
+    background: #253025;
+}
+
+[data-theme="dark"] .badge {
+    background: #1e2a1e;
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .badge.earned {
+    background: rgba(76, 175, 80, 0.15);
+    border-color: var(--accent-green);
+}
+
+[data-theme="dark"] .table {
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] th {
+    background: #1e2a1e;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] td {
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] tr:hover {
+    background: #253025;
+}
+
+[data-theme="dark"] .glass-card {
+    background: rgba(26, 35, 26, 0.8);
+    border-color: rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .alert-success {
+    background: rgba(76, 175, 80, 0.15);
+    border-color: var(--success);
+}
+
+[data-theme="dark"] .alert-warning {
+    background: rgba(255, 152, 0, 0.15);
+    border-color: var(--warning);
+}
+
+[data-theme="dark"] .alert-danger {
+    background: rgba(244, 67, 54, 0.15);
+    border-color: var(--danger);
+}
+
+[data-theme="dark"] .alert-info {
+    background: rgba(33, 150, 243, 0.15);
+    border-color: var(--info);
+}
+
+[data-theme="dark"] .modal {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-overlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="dark"] .tooltip .tooltiptext {
+    background: #253025;
+    border-color: var(--accent-green);
+    color: #fff;
+}
+
+[data-theme="dark"] .energy-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .energy-card:hover {
+    border-color: var(--accent-green);
+}
+
+[data-theme="dark"] .solar-panel-bg {
+    opacity: 0.1;
+}
+
+[data-theme="dark"] .weather-widget {
+    background: linear-gradient(135deg, #1a3a1a, #0f2a0f);
+}
+
+[data-theme="dark"] .stat-box {
+    background: #1e2a1e;
+}
+
+[data-theme="dark"] .region-btn {
+    background: #1e2a1e;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .region-btn.active {
+    background: var(--accent-green);
+    color: #000;
+}
+
+[data-theme="dark"] .region-btn:hover {
+    border-color: var(--accent-green);
+}
+
+[data-theme="dark"] .pesticide-card {
+    background: #1e2a1e;
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .pesticide-card:hover {
+    border-color: var(--accent-green);
+}
+
+[data-theme="dark"] .farmer-data-table {
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .farmer-data-table th {
+    background: #1e2a1e;
+}
+
+[data-theme="dark"] .farmer-data-table td {
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .farmer-data-table tr:hover {
+    background: #253025;
+}
+
+[data-theme="dark"] .timeline-item {
+    border-left-color: var(--accent-green);
+}
+
+[data-theme="dark"] .timeline-item::before {
+    background: var(--accent-green);
+}
+
+[data-theme="dark"] .dashboard-container {
+    color-scheme: dark;
+}
+
+/* Dark mode scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #1a2a1a;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #2e7d32;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: #4CAF50;
+}
+
+/* Dark mode placeholder text */
+[data-theme="dark"] ::placeholder {
+    color: #708070;
+    opacity: 0.7;
+}
+
+/* Dark mode selection */
+[data-theme="dark"] ::selection {
+    background: #4CAF50;
+    color: #000;
+}
+
+/* Dark mode focus outline */
+[data-theme="dark"] :focus {
+    outline-color: #4CAF50;
+}
+
+/* Dark mode specific animations */
+@keyframes darkPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(76, 175, 80, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(76, 175, 80, 0.5); }
+}
+
+[data-theme="dark"] .pulse-animation {
+    animation: darkPulse 2s infinite;
+}
