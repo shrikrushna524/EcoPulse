@@ -1,0 +1,939 @@
+/* ===== RESPONSIVE DESIGN STYLES ===== */
+/* This file contains all responsive breakpoints and mobile-specific styles */
+
+/* ===== LARGE DESKTOPS (1200px and above) ===== */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+    
+    .dashboard-container {
+        max-width: 1400px;
+        padding: 0 2rem;
+    }
+    
+    .grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .modal-xl {
+        max-width: 1140px;
+    }
+}
+
+/* ===== DESKTOPS (992px to 1199px) ===== */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .dashboard-container {
+        padding: 0 1.5rem;
+    }
+    
+    .grid-cols-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .nav-links a {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .welcome-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .module-card {
+        padding: 1.25rem;
+    }
+}
+
+/* ===== TABLETS (768px to 991px) ===== */
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    .dashboard-container {
+        padding: 0 1rem;
+    }
+    
+    /* Navigation */
+    .navbar {
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .nav-links a {
+        padding: 0.5rem;
+        font-size: 0.813rem;
+    }
+    
+    .nav-right {
+        margin-left: auto;
+    }
+    
+    /* Grid layouts */
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .calculator-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Typography */
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    /* Cards */
+    .welcome-section {
+        padding: 1.5rem;
+    }
+    
+    .welcome-section::before {
+        font-size: 5rem;
+    }
+    
+    .eco-score-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .score-circle {
+        margin: 0 auto;
+    }
+    
+    /* Stats grid */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Tables */
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    .farmer-data-table {
+        min-width: 800px;
+    }
+    
+    /* Modals */
+    .modal {
+        width: 90%;
+        padding: 1.5rem;
+    }
+    
+    /* Forms */
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Energy module */
+    .energy-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .region-selector {
+        flex-wrap: wrap;
+    }
+    
+    .region-btn {
+        flex: 1;
+        min-width: 100px;
+    }
+    
+    /* Officer dashboard */
+    .officer-analytics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .officer-filters {
+        flex-direction: column;
+    }
+    
+    .officer-filters select,
+    .officer-filters input {
+        width: 100%;
+    }
+}
+
+/* ===== MOBILE LANDSCAPE (576px to 767px) ===== */
+@media (min-width: 576px) and (max-width: 767px) {
+    .container {
+        max-width: 540px;
+    }
+    
+    .dashboard-container {
+        padding: 0 1rem;
+    }
+    
+    /* Navigation */
+    .navbar {
+        padding: 0.75rem 1rem;
+        position: relative;
+    }
+    
+    .logo {
+        font-size: 1.25rem;
+    }
+    
+    .logo i {
+        font-size: 1.5rem;
+    }
+    
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-secondary);
+        flex-direction: column;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 10px 20px var(--shadow-color);
+        z-index: 1000;
+    }
+    
+    .nav-links.show {
+        display: flex;
+    }
+    
+    .nav-links a {
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem;
+    }
+    
+    .nav-right {
+        gap: 0.5rem;
+    }
+    
+    .theme-toggle span {
+        display: none;
+    }
+    
+    .theme-toggle i {
+        font-size: 1.25rem;
+    }
+    
+    #languageSelector {
+        width: 60px;
+        padding: 0.5rem;
+    }
+    
+    /* Mobile menu toggle */
+    .mobile-menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-primary);
+    }
+    
+    /* Grid layouts */
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Typography */
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+    }
+    
+    /* Cards */
+    .welcome-section {
+        padding: 1.25rem;
+    }
+    
+    .welcome-section::before {
+        font-size: 4rem;
+    }
+    
+    .module-card {
+        padding: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* AI Assistant */
+    .ai-assistant {
+        width: calc(100% - 2rem);
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .ai-chat-body {
+        height: 250px;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .btn-block-mobile {
+        width: 100%;
+    }
+    
+    /* Forms */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-control {
+        padding: 0.6rem 0.75rem;
+    }
+    
+    /* Tables */
+    .table-responsive {
+        margin: 0 -1rem;
+        padding: 0 1rem;
+    }
+    
+    /* Modals */
+    .modal {
+        width: 95%;
+        padding: 1.25rem;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+    }
+    
+    /* Energy module */
+    .energy-hero {
+        padding: 1.5rem;
+    }
+    
+    .energy-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .battery-level {
+        width: 80px;
+        height: 160px;
+    }
+    
+    .region-selector {
+        flex-direction: column;
+    }
+    
+    .region-btn {
+        width: 100%;
+    }
+    
+    .weather-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Officer dashboard */
+    .officer-analytics {
+        grid-template-columns: 1fr;
+    }
+    
+    .farmer-data-table {
+        min-width: 600px;
+    }
+    
+    /* Charts */
+    .chart-container {
+        padding: 1rem;
+    }
+    
+    /* Timeline */
+    .timeline {
+        padding-left: 1.5rem;
+    }
+    
+    .timeline-item::before {
+        left: -1.6rem;
+    }
+    
+    /* Badges */
+    .badge-container {
+        justify-content: center;
+    }
+    
+    /* Progress bars */
+    .progress-bar {
+        height: 6px;
+    }
+}
+
+/* ===== MOBILE PORTRAIT (below 576px) ===== */
+@media (max-width: 575px) {
+    .container {
+        width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .dashboard-container {
+        padding: 0 0.75rem;
+        margin: 1rem auto;
+    }
+    
+    /* Navigation */
+    .navbar {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .logo {
+        font-size: 1rem;
+    }
+    
+    .logo i {
+        font-size: 1.25rem;
+    }
+    
+    .nav-right {
+        gap: 0.25rem;
+    }
+    
+    .theme-toggle {
+        padding: 0.5rem;
+    }
+    
+    #languageSelector {
+        width: 50px;
+        padding: 0.4rem;
+    }
+    
+    /* Typography */
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    h3 {
+        font-size: 1.125rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    p {
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Cards */
+    .welcome-section {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+    
+    .welcome-section::before {
+        font-size: 3rem;
+    }
+    
+    .eco-score-card {
+        padding: 1rem;
+    }
+    
+    .score-circle {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .score-circle::before {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .score-value {
+        font-size: 1.5rem;
+    }
+    
+    .module-card {
+        padding: 0.875rem;
+    }
+    
+    .module-icon {
+        font-size: 2rem;
+    }
+    
+    .module-title {
+        font-size: 1rem;
+    }
+    
+    .module-stats {
+        font-size: 0.75rem;
+    }
+    
+    /* Calculator containers */
+    .calculator-container {
+        padding: 1rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.813rem;
+    }
+    
+    .btn-sm {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+    }
+    
+    /* Forms */
+    .form-group {
+        margin-bottom: 0.875rem;
+    }
+    
+    .form-label {
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .form-control {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .form-help {
+        font-size: 0.75rem;
+    }
+    
+    /* Input group */
+    .input-group-append {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    /* Range slider */
+    .form-range {
+        height: 4px;
+    }
+    
+    .form-range::-webkit-slider-thumb {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* AI Assistant */
+    .ai-assistant {
+        width: calc(100% - 1.5rem);
+        bottom: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    .ai-header {
+        padding: 0.75rem;
+    }
+    
+    .ai-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    
+    .ai-header h4 {
+        font-size: 0.875rem;
+    }
+    
+    .ai-header small {
+        font-size: 0.75rem;
+    }
+    
+    .ai-chat-body {
+        height: 200px;
+        padding: 0.75rem;
+    }
+    
+    .message-content {
+        padding: 0.6rem;
+        font-size: 0.813rem;
+    }
+    
+    /* Alerts */
+    .alert {
+        padding: 0.75rem 1rem;
+    }
+    
+    .alert-icon {
+        font-size: 1.25rem;
+    }
+    
+    .alert-title {
+        font-size: 0.875rem;
+    }
+    
+    .alert-message {
+        font-size: 0.75rem;
+    }
+    
+    /* Badges */
+    .badge {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.688rem;
+    }
+    
+    /* Progress */
+    .progress {
+        height: 6px;
+    }
+    
+    /* Stats cards */
+    .stat-card {
+        padding: 1rem;
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+    }
+    
+    /* Tables */
+    th, td {
+        padding: 0.6rem;
+        font-size: 0.813rem;
+    }
+    
+    /* Modals */
+    .modal {
+        padding: 1rem;
+    }
+    
+    .modal-title {
+        font-size: 1.25rem;
+    }
+    
+    .modal-close {
+        font-size: 1.25rem;
+    }
+    
+    .modal-body {
+        margin-bottom: 1rem;
+    }
+    
+    /* Tabs */
+    .tabs {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    /* Accordion */
+    .accordion-header {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .accordion-body {
+        padding: 1rem;
+        font-size: 0.813rem;
+    }
+    
+    /* Tooltips */
+    .tooltip .tooltip-text {
+        width: 150px;
+        font-size: 0.75rem;
+    }
+    
+    /* Energy module */
+    .energy-hero {
+        padding: 1rem;
+    }
+    
+    .energy-hero h1 {
+        font-size: 1.25rem;
+    }
+    
+    .energy-hero p {
+        font-size: 0.813rem;
+    }
+    
+    .carbon-counter {
+        font-size: 2rem;
+    }
+    
+    .battery-level {
+        width: 60px;
+        height: 120px;
+    }
+    
+    .weather-item {
+        padding: 0.5rem;
+    }
+    
+    .weather-item i {
+        font-size: 1.25rem;
+    }
+    
+    .weather-item h3 {
+        font-size: 1rem;
+    }
+    
+    /* Pesticide cards */
+    .pesticide-card {
+        padding: 0.875rem;
+    }
+    
+    .pesticide-tag {
+        padding: 0.15rem 0.5rem;
+        font-size: 0.688rem;
+    }
+    
+    /* Timeline */
+    .timeline {
+        padding-left: 1rem;
+    }
+    
+    .timeline::before {
+        left: -0.5rem;
+    }
+    
+    .timeline-item::before {
+        left: -1.1rem;
+        width: 8px;
+        height: 8px;
+    }
+    
+    .timeline-date {
+        font-size: 0.75rem;
+    }
+    
+    .timeline-content {
+        padding: 0.75rem;
+        font-size: 0.813rem;
+    }
+    
+    /* Footer */
+    footer {
+        padding: 2rem 1rem !important;
+    }
+    
+    footer .grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    footer h3, footer h4 {
+        font-size: 1rem;
+    }
+    
+    footer p, footer li {
+        font-size: 0.813rem;
+    }
+    
+    /* Utility classes for mobile */
+    .hide-mobile {
+        display: none !important;
+    }
+    
+    .show-mobile {
+        display: block !important;
+    }
+    
+    .text-center-mobile {
+        text-align: center;
+    }
+    
+    .mt-2-mobile {
+        margin-top: 0.5rem;
+    }
+    
+    .mb-2-mobile {
+        margin-bottom: 0.5rem;
+    }
+    
+    .p-2-mobile {
+        padding: 0.5rem;
+    }
+}
+
+/* ===== SMALL MOBILE (below 360px) ===== */
+@media (max-width: 359px) {
+    .logo {
+        font-size: 0.875rem;
+    }
+    
+    .logo i {
+        font-size: 1rem;
+    }
+    
+    .theme-toggle {
+        padding: 0.4rem;
+    }
+    
+    #languageSelector {
+        width: 40px;
+        padding: 0.3rem;
+    }
+    
+    h1 {
+        font-size: 1.25rem;
+    }
+    
+    h2 {
+        font-size: 1.125rem;
+    }
+    
+    .score-circle {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .score-circle::before {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .score-value {
+        font-size: 1.25rem;
+    }
+    
+    .module-icon {
+        font-size: 1.75rem;
+    }
+    
+    .btn {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.75rem;
+    }
+    
+    .form-control {
+        font-size: 0.813rem;
+    }
+    
+    .ai-assistant {
+        width: calc(100% - 1rem);
+        bottom: 0.5rem;
+        right: 0.5rem;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .navbar,
+    .ai-assistant,
+    .theme-toggle,
+    #languageSelector,
+    .user-menu,
+    .btn,
+    .modal-overlay,
+    .footer {
+        display: none !important;
+    }
+    
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+    
+    .dashboard-container {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .card,
+    .module-card,
+    .calculator-container {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        background: white;
+        color: black;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+    
+    h1, h2, h3 {
+        color: black;
+    }
+}
+
+/* ===== DARK MODE TOUCHES FOR RESPONSIVE ===== */
+@media (prefers-color-scheme: dark) {
+    .mobile-menu-toggle {
+        color: white;
+    }
+}
+
+/* ===== HIGH RESOLUTION DISPLAYS ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo i {
+        filter: drop-shadow(0 0 5px var(--accent-green));
+    }
+    
+    .badge.earned {
+        border-width: 2px;
+    }
+}
+
+/* ===== LANDSCAPE ORIENTATION ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+    .ai-assistant {
+        top: 50%;
+        transform: translateY(-50%);
+        height: 90vh;
+    }
+    
+    .ai-chat-body {
+        height: calc(90vh - 120px);
+    }
+    
+    .modal {
+        max-height: 90vh;
+    }
+}
