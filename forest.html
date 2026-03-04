@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Wildlife & Forest Conservation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Forest Module Specific Styles */
+        .forest-hero {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .forest-hero::before {
+            content: '🌳';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .forest-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .forest-stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .forest-stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+        }
+        
+        .forest-stat-icon {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+        
+        .forest-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .species-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .species-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+        }
+        
+        .species-image {
+            height: 200px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+        }
+        
+        .species-content {
+            padding: 1.5rem;
+        }
+        
+        .species-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .species-scientific {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .threat-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .threat-critical { background: #F44336; color: white; }
+        .threat-endangered { background: #FF9800; color: white; }
+        .threat-vulnerable { background: #FFC107; color: black; }
+        .threat-near-threatened { background: #2196F3; color: white; }
+        .threat-least-concern { background: #4CAF50; color: white; }
+        
+        .population-bar {
+            height: 10px;
+            background: var(--bg-primary);
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .population-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #FFC107, #F44336);
+            border-radius: 5px;
+        }
+        
+        .forest-slider {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+        
+        .forest-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .forest-image.before {
+            background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800');
+            z-index: 1;
+        }
+        
+        .forest-image.after {
+            background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?w=800');
+            z-index: 2;
+            width: 50%;
+        }
+        
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: white;
+            left: 50%;
+            z-index: 3;
+            cursor: ew-resize;
+        }
+        
+        .slider-handle::after {
+            content: '↔️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+        
+        .wildlife-map {
+            height: 400px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid var(--border-color);
+        }
+        
+        .map-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            z-index: 10;
+        }
+        
+        .sighting-marker {
+            fill: #F44336;
+            r: 8;
+            cursor: pointer;
+            transition: r 0.3s ease;
+        }
+        
+        .sighting-marker:hover {
+            r: 12;
+            fill: #FF9800;
+        }
+        
+        .sighting-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .tree-counter {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            border-radius: 30px;
+            margin: 2rem 0;
+            color: white;
+        }
+        
+        .counter-number {
+            font-size: 6rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        
+        .forest-meter {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .meter-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .meter-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4CAF50;
+            margin: 1rem 0;
+        }
+        
+        .adopt-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            border: 2px solid var(--border-color);
+        }
+        
+        .adopt-image {
+            height: 200px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        
+        .certificate-preview {
+            background: white;
+            color: black;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 2px solid gold;
+            font-family: 'Times New Roman', serif;
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .certificate-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid #4CAF50;
+            border-radius: 14px;
+            pointer-events: none;
+        }
+        
+        .certificate-title {
+            font-size: 2.5rem;
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .region-filter {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .filter-chip {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-chip:hover {
+            border-color: #4CAF50;
+        }
+        
+        .filter-chip.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .animal-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .impact-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .count-animation {
+            animation: countUp 1s ease-out;
+        }
+        
+        @keyframes treeGrow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .tree-icon {
+            animation: treeGrow 2s infinite;
+        }
+        
+        .conservation-tip {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .conservation-tip::before {
+            content: '🌿';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html" class="active"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="forest-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-tree" style="color: #fff;"></i> 
+                Wildlife & Forest Conservation
+            </h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px;">
+                Protect endangered species, track forest cover, spot wildlife, and contribute to reforestation efforts.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> 50+ Endangered Species</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> 10M+ Trees Planted</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> 5K+ Wildlife Sightings</div>
+            </div>
+        </div>
+
+        <!-- Forest Health Meter -->
+        <h2><i class="fas fa-chart-line" style="color: #4CAF50;"></i> 🌿 Forest Health Meter</h2>
+        <div class="forest-meter">
+            <div class="meter-item">
+                <i class="fas fa-wind" style="font-size: 2rem; color: #4CAF50;"></i>
+                <h3>Air Quality Improvement</h3>
+                <div class="meter-value" id="airQuality">45%</div>
+                <p>Reduction in PM2.5</p>
+                <small class="text-secondary">Equivalent to removing 2,500 cars</small>
+            </div>
+            
+            <div class="meter-item">
+                <i class="fas fa-cloud" style="font-size: 2rem; color: #4CAF50;"></i>
+                <h3>CO₂ Absorbed</h3>
+                <div class="meter-value" id="co2Absorbed">1.2M</div>
+                <p>tons per year</p>
+                <small class="text-secondary">Equal to 260,000 cars off road</small>
+            </div>
+            
+            <div class="meter-item">
+                <i class="fas fa-wind" style="font-size: 2rem; color: #4CAF50;"></i>
+                <h3>Oxygen Produced</h3>
+                <div class="meter-value" id="oxygenProduced">2.4M</div>
+                <p>tons per year</p>
+                <small class="text-secondary">For 12 million people</small>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="forest-stats">
+            <div class="forest-stat-card">
+                <i class="fas fa-paw forest-stat-icon"></i>
+                <div class="forest-stat-value" id="totalSpecies">56</div>
+                <div class="stat-label">Endangered Species</div>
+            </div>
+            <div class="forest-stat-card">
+                <i class="fas fa-tree forest-stat-icon"></i>
+                <div class="forest-stat-value" id="totalTrees">10.2M</div>
+                <div class="stat-label">Trees Planted</div>
+            </div>
+            <div class="forest-stat-card">
+                <i class="fas fa-eye forest-stat-icon"></i>
+                <div class="forest-stat-value" id="totalSightings">5,847</div>
+                <div class="stat-label">Wildlife Sightings</div>
+            </div>
+            <div class="forest-stat-card">
+                <i class="fas fa-heart forest-stat-icon"></i>
+                <div class="forest-stat-value" id="totalAdoptions">1,234</div>
+                <div class="stat-label">Animals Adopted</div>
+            </div>
+        </div>
+
+        <!-- 1. ENDANGERED SPECIES TRACKER -->
+        <div class="ev-card">
+            <h2><i class="fas fa-paw" style="color: #4CAF50;"></i> 🦁 Endangered Species Tracker</h2>
+            <p style="color: var(--text-secondary);">Filter by region and threat level</p>
+            
+            <div class="region-filter">
+                <span class="filter-chip active" onclick="filterSpecies('all')">All</span>
+                <span class="filter-chip" onclick="filterSpecies('asia')">Asia</span>
+                <span class="filter-chip" onclick="filterSpecies('africa')">Africa</span>
+                <span class="filter-chip" onclick="filterSpecies('americas')">Americas</span>
+                <span class="filter-chip" onclick="filterSpecies('australia')">Australia</span>
+                <span class="filter-chip" onclick="filterSpecies('europe')">Europe</span>
+            </div>
+            
+            <div class="region-filter">
+                <span class="filter-chip" onclick="filterThreat('all')">All Threats</span>
+                <span class="filter-chip" onclick="filterThreat('critical')">Critical</span>
+                <span class="filter-chip" onclick="filterThreat('endangered')">Endangered</span>
+                <span class="filter-chip" onclick="filterThreat('vulnerable')">Vulnerable</span>
+            </div>
+            
+            <div class="species-grid" id="speciesGrid">
+                <!-- Species will be populated by JavaScript -->
+            </div>
+        </div>
+
+                <!-- 2. FOREST COVER CHANGE MAP -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-map" style="color: #4CAF50;"></i> 🌲 Forest Cover Change Map</h2>
+            <p style="color: var(--text-secondary);">Compare forest area over time - Drag slider to see changes</p>
+            
+            <div class="forest-slider" id="forestSlider">
+                <div class="forest-image before"></div>
+                <div class="forest-image after" id="afterImage"></div>
+                <div class="slider-handle" id="sliderHandle"></div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                <div><i class="fas fa-calendar"></i> 2000 - Deforestation visible</div>
+                <div><i class="fas fa-calendar"></i> 2024 - Reforestation efforts</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem;">
+                <div class="station-card">
+                    <strong>Amazon Rainforest</strong>
+                    <p>Forest loss: -17% (2000-2024)</p>
+                </div>
+                <div class="station-card">
+                    <strong>Borneo</strong>
+                    <p>Forest loss: -30% (2000-2024)</p>
+                </div>
+                <div class="station-card">
+                    <strong>Congo Basin</strong>
+                    <p>Forest loss: -8% (2000-2024)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. WILDLIFE SPOTTING MAP -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-map-marker-alt" style="color: #4CAF50;"></i> 🐾 Wildlife Spotting Map</h2>
+            <p style="color: var(--text-secondary);">Mark and view wildlife sightings</p>
+            
+            <div class="wildlife-map" id="wildlifeMap">
+                <canvas id="mapCanvas" width="800" height="400" style="width: 100%; height: 100%;"></canvas>
+                <div class="map-controls">
+                    <h4>Report a Sighting</h4>
+                    <select id="sightingAnimal" class="form-control" style="margin-bottom: 0.5rem;">
+                        <option value="tiger">🐅 Tiger</option>
+                        <option value="elephant">🐘 Elephant</option>
+                        <option value="rhino">🦏 Rhino</option>
+                        <option value="leopard">🐆 Leopard</option>
+                        <option value="deer">🦌 Deer</option>
+                        <option value="bear">🐻 Bear</option>
+                    </select>
+                    
+                    <input type="text" id="sightingLocation" class="form-control" placeholder="Location" style="margin-bottom: 0.5rem;">
+                    
+                    <button class="btn btn-primary" style="width: 100%;" onclick="addSighting()">
+                        <i class="fas fa-plus"></i> Add Sighting
+                    </button>
+                </div>
+            </div>
+            
+            <div id="recentSightings" style="margin-top: 1rem;">
+                <h4>Recent Sightings</h4>
+                <!-- Sightings will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- 4. TREE PLANTATION COUNTER -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-seedling" style="color: #4CAF50;"></i> 🌿 Tree Plantation Counter</h2>
+            <p style="color: var(--text-secondary);">Virtual tree counter with impact statistics</p>
+            
+            <div class="tree-counter">
+                <i class="fas fa-tree tree-icon" style="font-size: 4rem;"></i>
+                <div class="counter-number" id="treeCounter">10,247,893</div>
+                <p>Trees Planted Worldwide</p>
+                
+                <div style="display: flex; gap: 2rem; justify-content: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="plantTree()">
+                        <i class="fas fa-plus"></i> Plant a Tree
+                    </button>
+                    <button class="btn btn-outline" onclick="plantTrees(10)">
+                        <i class="fas fa-seedling"></i> Plant 10 Trees
+                    </button>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div class="impact-card">
+                    <i class="fas fa-cloud" style="color: #4CAF50; font-size: 2rem;"></i>
+                    <h4>CO₂ Absorbed</h4>
+                    <p class="meter-value" id="co2Impact">215,000 tons</p>
+                </div>
+                <div class="impact-card">
+                    <i class="fas fa-wind" style="color: #4CAF50; font-size: 2rem;"></i>
+                    <h4>Oxygen Produced</h4>
+                    <p class="meter-value" id="oxygenImpact">158,000 tons</p>
+                </div>
+                <div class="impact-card">
+                    <i class="fas fa-home" style="color: #4CAF50; font-size: 2rem;"></i>
+                    <h4>Wildlife Habitat</h4>
+                    <p class="meter-value" id="habitatImpact">52,000 acres</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. ADOPT AN ANIMAL -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-heart" style="color: #4CAF50;"></i> 📋 Adopt an Animal</h2>
+            <p style="color: var(--text-secondary);">Symbolic adoption program with certificate</p>
+            
+            <div class="adopt-card">
+                <div class="adopt-image">
+                    <i class="fas fa-paw" style="font-size: 5rem;"></i>
+                </div>
+                <div>
+                    <h3>Choose Your Animal</h3>
+                    <select id="adoptAnimal" class="form-control" style="margin-bottom: 1rem;">
+                        <option value="tiger">🐅 Tiger - ₹500/month</option>
+                        <option value="elephant">🐘 Elephant - ₹500/month</option>
+                        <option value="rhino">🦏 Rhino - ₹500/month</option>
+                        <option value="panda">🐼 Panda - ₹500/month</option>
+                        <option value="orangutan">🦧 Orangutan - ₹500/month</option>
+                        <option value="snow-leopard">🐆 Snow Leopard - ₹500/month</option>
+                    </select>
+                    
+                    <input type="text" id="adopterName" class="form-control" placeholder="Your Name" style="margin-bottom: 1rem;">
+                    
+                    <input type="email" id="adopterEmail" class="form-control" placeholder="Your Email" style="margin-bottom: 1rem;">
+                    
+                    <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <input type="checkbox" id="giftAdoption"> This is a gift adoption
+                    </label>
+                    
+                    <button class="btn btn-primary" onclick="generateCertificate()">
+                        <i class="fas fa-certificate"></i> Generate Certificate
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Certificate Preview -->
+            <div id="certificatePreview" style="display: none;">
+                <h3>Your Adoption Certificate</h3>
+                <div class="certificate-preview" id="certificateContent">
+                    <div class="certificate-title">🌿 Certificate of Adoption 🌿</div>
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <i class="fas fa-paw" style="font-size: 4rem; color: #4CAF50;"></i>
+                    </div>
+                    <p style="text-align: center;">This certifies that</p>
+                    <h2 style="text-align: center; font-size: 2rem;" id="certName">John Doe</h2>
+                    <p style="text-align: center;">has adopted</p>
+                    <h1 style="text-align: center; font-size: 2.5rem; color: #4CAF50;" id="certAnimal">🐅 Tiger</h1>
+                    <p style="text-align: center;">and made a commitment to protect wildlife</p>
+                    <p style="text-align: center; margin-top: 2rem;">Date: <span id="certDate">March 3, 2026</span></p>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="downloadCertificate()">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <button class="btn btn-outline" onclick="shareCertificate()">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conservation Tips -->
+        <div class="conservation-tip">
+            <h3>🌱 Conservation Tips</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 1rem;">
+                <div>
+                    <i class="fas fa-check-circle"></i> Plant native trees in your area
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Report wildlife sightings
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Avoid products that harm forests
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">🌳</div>
+            <div>
+                <h4>Forest AI Assistant</h4>
+                <small>Ask me about wildlife or conservation!</small>
+            </div>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    Hi! I'm your wildlife expert. Ask me about endangered species, forest conservation, or how you can help! 🐅
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== ENDANGERED SPECIES DATABASE =====
+        const species = [
+            {
+                id: 1,
+                name: 'Bengal Tiger',
+                scientific: 'Panthera tigris tigris',
+                image: '🐅',
+                region: 'asia',
+                threat: 'endangered',
+                population: 2500,
+                populationTrend: 'increasing',
+                habitat: 'Indian subcontinent',
+                threats: ['Poaching', 'Habitat loss', 'Human-wildlife conflict']
+            },
+            {
+                id: 2,
+                name: 'Sumatran Orangutan',
+                scientific: 'Pongo abelii',
+                image: '🦧',
+                region: 'asia',
+                threat: 'critical',
+                population: 14600,
+                populationTrend: 'decreasing',
+                habitat: 'Sumatra, Indonesia',
+                threats: ['Deforestation', 'Palm oil plantations', 'Poaching']
+            },
+            {
+                id: 3,
+                name: 'African Elephant',
+                scientific: 'Loxodonta africana',
+                image: '🐘',
+                region: 'africa',
+                threat: 'endangered',
+                population: 415000,
+                populationTrend: 'decreasing',
+                habitat: 'Sub-Saharan Africa',
+                threats: ['Poaching for ivory', 'Habitat loss', 'Human conflict']
+            },
+            {
+                id: 4,
+                name: 'Mountain Gorilla',
+                scientific: 'Gorilla beringei beringei',
+                image: '🦍',
+                region: 'africa',
+                threat: 'endangered',
+                population: 1063,
+                populationTrend: 'increasing',
+                habitat: 'Virunga Mountains',
+                threats: ['Poaching', 'War and conflict', 'Disease']
+            },
+            {
+                id: 5,
+                name: 'Giant Panda',
+                scientific: 'Ailuropoda melanoleuca',
+                image: '🐼',
+                region: 'asia',
+                threat: 'vulnerable',
+                population: 1864,
+                populationTrend: 'increasing',
+                habitat: 'China',
+                threats: ['Habitat fragmentation', 'Low birth rate', 'Bamboo scarcity']
+            },
+            {
+                id: 6,
+                name: 'Black Rhino',
+                scientific: 'Diceros bicornis',
+                image: '🦏',
+                region: 'africa',
+                threat: 'critical',
+                population: 5630,
+                populationTrend: 'increasing',
+                habitat: 'Southern and Eastern Africa',
+                threats: ['Poaching for horns', 'Habitat loss', 'Civil unrest']
+            },
+            {
+                id: 7,
+                name: 'Amur Leopard',
+                scientific: 'Panthera pardus orientalis',
+                image: '🐆',
+                region: 'asia',
+                threat: 'critical',
+                population: 100,
+                populationTrend: 'increasing',
+                habitat: 'Russian Far East',
+                threats: ['Poaching', 'Habitat loss', 'Prey scarcity']
+            },
+            {
+                id: 8,
+                name: 'Hawksbill Turtle',
+                scientific: 'Eretmochelys imbricata',
+                image: '🐢',
+                region: 'asia',
+                threat: 'critical',
+                population: 15000,
+                populationTrend: 'decreasing',
+                habitat: 'Tropical oceans',
+                threats: ['Tortoiseshell trade', 'Bycatch', 'Climate change']
+            },
+            {
+                id: 9,
+                name: 'Snow Leopard',
+                scientific: 'Panthera uncia',
+                image: '🐆',
+                region: 'asia',
+                threat: 'vulnerable',
+                population: 4000,
+                populationTrend: 'decreasing',
+                habitat: 'Central Asia mountains',
+                threats: ['Poaching', 'Climate change', 'Human conflict']
+            },
+            {
+                id: 10,
+                name: 'Javan Rhino',
+                scientific: 'Rhinoceros sondaicus',
+                image: '🦏',
+                region: 'asia',
+                threat: 'critical',
+                population: 75,
+                populationTrend: 'stable',
+                habitat: 'Ujung Kulon, Indonesia',
+                threats: ['Very small population', 'Natural disasters', 'Disease']
+            },
+            {
+                id: 11,
+                name: 'Vaquita',
+                scientific: 'Phocoena sinus',
+                image: '🐬',
+                region: 'americas',
+                threat: 'critical',
+                population: 10,
+                populationTrend: 'decreasing',
+                habitat: 'Gulf of California',
+                threats: ['Bycatch in gillnets', 'Illegal fishing']
+            },
+            {
+                id: 12,
+                name: 'Cross River Gorilla',
+                scientific: 'Gorilla gorilla diehli',
+                image: '🦍',
+                region: 'africa',
+                threat: 'critical',
+                population: 300,
+                populationTrend: 'increasing',
+                habitat: 'Nigeria-Cameroon border',
+                threats: ['Habitat loss', 'Poaching', 'Small population']
+            },
+            {
+                id: 13,
+                name: 'Red Panda',
+                scientific: 'Ailurus fulgens',
+                image: '🦝',
+                region: 'asia',
+                threat: 'endangered',
+                population: 10000,
+                populationTrend: 'decreasing',
+                habitat: 'Eastern Himalayas',
+                threats: ['Deforestation', 'Poaching', 'Climate change']
+            },
+            {
+                id: 14,
+                name: 'Blue Whale',
+                scientific: 'Balaenoptera musculus',
+                image: '🐋',
+                region: 'all',
+                threat: 'endangered',
+                population: 15000,
+                populationTrend: 'increasing',
+                habitat: 'Global oceans',
+                threats: ['Ship strikes', 'Noise pollution', 'Climate change']
+            },
+            {
+                id: 15,
+                name: 'Galapagos Penguin',
+                scientific: 'Spheniscus mendiculus',
+                image: '🐧',
+                region: 'americas',
+                threat: 'endangered',
+                population: 1200,
+                populationTrend: 'decreasing',
+                habitat: 'Galapagos Islands',
+                threats: ['Climate change', 'El Niño', 'Introduced predators']
+            }
+        ];
+
+        // ===== WILDLIFE SIGHTINGS =====
+        let sightings = JSON.parse(localStorage.getItem('wildlifeSightings')) || [
+            { id: 1, animal: 'tiger', location: 'Jim Corbett National Park', lat: 29.53, lng: 78.77, date: '2026-03-01', user: 'Rahul' },
+            { id: 2, animal: 'elephant', location: 'Kaziranga National Park', lat: 26.57, lng: 93.17, date: '2026-03-02', user: 'Priya' },
+            { id: 3, animal: 'rhino', location: 'Kaziranga National Park', lat: 26.58, lng: 93.18, date: '2026-03-02', user: 'Amit' }
+        ];
+
+        // ===== TREE COUNTER =====
+        let treeCount = 10247893;
+        let currentSpecies = [...species];
+        let currentFilter = 'all';
+        let currentThreat = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displaySpecies(species);
+            initSlider();
+            drawWildlifeMap();
+            displaySightings();
+            updateTreeCounter();
+            updateForestMeter();
+            
+            // Start counter animation
+            animateCounter('treeCounter', 10247893, 10250000, 2000);
+        });
+
+        // ===== 1. ENDANGERED SPECIES TRACKER =====
+        function displaySpecies(speciesToShow) {
+            const grid = document.getElementById('speciesGrid');
+            grid.innerHTML = speciesToShow.map(s => `
+                <div class="species-card">
+                    <div class="species-image">${s.image}</div>
+                    <div class="species-content">
+                        <div class="species-name">${s.name}</div>
+                        <div class="species-scientific">${s.scientific}</div>
+                        <div style="margin: 0.5rem 0;">
+                            <span class="threat-badge threat-${s.threat}">${s.threat.toUpperCase()}</span>
+                            <span class="threat-badge">${s.region}</span>
+                        </div>
+                        <p><strong>Population:</strong> ${s.population.toLocaleString()}</p>
+                        <div class="population-bar">
+                            <div class="population-fill" style="width: ${Math.min(100, s.population / 10000 * 100)}%;"></div>
+                        </div>
+                        <p><strong>Trend:</strong> ${s.populationTrend} <i class="fas fa-arrow-${s.populationTrend === 'increasing' ? 'up' : 'down'}" style="color: ${s.populationTrend === 'increasing' ? '#4CAF50' : '#F44336'};"></i></p>
+                        <p><strong>Habitat:</strong> ${s.habitat}</p>
+                        <p><strong>Threats:</strong> ${s.threats.join(', ')}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('totalSpecies').textContent = speciesToShow.length;
+        }
+
+        function filterSpecies(region) {
+            document.querySelectorAll('.filter-chip').forEach((chip, index) => {
+                if (index < 6) chip.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentFilter = region;
+            applyFilters();
+        }
+
+        function filterThreat(threat) {
+            document.querySelectorAll('.filter-chip').forEach((chip, index) => {
+                if (index >= 6) chip.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentThreat = threat;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let filtered = species;
+            
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(s => s.region === currentFilter);
+            }
+            
+            if (currentThreat !== 'all') {
+                filtered = filtered.filter(s => s.threat === currentThreat);
+            }
+            
+            displaySpecies(filtered);
+        }
+
+        // ===== 2. FOREST COVER SLIDER =====
+        function initSlider() {
+            const slider = document.getElementById('sliderHandle');
+            const afterImage = document.getElementById('afterImage');
+            let isDragging = false;
+
+            slider.addEventListener('mousedown', function(e) {
+                isDragging = true;
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                
+                const rect = document.getElementById('forestSlider').getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                x = Math.max(0, Math.min(x, rect.width));
+                
+                const percent = (x / rect.width) * 100;
+                afterImage.style.width = percent + '%';
+                slider.style.left = percent + '%';
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+        }
+
+        // ===== 3. WILDLIFE SPOTTING MAP =====
+        function drawWildlifeMap() {
+            const canvas = document.getElementById('mapCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw base map
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(76, 175, 80, 0.2)';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i <= 8; i++) {
+                const x = i * 100;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+                
+                const y = i * 50;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            
+            // Draw national parks
+            const parks = [
+                { name: 'Jim Corbett', x: 200, y: 150, animals: ['tiger', 'elephant'] },
+                { name: 'Kaziranga', x: 450, y: 180, animals: ['rhino', 'elephant'] },
+                { name: 'Sunderbans', x: 550, y: 250, animals: ['tiger'] },
+                { name: 'Bandipur', x: 300, y: 300, animals: ['tiger', 'leopard'] }
+            ];
+            
+            parks.forEach(park => {
+                ctx.fillStyle = '#4CAF50';
+                ctx.beginPath();
+                ctx.arc(park.x, park.y, 10, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.fillStyle = '#fff';
+                ctx.font = '10px Arial';
+                ctx.fillText(park.name, park.x - 30, park.y - 15);
+            });
+            
+            // Draw sightings
+            sightings.forEach(sighting => {
+                const x = 150 + (sighting.id * 30) % 500;
+                const y = 100 + Math.floor(sighting.id / 10) * 40;
+                
+                ctx.fillStyle = '#F44336';
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.fillStyle = '#fff';
+                ctx.font = '8px Arial';
+                ctx.fillText(sighting.animal, x - 10, y - 10);
+            });
+        }
+
+        function displaySightings() {
+            const container = document.getElementById('recentSightings');
+            container.innerHTML = '<h4>Recent Sightings</h4>' + sightings.slice(0, 5).map(s => `
+                <div class="sighting-card">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <strong>${s.animal.toUpperCase()}</strong>
+                            <p>📍 ${s.location}</p>
+                            <small>📅 ${s.date} • 👤 ${s.user}</small>
+                        </div>
+                        <span class="threat-badge threat-${s.animal}">${s.animal}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addSighting() {
+            const animal = document.getElementById('sightingAnimal').value;
+            const location = document.getElementById('sightingLocation').value;
+            
+            if (!location) {
+                alert('Please enter a location');
+                return;
+            }
+            
+            const newSighting = {
+                id: sightings.length + 1,
+                animal: animal,
+                location: location,
+                lat: 20 + Math.random() * 10,
+                lng: 75 + Math.random() * 10,
+                date: new Date().toISOString().split('T')[0],
+                user: 'Guest'
+            };
+            
+            sightings.unshift(newSighting);
+            localStorage.setItem('wildlifeSightings', JSON.stringify(sightings));
+            
+            displaySightings();
+            drawWildlifeMap();
+            document.getElementById('totalSightings').textContent = sightings.length;
+            document.getElementById('sightingLocation').value = '';
+            
+            alert('Sighting added successfully!');
+        }
+
+        // ===== 4. TREE PLANTATION COUNTER =====
+        function plantTree() {
+            treeCount++;
+            updateTreeCounter();
+            updateForestMeter();
+            animateCounter('treeCounter', treeCount - 1, treeCount, 500);
+        }
+
+        function plantTrees(count) {
+            treeCount += count;
+            updateTreeCounter();
+            updateForestMeter();
+            animateCounter('treeCounter', treeCount - count, treeCount, 1000);
+        }
+
+        function updateTreeCounter() {
+            document.getElementById('treeCounter').textContent = treeCount.toLocaleString();
+            document.getElementById('totalTrees').textContent = (treeCount / 1000000).toFixed(1) + 'M';
+            
+            // Update impact stats
+            const co2 = Math.round(treeCount * 21); // Each tree absorbs 21kg CO2 per year
+            const oxygen = Math.round(treeCount * 15); // Each tree produces 15kg oxygen per year
+            const habitat = Math.round(treeCount / 200); // 200 trees per acre
+            
+            document.getElementById('co2Impact').textContent = (co2 / 1000).toFixed(1) + ' tons';
+            document.getElementById('oxygenImpact').textContent = (oxygen / 1000).toFixed(1) + ' tons';
+            document.getElementById('habitatImpact').textContent = habitat.toLocaleString() + ' acres';
+        }
+
+        function animateCounter(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            const range = end - start;
+            const increment = range / (duration / 10);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current).toLocaleString();
+            }, 10);
+        }
+
+        // ===== 5. FOREST HEALTH METER =====
+        function updateForestMeter() {
+            // Calculate based on tree count
+            const airQuality = Math.min(100, 30 + (treeCount / 10000000) * 70);
+            const co2Absorbed = Math.round(treeCount * 0.021); // tons
+            const oxygenProduced = Math.round(treeCount * 0.015); // tons
+            
+            document.getElementById('airQuality').textContent = Math.round(airQuality) + '%';
+            document.getElementById('co2Absorbed').textContent = (co2Absorbed / 1000000).toFixed(1) + 'M';
+            document.getElementById('oxygenProduced').textContent = (oxygenProduced / 1000000).toFixed(1) + 'M';
+        }
+
+        // ===== 5. ANIMAL ADOPTION CERTIFICATE =====
+        function generateCertificate() {
+            const animal = document.getElementById('adoptAnimal').value;
+            const name = document.getElementById('adopterName').value;
+            const email = document.getElementById('adopterEmail').value;
+            const isGift = document.getElementById('giftAdoption').checked;
+            
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            const animalNames = {
+                'tiger': '🐅 Bengal Tiger',
+                'elephant': '🐘 Asian Elephant',
+                'rhino': '🦏 One-Horned Rhino',
+                'panda': '🐼 Giant Panda',
+                'orangutan': '🦧 Sumatran Orangutan',
+                'snow-leopard': '🐆 Snow Leopard'
+            };
+            
+            document.getElementById('certName').textContent = name;
+            document.getElementById('certAnimal').textContent = animalNames[animal];
+            document.getElementById('certDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            document.getElementById('certificatePreview').style.display = 'block';
+            
+            // Update adoption count
+            const adoptions = parseInt(document.getElementById('totalAdoptions').textContent.replace(',', '')) + 1;
+            document.getElementById('totalAdoptions').textContent = adoptions.toLocaleString();
+        }
+
+        function downloadCertificate() {
+            const certificate = document.getElementById('certificateContent').innerText;
+            const blob = new Blob([certificate], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'adoption-certificate.txt';
+            a.click();
+            
+            alert('Certificate downloaded!');
+        }
+
+        function shareCertificate() {
+            const name = document.getElementById('adopterName').value;
+            const animal = document.getElementById('adoptAnimal').value;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Wildlife Adoption Certificate',
+                    text: `I just adopted a ${animal}! Join me in protecting wildlife.`,
+                    url: window.location.href
+                });
+            } else {
+                alert('Share this certificate with your friends!');
+            }
+        }
+
+        // ===== AI ASSISTANT TOGGLE =====
+        document.querySelector('.ai-header').addEventListener('click', function() {
+            const body = document.querySelector('.ai-chat-body');
+            const icon = this.querySelector('i');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(0)';
+            }
+        });
+    </script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

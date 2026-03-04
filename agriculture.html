@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Smart Agriculture Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/dark-theme.css">
+<link rel="stylesheet" href="css/light-theme.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+    <style>
+
+        
+        /* ===== ECOPIUSE 360 - MAIN STYLESHEET ===== */
+:root {
+    /* Dark Theme (Default) */
+    --bg-primary: #0a0f0a;
+    --bg-secondary: #111811;
+    --bg-card: #1a231a;
+    --bg-hover: #253025;
+    --text-primary: #ffffff;
+    --text-secondary: #b0c4b0;
+    --text-muted: #708070;
+    --accent-green: #4CAF50;
+    --accent-green-light: #6fbf73;
+    --accent-green-dark: #2e7d32;
+    --border-color: #2a3a2a;
+    --shadow-color: rgba(0, 255, 0, 0.1);
+    --gradient-1: linear-gradient(135deg, #1a2f1a 0%, #0f1a0f 100%);
+    --gradient-2: linear-gradient(45deg, #2e7d32, #4CAF50);
+    --success: #4CAF50;
+    --warning: #ff9800;
+    --danger: #f44336;
+    --info: #2196F3;
+}
+
+/* Light Theme Variables */
+[data-theme="light"] {
+    --bg-primary: #f5f9f5;
+    --bg-secondary: #e8f0e8;
+    --bg-card: #ffffff;
+    --bg-hover: #d0e0d0;
+    --text-primary: #1a2f1a;
+    --text-secondary: #2a4a2a;
+    --text-muted: #5a7a5a;
+    --border-color: #b0d0b0;
+    --shadow-color: rgba(0, 100, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease;
+}
+
+body {
+    font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Animated Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(46, 125, 50, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    background: var(--bg-secondary);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo i {
+    font-size: 2.2rem;
+    color: var(--accent-green);
+    filter: drop-shadow(0 0 10px var(--accent-green));
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--accent-green-light);
+    background: var(--bg-hover);
+}
+
+.nav-links a.active {
+    color: var(--accent-green);
+    background: var(--bg-hover);
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: var(--gradient-2);
+    border-radius: 2px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent-green);
+    transform: scale(1.05);
+}
+
+/* ===== DASHBOARD LAYOUT ===== */
+.dashboard-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.welcome-section {
+    background: var(--gradient-1);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-section::before {
+    content: '🌱';
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    font-size: 8rem;
+    opacity: 0.1;
+    transform: rotate(15deg);
+}
+
+.eco-score-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent-green) 0deg 288deg, #2a3a2a 288deg 360deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.score-circle::before {
+    content: '';
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    position: absolute;
+}
+
+.score-value {
+    position: relative;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    z-index: 1;
+}
+
+/* ===== MODULE GRID ===== */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.module-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-green);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.module-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: var(--gradient-2);
+    transition: height 0.3s ease;
+}
+
+.module-card:hover::after {
+    height: 100%;
+}
+
+.module-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-green);
+}
+
+.module-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.module-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ===== CALCULATOR CARDS ===== */
+.calculator-container {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--gradient-2);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--accent-green);
+    color: var(--accent-green);
+}
+
+.btn-outline:hover {
+    background: var(--accent-green);
+    color: white;
+}
+
+/* ===== AI ASSISTANT CHAT ===== */
+.ai-assistant {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px var(--shadow-color);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.ai-header {
+    background: var(--gradient-1);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+}
+
+.ai-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.ai-chat-body {
+    height: 300px;
+    overflow-y: auto;
+    padding: 1rem;
+    display: none;
+}
+
+.ai-chat-body.active {
+    display: block;
+}
+
+.message {
+    margin-bottom: 1rem;
+    max-width: 80%;
+}
+
+.message.ai {
+    margin-right: auto;
+}
+
+.message.user {
+    margin-left: auto;
+    text-align: right;
+}
+
+.message-content {
+    padding: 0.8rem;
+    border-radius: 12px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+.message.ai .message-content {
+    background: var(--bg-hover);
+    border-color: var(--accent-green);
+}
+
+/* ===== CHARTS & GRAPHS ===== */
+.chart-container {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+}
+
+/* ===== PROGRESS BARS ===== */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-primary);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-2);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ===== BADGES & ACHIEVEMENTS ===== */
+.badge-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.badge {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.badge.earned {
+    border-color: var(--accent-green);
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.badge i {
+    color: var(--accent-green);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ai-assistant {
+        width: 300px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .welcome-section::before {
+        font-size: 4rem;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse-animation {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-green-dark);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-green);
+}
+
+/* ===== GLASSMORPHISM EFFECTS ===== */
+.glass-card {
+    background: rgba(26, 35, 26, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="light"] .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* ===== LOADING SPINNER ===== */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+        /* Portal Selection Styles */
+        .portal-selector {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 3rem 0;
+            perspective: 1000px;
+        }
+        
+        .portal-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 350px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .portal-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            border-color: var(--accent-green);
+            box-shadow: 0 30px 40px rgba(76, 175, 80, 0.3);
+        }
+        
+        .portal-card.farmer {
+            background: linear-gradient(145deg, #1a4d1a, #0a2f0a);
+        }
+        
+        .portal-card.officer {
+            background: linear-gradient(145deg, #1a3f4d, #0a2a3f);
+        }
+        
+        .portal-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-green);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .portal-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .portal-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--accent-green);
+            color: white;
+            padding: 0.5rem 3rem;
+            transform: rotate(45deg);
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .portal-stats {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            color: var(--text-secondary);
+        }
+        
+        .farmer-registration-form {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid var(--border-color);
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .farmer-registration-form.active {
+            display: block;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            outline: none;
+        }
+        
+        .photo-upload-area {
+            border: 2px dashed var(--accent-green);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-primary);
+        }
+        
+        .photo-upload-area:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-green-light);
+        }
+        
+        .photo-upload-area i {
+            font-size: 3rem;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+        }
+        
+        .weather-widget {
+            background: linear-gradient(135deg, #1a4d8c, #0a2f5a);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            color: white;
+        }
+        
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .weather-item {
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+        }
+        
+        .weather-item i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .crop-analysis-result {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--accent-green);
+        }
+        
+        .pesticide-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .pesticide-card:hover {
+            transform: translateX(5px);
+            border-color: var(--accent-green);
+        }
+        
+        .pesticide-tag {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .tag-organic {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .tag-chemical {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .tag-bio {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .officer-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .farmer-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .farmer-data-table th {
+            background: var(--accent-green-dark);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .farmer-data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .farmer-data-table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status-pending {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .farm-plan-preview {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-left: 2px solid var(--accent-green);
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-date {
+            min-width: 100px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+        
+        .officer-analytics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .analytics-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as before) -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html" class="active"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+            <div class="user-menu">
+                <i class="fas fa-user-circle" style="font-size: 2rem; color: var(--accent-green);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-tractor" style="color: var(--accent-green);"></i> 
+                Smart Agriculture Platform
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.2rem;">
+                AI-Powered Farming Solutions • Real-time Analytics • Precision Agriculture
+            </p>
+        </div>
+
+        <!-- Portal Selection -->
+        <div class="portal-selector">
+            <!-- Farmer Portal Card -->
+            <div class="portal-card farmer" onclick="showFarmerPortal()">
+                <div class="portal-badge">FOR FARMERS</div>
+                <i class="fas fa-user-farmer portal-icon"></i>
+                <h2 class="portal-title">Farmer Portal</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Register your farm, get AI crop analysis, weather updates, pesticide recommendations, and detailed farm plans.
+                </p>
+                <div class="portal-stats">
+                    <div><i class="fas fa-check-circle" style="color: var(--accent-green);"></i> 2,547 Farmers</div>
+                    <div><i class="fas fa-chart-line" style="color: var(--accent-green);"></i> 89% Satisfaction</div>
+                </div>
+                <button class="btn btn-primary" onclick="event.stopPropagation(); showFarmerRegistration()">
+                    <i class="fas fa-sign-in-alt"></i> Register as Farmer
+                </button>
+            </div>
+
+            <!-- Officer Portal Card -->
+            <div class="portal-card officer" onclick="showOfficerPortal()">
+                <div class="portal-badge">AUTHORIZED ACCESS</div>
+                <i class="fas fa-user-tie portal-icon"></i>
+                <h2 class="portal-title">Agricultural Officer</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Monitor all farmers, analyze crop data, generate reports, and provide expert recommendations.
+                </p>
+                <div class="portal-stats">
+                    <div><i class="fas fa-database" style="color: var(--accent-green);"></i> 10,234 Records</div>
+                    <div><i class="fas fa-map-marked-alt" style="color: var(--accent-green);"></i> 156 Regions</div>
+                </div>
+                <button class="btn btn-outline" onclick="event.stopPropagation(); showOfficerLogin()">
+                    <i class="fas fa-lock"></i> Officer Login
+                </button>
+            </div>
+        </div>
+
+        <!-- FARMER REGISTRATION FORM (Hidden by default) -->
+        <div id="farmerRegistration" class="farmer-registration-form">
+            <h2 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
+                <i class="fas fa-clipboard-list" style="color: var(--accent-green); font-size: 2rem;"></i>
+                Farmer Registration & Farm Details
+            </h2>
+            
+            <form id="farmerForm" onsubmit="registerFarmer(event)">
+                <div class="form-grid">
+                    <!-- Personal Information -->
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem; color: var(--accent-green);">👤 Personal Information</h3>
+                        
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="farmerName" required placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" id="farmerPhone" required placeholder="+91 98765 43210">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="farmerEmail" placeholder="farmer@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Aadhar Number (Optional)</label>
+                            <input type="text" id="farmerAadhar" placeholder="XXXX-XXXX-XXXX">
+                        </div>
+                    </div>
+                    
+                    <!-- Farm Location -->
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem; color: var(--accent-green);">📍 Farm Location</h3>
+                        
+                        <div class="form-group">
+                            <label>State *</label>
+                            <select id="farmState" required>
+                                <option value="">Select State</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>District *</label>
+                            <input type="text" id="farmDistrict" required placeholder="Enter district">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Village/City *</label>
+                            <input type="text" id="farmVillage" required placeholder="Enter village or city">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Pin Code *</label>
+                            <input type="text" id="farmPincode" required placeholder="6-digit pin code">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Farm Coordinates (Optional)</label>
+                            <input type="text" id="farmCoordinates" placeholder="Latitude, Longitude">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Farm Details -->
+                <h3 style="margin: 2rem 0 1.5rem; color: var(--accent-green);">🌱 Farm Details</h3>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Total Farm Size (in acres) *</label>
+                        <input type="number" id="farmSize" step="0.01" min="0.1" required placeholder="e.g., 5.5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Soil Type *</label>
+                        <select id="soilType" required>
+                            <option value="">Select Soil Type</option>
+                            <option value="Alluvial">Alluvial Soil</option>
+                            <option value="Black">Black Soil (Regur)</option>
+                            <option value="Red">Red Soil</option>
+                            <option value="Laterite">Laterite Soil</option>
+                            <option value="Arid">Arid/Desert Soil</option>
+                            <option value="Saline">Saline/Alkaline Soil</option>
+                            <option value="Peaty">Peaty/Marshy Soil</option>
+                            <option value="Forest">Forest Soil</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Water Source *</label>
+                        <select id="waterSource" required>
+                            <option value="">Select Water Source</option>
+                            <option value="Borewell">Borewell</option>
+                            <option value="Well">Open Well</option>
+                            <option value="Canal">Canal</option>
+                            <option value="River">River</option>
+                            <option value="Pond">Pond/Lake</option>
+                            <option value="Rainfed">Rainfed Only</option>
+                            <option value="Mixed">Multiple Sources</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Irrigation Type *</label>
+                        <select id="irrigationType" required>
+                            <option value="">Select Irrigation Type</option>
+                            <option value="Drip">Drip Irrigation</option>
+                            <option value="Sprinkler">Sprinkler System</option>
+                            <option value="Flood">Flood Irrigation</option>
+                            <option value="Furrow">Furrow Irrigation</option>
+                            <option value="Manual">Manual/None</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Current Crop Information -->
+                <h3 style="margin: 2rem 0 1.5rem; color: var(--accent-green);">🌾 Current Crop Information</h3>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Primary Crop *</label>
+                        <select id="primaryCrop" required>
+                            <option value="">Select Primary Crop</option>
+                            <option value="Rice">Rice (Paddy)</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Maize">Maize (Corn)</option>
+                            <option value="Sugarcane">Sugarcane</option>
+                            <option value="Cotton">Cotton</option>
+                            <option value="Groundnut">Groundnut</option>
+                            <option value="Soybean">Soybean</option>
+                            <option value="Mustard">Mustard</option>
+                            <option value="Potato">Potato</option>
+                            <option value="Tomato">Tomato</option>
+                            <option value="Onion">Onion</option>
+                            <option value="Chili">Chili</option>
+                            <option value="Banana">Banana</option>
+                            <option value="Mango">Mango</option>
+                            <option value="Coconut">Coconut</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Crop Variety</label>
+                        <input type="text" id="cropVariety" placeholder="e.g., Basmati 1121">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Planting Date *</label>
+                        <input type="date" id="plantingDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Expected Harvest Date</label>
+                        <input type="date" id="harvestDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Area Under This Crop (acres) *</label>
+                        <input type="number" id="cropArea" step="0.01" required placeholder="e.g., 2.5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Estimated Yield (kg/acre)</label>
+                        <input type="number" id="estimatedYield" placeholder="Leave blank for AI estimate">
+                    </div>
+                </div>
+                
+                <!-- Crop Photo Upload -->
+                <div class="form-group">
+                    <label>Upload Crop Photo for AI Analysis *</label>
+                    <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('cropPhoto').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4>Click to upload crop photo</h4>
+                        <p style="color: var(--text-muted);">PNG, JPG up to 10MB</p>
+                        <input type="file" id="cropPhoto" accept="image/*" style="display: none;" onchange="previewPhoto(this)">
+                    </div>
+                    <div id="photoPreview" style="display: none; margin-top: 1rem;">
+                        <img id="previewImage" style="max-width: 200px; border-radius: 8px;">
+                        <button type="button" class="btn btn-outline" style="margin-left: 1rem;" onclick="analyzeCropPhoto()">
+                            <i class="fas fa-microscope"></i> Analyze with AI
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- AI Analysis Results (Hidden initially) -->
+                <div id="aiAnalysisResult" style="display: none; margin: 2rem 0;" class="crop-analysis-result">
+                    <h3 style="color: var(--accent-green); margin-bottom: 1rem;">
+                        <i class="fas fa-robot"></i> AI Crop Analysis Results
+                    </h3>
+                    <div id="analysisContent"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.2rem;">
+                    <i class="fas fa-save"></i> Register Farm & Generate Farm Plan
+                </button>
+            </form>
+        </div>
+
+        <!-- FARMER DASHBOARD (Shown after registration) -->
+        <div id="farmerDashboard" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2><i class="fas fa-tractor" style="color: var(--accent-green);"></i> Welcome, <span id="displayFarmerName">Farmer</span>!</h2>
+                <button class="btn btn-outline" onclick="logoutFarmer()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            
+            <!-- Weather Widget -->
+            <div class="weather-widget" id="weatherWidget">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3><i class="fas fa-cloud-sun"></i> Today's Weather for <span id="weatherLocation">Your Farm</span></h3>
+                    <span id="weatherUpdateTime">Updated just now</span>
+                </div>
+                <div class="weather-grid" id="weatherGrid">
+                    <!-- Weather data will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Main Dashboard Grid -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-top: 2rem;">
+                <!-- Left Column - Crop & Recommendations -->
+                <div>
+                    <!-- Current Crop Status -->
+                    <div class="calculator-container" style="margin-bottom: 2rem;">
+                        <h3><i class="fas fa-seedling" style="color: var(--accent-green);"></i> Your Crop Status</h3>
+                        <div style="display: flex; gap: 2rem; margin: 1.5rem 0;">
+                            <div style="text-align: center;">
+                                <div style="width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(var(--accent-green) 0deg 288deg, #2a3a2a 288deg 360deg); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <span style="font-size: 2rem; color: white;" id="cropHealthScore">78</span>
+                                </div>
+                                <p>Health Score</p>
+                            </div>
+                            <div>
+                                <h4 id="cropNameDisplay">Wheat (Basmati)</h4>
+                                <p><i class="fas fa-calendar"></i> Planted: <span id="plantingDateDisplay">15 Oct 2025</span></p>
+                                <p><i class="fas fa-hourglass-half"></i> Days to harvest: <span id="daysToHarvest">45</span> days</p>
+                                <p><i class="fas fa-tint"></i> Water needed: <span id="waterNeeded">2.5</span> cm this week</p>
+                                <div class="progress-bar" style="margin: 0.5rem 0;">
+                                    <div class="progress-fill" id="growthProgress" style="width: 65%;"></div>
+                                </div>
+                                <p>Growth stage: <span id="growthStage">Flowering</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pesticide Recommendations -->
+                    <div class="calculator-container">
+                        <h3><i class="fas fa-bug" style="color: var(--accent-green);"></i> Smart Pesticide Recommendations</h3>
+                        <p style="color: var(--text-secondary); margin: 1rem 0;">Based on your crop, weather, and detected issues</p>
+                        
+                        <div id="pesticideList">
+                            <!-- Dynamic pesticide cards will be inserted here -->
+                        </div>
+                        
+                        <div class="pesticide-card">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <span class="pesticide-tag tag-organic">Organic</span>
+                                    <span class="pesticide-tag tag-bio">Bio-pesticide</span>
+                                    <h4>Neem Oil 1500 ppm</h4>
+                                </div>
+                                <span style="color: var(--accent-green); font-weight: 600;">₹450/L</span>
+                            </div>
+                            <p style="margin: 0.5rem 0;"><strong>For:</strong> Aphids, Whiteflies, Mildew</p>
+                            <p><strong>How to use:</strong> Mix 5ml per liter of water. Spray on affected areas early morning or late evening.</p>
+                            <p><strong>When:</strong> Apply at first sign of pests. Repeat every 7-10 days.</p>
+                            <p><strong>Quantity:</strong> 2.5 liters per acre per application</p>
+                            <div style="margin-top: 0.5rem;">
+                                <small>Effectiveness: 85% • Safe for beneficial insects • 0-day PHI</small>
+                            </div>
+                        </div>
+                        
+                        <div class="pesticide-card">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <span class="pesticide-tag tag-chemical">Chemical</span>
+                                    <h4>Imidacloprid 17.8% SL</h4>
+                                </div>
+                                <span style="color: var(--accent-green); font-weight: 600;">₹850/L</span>
+                            </div>
+                            <p style="margin: 0.5rem 0;"><strong>For:</strong> Aphids, Jassids, Thrips, Whiteflies</p>
+                            <p><strong>How to use:</strong> Mix 2ml per liter of water. Ensure thorough coverage of foliage.</p>
+                            <p><strong>When:</strong> Apply when pest population reaches economic threshold level.</p>
+                            <p><strong>Quantity:</strong> 200ml per acre</p>
+                            <div style="margin-top: 0.5rem;">
+                                <small>Effectiveness: 95% • Pre-harvest interval: 7 days • Wear protective gear</small>
+                            </div>
+                        </div>
+                        
+                        <div class="pesticide-card">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <span class="pesticide-tag tag-organic">Organic</span>
+                                    <h4>Trichoderma Viride (Fungicide)</h4>
+                                </div>
+                                <span style="color: var(--accent-green); font-weight: 600;">₹300/250g</span>
+                            </div>
+                            <p style="margin: 0.5rem 0;"><strong>For:</strong> Root rot, Wilts, Damping off</p>
+                            <p><strong>How to use:</strong> Mix 250g in 50kg farmyard manure. Apply to soil before planting.</p>
+                            <p><strong>When:</strong> At the time of sowing/transplanting</p>
+                            <p><strong>Quantity:</strong> 250g per acre</p>
+                            <div style="margin-top: 0.5rem;">
+                                <small>Bio-control agent • Improves soil health • Zero residual toxicity</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Farm Plan & Recommendations -->
+                <div>
+                    <!-- Farm Plan Card -->
+                    <div class="glass-card" style="padding: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3><i class="fas fa-file-pdf" style="color: var(--accent-green);"></i> Your Farm Plan</h3>
+                            <button class="btn btn-outline" onclick="downloadFarmPlan()">
+                                <i class="fas fa-download"></i> Download PDF
+                            </button>
+                        </div>
+                        
+                        <div class="farm-plan-preview" style="margin-top: 1rem;">
+                            <h4>🌾 Crop Management Timeline</h4>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Week 1-2</div>
+                                <div>
+                                    <strong>Land Preparation</strong>
+                                    <p>Plowing, harrowing, leveling. Apply basal fertilizer.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Week 3</div>
+                                <div>
+                                    <strong>Sowing/Planting</strong>
+                                    <p>Seed treatment with Trichoderma. Row spacing: 45cm.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Week 4-6</div>
+                                <div>
+                                    <strong>Vegetative Growth</strong>
+                                    <p>First irrigation. Apply urea. Monitor for aphids.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Week 7-9</div>
+                                <div>
+                                    <strong>Flowering Stage</strong>
+                                    <p>Critical water stage. Apply second dose of fertilizer.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Week 10-12</div>
+                                <div>
+                                    <strong>Grain Filling</strong>
+                                    <p>Regular irrigation. Pest monitoring.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Week 13-14</div>
+                                <div>
+                                    <strong>Harvest</strong>
+                                    <p>Harvest at proper moisture content (20-22%).</p>
+                                </div>
+                            </div>
+                            
+                            <h4 style="margin-top: 1.5rem;">💰 Estimated Costs & Returns</h4>
+                            <table style="width: 100%; margin-top: 1rem;">
+                                <tr>
+                                    <td>Input Cost (Seeds, Fertilizer, Pesticides)</td>
+                                    <td style="text-align: right; color: var(--accent-green);">₹18,500</td>
+                                </tr>
+                                <tr>
+                                    <td>Labor Cost</td>
+                                    <td style="text-align: right; color: var(--accent-green);">₹12,000</td>
+                                </tr>
+                                <tr>
+                                    <td>Irrigation & Power</td>
+                                    <td style="text-align: right; color: var(--accent-green);">₹5,500</td>
+                                </tr>
+                                <tr>
+                                    <td>Miscellaneous</td>
+                                    <td style="text-align: right; color: var(--accent-green);">₹4,000</td>
+                                </tr>
+                                <tr style="border-top: 2px solid var(--border-color);">
+                                    <td><strong>Total Cost</strong></td>
+                                    <td style="text-align: right;"><strong>₹40,000</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Expected Yield (25 quintals @ ₹2,000/quintal)</td>
+                                    <td style="text-align: right; color: var(--accent-green);">₹50,000</td>
+                                </tr>
+                                <tr style="background: var(--bg-primary);">
+                                    <td><strong>Net Profit</strong></td>
+                                    <td style="text-align: right; color: var(--accent-green); font-weight: 600;">₹10,000</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Rain Chances -->
+                    <div class="glass-card" style="padding: 1.5rem; margin-bottom: 2rem;">
+                        <h3><i class="fas fa-cloud-rain" style="color: var(--accent-green);"></i> Rain Forecast</h3>
+                        <div style="display: flex; align-items: center; gap: 2rem; margin-top: 1rem;">
+                            <div style="text-align: center;">
+                                <i class="fas fa-cloud-showers-heavy" style="font-size: 3rem; color: #4A90E2;"></i>
+                                <h2 style="font-size: 2.5rem;" id="rainChance">75%</h2>
+                                <p>Chance of rain</p>
+                            </div>
+                            <div>
+                                <p><i class="fas fa-calendar"></i> Next 7 days: <span id="rainDays">3</span> rainy days</p>
+                                <p><i class="fas fa-tint"></i> Expected rainfall: <span id="rainAmount">45</span> mm</p>
+                                <p><i class="fas fa-clock"></i> Best time to spray: <span id="sprayTime">Mar 15, Early morning</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Expert Tips -->
+                    <div class="glass-card" style="padding: 1.5rem;">
+                        <h3><i class="fas fa-lightbulb" style="color: var(--accent-green);"></i> Expert Tips for This Week</h3>
+                        <ul style="list-style: none; margin-top: 1rem;">
+                            <li style="margin-bottom: 1rem;">✓ Monitor for aphids - warm weather increases risk</li>
+                            <li style="margin-bottom: 1rem;">✓ Apply second dose of fertilizer before expected rain</li>
+                            <li style="margin-bottom: 1rem;">✓ Check irrigation systems for leaks - save water</li>
+                            <li style="margin-bottom: 1rem;">✓ Remove weeds manually to avoid herbicide use</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OFFICER LOGIN (Hidden by default) -->
+        <div id="officerLogin" class="farmer-registration-form" style="max-width: 400px; margin: 0 auto;">
+            <h2 style="margin-bottom: 2rem; text-align: center;">
+                <i class="fas fa-user-tie" style="color: var(--accent-green);"></i> Agricultural Officer Login
+            </h2>
+            
+            <form onsubmit="officerLogin(event)">
+                <div class="form-group">
+                    <label>Officer ID *</label>
+                    <input type="text" id="officerId" required placeholder="Enter your officer ID">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="officerPassword" required placeholder="Enter password">
+                </div>
+                
+                <div class="form-group">
+                    <label>Select District *</label>
+                    <select id="officerDistrict" required>
+                        <option value="">Select Your District</option>
+                        <option value="Ludhiana">Ludhiana</option>
+                        <option value="Amritsar">Amritsar</option>
+                        <option value="Jalandhar">Jalandhar</option>
+                        <option value="Patiala">Patiala</option>
+                        <option value="Bathinda">Bathinda</option>
+                        <option value="Mohali">Mohali</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Login to Officer Portal
+                </button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 1rem; color: var(--text-muted);">
+                <i class="fas fa-shield-alt"></i> Authorized access only
+            </p>
+        </div>
+
+        <!-- OFFICER DASHBOARD (Hidden by default) -->
+        <div id="officerDashboard" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div>
+                    <h2><i class="fas fa-user-tie" style="color: var(--accent-green);"></i> Agricultural Officer Dashboard</h2>
+                    <p style="color: var(--text-secondary);">District: <span id="officerDistrictDisplay">Ludhiana</span> | Last sync: <span id="lastSync">Just now</span></p>
+                </div>
+                <button class="btn btn-outline" onclick="logoutOfficer()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            
+            <!-- Analytics Cards -->
+            <div class="officer-analytics">
+                <div class="analytics-card">
+                    <i class="fas fa-users" style="font-size: 2rem; color: var(--accent-green);"></i>
+                    <h3 style="font-size: 2rem; margin: 0.5rem 0;" id="totalFarmers">1,247</h3>
+                    <p>Registered Farmers</p>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-tractor" style="font-size: 2rem; color: var(--accent-green);"></i>
+                    <h3 style="font-size: 2rem; margin: 0.5rem 0;" id="totalFarms">1,892</h3>
+                    <p>Total Farms</p>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-seedling" style="font-size: 2rem; color: var(--accent-green);"></i>
+                    <h3 style="font-size: 2rem; margin: 0.5rem 0;" id="totalCrops">3,456</h3>
+                    <p>Crops Registered</p>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent-green);"></i>
+                    <h3 style="font-size: 2rem; margin: 0.5rem 0;" id="avgYield">24.5</h3>
+                    <p>Avg Yield (q/acre)</p>
+                </div>
+            </div>
+            
+            <!-- Officer Filters -->
+            <div class="officer-filters">
+                <select class="form-group" style="width: 200px;" id="filterVillage">
+                    <option value="">All Villages</option>
+                    <option value="Village1">Village 1</option>
+                    <option value="Village2">Village 2</option>
+                </select>
+                <select class="form-group" style="width: 200px;" id="filterCrop">
+                    <option value="">All Crops</option>
+                    <option value="Rice">Rice</option>
+                    <option value="Wheat">Wheat</option>
+                    <option value="Maize">Maize</option>
+                </select>
+                <select class="form-group" style="width: 200px;" id="filterSoil">
+                    <option value="">All Soil Types</option>
+                    <option value="Alluvial">Alluvial</option>
+                    <option value="Black">Black</option>
+                </select>
+                <input type="text" class="form-group" placeholder="Search farmer..." style="flex: 1;" id="searchFarmer">
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="fas fa-filter"></i> Apply
+                </button>
+                <button class="btn btn-outline" onclick="exportData()">
+                    <i class="fas fa-file-excel"></i> Export
+                </button>
+            </div>
+            
+            <!-- Farmers Data Table -->
+            <div style="overflow-x: auto;">
+                <table class="farmer-data-table">
+                    <thead>
+                        <tr>
+                            <th>Farmer Name</th>
+                            <th>Village</th>
+                            <th>Farm Size</th>
+                            <th>Crop</th>
+                            <th>Soil Type</th>
+                            <th>Health Score</th>
+                            <th>Last Visit</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="farmersTableBody">
+                        <tr>
+                            <td>Gurpreet Singh</td>
+                            <td>Village Bhaini</td>
+                            <td>5.2 acres</td>
+                            <td>Wheat</td>
+                            <td>Alluvial</td>
+                            <td><span style="color: var(--accent-green);">85%</span></td>
+                            <td>2 days ago</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="viewFarmerDetails(1)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="messageFarmer(1)">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kaur Baljinder</td>
+                            <td>Village Raikot</td>
+                            <td>3.8 acres</td>
+                            <td>Rice</td>
+                            <td>Clay</td>
+                            <td><span style="color: var(--warning);">62%</span></td>
+                            <td>5 days ago</td>
+                            <td><span class="status-badge status-pending">Needs Attention</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="viewFarmerDetails(2)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="messageFarmer(2)">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mohammed Rafiq</td>
+                            <td>Village Jalalabad</td>
+                            <td>7.5 acres</td>
+                            <td>Cotton</td>
+                            <td>Black</td>
+                            <td><span style="color: var(--accent-green);">91%</span></td>
+                            <td>1 day ago</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="viewFarmerDetails(3)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="messageFarmer(3)">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Farmer Details Modal (Hidden) -->
+            <div id="farmerDetailsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
+                <div style="background: var(--bg-card); width: 80%; max-width: 900px; border-radius: 20px; padding: 2rem; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <h2><i class="fas fa-user" style="color: var(--accent-green);"></i> Farmer Details</h2>
+                        <button class="btn btn-outline" onclick="closeFarmerModal()">✕</button>
+                    </div>
+                    <div id="farmerDetailsContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant (Auto-loaded) -->
+    
+    <script>
+        // Global variables
+        let currentFarmer = null;
+        let currentOfficer = null;
+        let farmersData = [];
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFarmersFromStorage();
+            updateWeatherData();
+        });
+        
+        // Portal navigation functions
+        function showFarmerPortal() {
+            document.getElementById('farmerRegistration').classList.add('active');
+            document.getElementById('officerLogin').style.display = 'none';
+            document.getElementById('farmerDashboard').style.display = 'none';
+            document.getElementById('officerDashboard').style.display = 'none';
+        }
+        
+        function showOfficerPortal() {
+            document.getElementById('farmerRegistration').classList.remove('active');
+            document.getElementById('officerLogin').style.display = 'block';
+            document.getElementById('farmerDashboard').style.display = 'none';
+            document.getElementById('officerDashboard').style.display = 'none';
+        }
+        
+        function showFarmerRegistration() {
+            document.getElementById('farmerRegistration').classList.add('active');
+            document.getElementById('officerLogin').style.display = 'none';
+        }
+        
+        function showOfficerLogin() {
+            document.getElementById('farmerRegistration').classList.remove('active');
+            document.getElementById('officerLogin').style.display = 'block';
+        }
+        
+        // Photo upload preview
+        function previewPhoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').style.display = 'block';
+                    document.getElementById('previewImage').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        // AI Crop Photo Analysis
+        function analyzeCropPhoto() {
+            const photo = document.getElementById('cropPhoto').files[0];
+            if (!photo) {
+                alert('Please upload a photo first');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('aiAnalysisResult').style.display = 'block';
+            document.getElementById('analysisContent').innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p>AI analyzing your crop... This may take a moment.</p>
+                </div>
+            `;
+            
+            // Simulate AI analysis (replace with actual API call)
+            setTimeout(() => {
+                const analysis = generateAIAnalysis();
+                document.getElementById('analysisContent').innerHTML = analysis;
+            }, 2000);
+        }
+        
+        function generateAIAnalysis() {
+            const crop = document.getElementById('primaryCrop').value;
+            const soil = document.getElementById('soilType').value;
+            
+            const analyses = {
+                'Rice': {
+                    health: '87%',
+                    issues: 'Minor nitrogen deficiency detected',
+                    recommendations: 'Apply urea at 50kg/acre. Monitor for stem borer.',
+                    yield: '32 quintals/acre (estimated)'
+                },
+                'Wheat': {
+                    health: '92%',
+                    issues: 'No major issues detected',
+                    recommendations: 'Second irrigation due in 3 days. Apply 40kg DAP.',
+                    yield: '28 quintals/acre (estimated)'
+                },
+                'Maize': {
+                    health: '76%',
+                    issues: 'Early signs of fall armyworm',
+                    recommendations: 'Apply emamectin benzoate @ 0.4g/L. Install pheromone traps.',
+                    yield: '35 quintals/acre (estimated)'
+                },
+                'Cotton': {
+                    health: '71%',
+                    issues: 'Aphid infestation detected',
+                    recommendations: 'Spray neem oil 1500ppm @ 5ml/L. Release ladybugs.',
+                    yield: '18 quintals/acre (estimated)'
+                },
+                'Tomato': {
+                    health: '83%',
+                    issues: 'Early blight spots on lower leaves',
+                    recommendations: 'Apply mancozeb @ 2g/L. Improve air circulation.',
+                    yield: '85 quintals/acre (estimated)'
+                }
+            };
+            
+            const result = analyses[crop] || {
+                health: '81%',
+                issues: 'General observation - crop appears healthy',
+                recommendations: 'Continue regular maintenance. Monitor for pests.',
+                yield: 'Average for region'
+            };
+            
+            return `
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(#4CAF50 0deg ${parseInt(result.health)}deg, #f44336 ${parseInt(result.health)}deg 360deg); margin: 0 auto;"></div>
+                        <h3 style="color: var(--accent-green);">${result.health}</h3>
+                        <p>Crop Health</p>
+                    </div>
+                    <div>
+                        <h4>🔍 Detected Issues:</h4>
+                        <p>${result.issues}</p>
+                        <h4>💡 Recommendations:</h4>
+                        <p>${result.recommendations}</p>
+                        <h4>📊 Expected Yield:</h4>
+                        <p>${result.yield}</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Farmer Registration
+        function registerFarmer(event) {
+            event.preventDefault();
+            
+            const farmerData = {
+                id: 'FARM' + Date.now(),
+                name: document.getElementById('farmerName').value,
+                phone: document.getElementById('farmerPhone').value,
+                email: document.getElementById('farmerEmail').value,
+                aadhar: document.getElementById('farmerAadhar').value,
+                state: document.getElementById('farmState').value,
+                district: document.getElementById('farmDistrict').value,
+                village: document.getElementById('farmVillage').value,
+                pincode: document.getElementById('farmPincode').value,
+                coordinates: document.getElementById('farmCoordinates').value,
+                farmSize: parseFloat(document.getElementById('farmSize').value),
+                soilType: document.getElementById('soilType').value,
+                waterSource: document.getElementById('waterSource').value,
+                irrigationType: document.getElementById('irrigationType').value,
+                primaryCrop: document.getElementById('primaryCrop').value,
+                cropVariety: document.getElementById('cropVariety').value,
+                plantingDate: document.getElementById('plantingDate').value,
+                harvestDate: document.getElementById('harvestDate').value,
+                cropArea: parseFloat(document.getElementById('cropArea').value),
+                estimatedYield: document.getElementById('estimatedYield').value,
+                registrationDate: new Date().toISOString(),
+                status: 'active'
+            };
+            
+            // Save to localStorage
+            let farmers = JSON.parse(localStorage.getItem('farmers')) || [];
+            farmers.push(farmerData);
+            localStorage.setItem('farmers', JSON.stringify(farmers));
+            
+            currentFarmer = farmerData;
+            
+            // Show farmer dashboard
+            showFarmerDashboard(farmerData);
+        }
+        
+        function showFarmerDashboard(farmer) {
+            document.getElementById('farmerRegistration').classList.remove('active');
+            document.getElementById('farmerDashboard').style.display = 'block';
+            document.getElementById('displayFarmerName').textContent = farmer.name.split(' ')[0];
+            
+            // Update dashboard with farmer data
+            document.getElementById('weatherLocation').textContent = farmer.village + ', ' + farmer.district;
+            document.getElementById('cropNameDisplay').textContent = farmer.primaryCrop + (farmer.cropVariety ? ' (' + farmer.cropVariety + ')' : '');
+            document.getElementById('plantingDateDisplay').textContent = new Date(farmer.plantingDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            // Calculate days to harvest
+            const planting = new Date(farmer.plantingDate);
+            const harvest = farmer.harvestDate ? new Date(farmer.harvestDate) : new Date(planting.getTime() + (120 * 24 * 60 * 60 * 1000));
+            const today = new Date();
+            const totalDays = (harvest - planting) / (1000 * 60 * 60 * 24);
+            const daysPassed = (today - planting) / (1000 * 60 * 60 * 24);
+            const daysLeft = Math.max(0, Math.round(totalDays - daysPassed));
+            const growthPercent = Math.min(100, Math.round((daysPassed / totalDays) * 100));
+            
+            document.getElementById('daysToHarvest').textContent = daysLeft;
+            document.getElementById('growthProgress').style.width = growthPercent + '%';
+            
+            // Determine growth stage
+            let stage;
+            if (growthPercent < 20) stage = 'Germination';
+            else if (growthPercent < 40) stage = 'Vegetative';
+            else if (growthPercent < 60) stage = 'Flowering';
+            else if (growthPercent < 80) stage = 'Fruit/Grain Formation';
+            else stage = 'Maturity';
+            document.getElementById('growthStage').textContent = stage;
+            
+            // Set water needed based on crop and stage
+            const waterNeeds = {
+                'Rice': { Germination: 3, Vegetative: 5, Flowering: 6, 'Fruit/Grain Formation': 4, Maturity: 2 },
+                'Wheat': { Germination: 2.5, Vegetative: 3.5, Flowering: 4, 'Fruit/Grain Formation': 3, Maturity: 1.5 },
+                'Maize': { Germination: 2, Vegetative: 3, Flowering: 4, 'Fruit/Grain Formation': 3.5, Maturity: 1.5 }
+            };
+            const water = (waterNeeds[farmer.primaryCrop]?.[stage] || 2.5).toFixed(1);
+            document.getElementById('waterNeeded').textContent = water + ' cm';
+            
+            // Update pesticide list dynamically
+            updatePesticideRecommendations(farmer.primaryCrop, stage);
+        }
+        
+        function updatePesticideRecommendations(crop, stage) {
+            const pesticideList = document.getElementById('pesticideList');
+            
+            const pesticides = {
+                'Rice': {
+                    'Vegetative': [
+                        { name: 'Cartap Hydrochloride 4G', type: 'Chemical', for: 'Stem borer', price: '₹320/kg', dose: '10kg/acre', timing: 'Apply 20-25 days after transplanting' },
+                        { name: 'Neem Cake', type: 'Organic', for: 'Soil pests, Nematodes', price: '₹25/kg', dose: '100kg/acre', timing: 'At last plowing' }
+                    ],
+                    'Flowering': [
+                        { name: 'Tricyclazole 75% WP', type: 'Chemical', for: 'Blast disease', price: '₹950/kg', dose: '0.6g/L', timing: 'At first sign of disease' },
+                        { name: 'Pseudomonas fluorescens', type: 'Bio', for: 'Sheath blight', price: '₹400/kg', dose: '2.5kg/acre', timing: 'Foliar spray' }
+                    ]
+                },
+                'Wheat': {
+                    'Vegetative': [
+                        { name: '2,4-D Sodium Salt', type: 'Chemical', for: 'Broad leaf weeds', price: '₹450/kg', dose: '500g/acre', timing: '30-35 days after sowing' },
+                        { name: 'Sulfur 80% WG', type: 'Chemical', for: 'Powdery mildew', price: '₹280/kg', dose: '2g/L', timing: 'At disease appearance' }
+                    ],
+                    'Flowering': [
+                        { name: 'Propiconazole 25% EC', type: 'Chemical', for: 'Rust, Karnal bunt', price: '₹850/L', dose: '1ml/L', timing: 'At ear head emergence' },
+                        { name: 'NSKE 5%', type: 'Organic', for: 'Aphids', price: '₹150/L', dose: '5L/acre', timing: 'When aphids appear' }
+                    ]
+                }
+            };
+            
+            const cropPests = pesticides[crop]?.[stage] || pesticides[crop]?.Vegetative || [
+                { name: 'Neem Oil', type: 'Organic', for: 'General pests', price: '₹450/L', dose: '5ml/L', timing: 'As needed' },
+                { name: 'Multiplex Npk', type: 'Chemical', for: 'Nutrient deficiency', price: '₹600/kg', dose: '5kg/acre', timing: 'Every 15 days' }
+            ];
+            
+            let html = '';
+            cropPests.forEach(p => {
+                html += `
+                    <div class="pesticide-card">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <span class="pesticide-tag tag-${p.type === 'Organic' ? 'organic' : (p.type === 'Bio' ? 'bio' : 'chemical')}">${p.type}</span>
+                                <h4>${p.name}</h4>
+                            </div>
+                            <span style="color: var(--accent-green); font-weight: 600;">${p.price}</span>
+                        </div>
+                        <p style="margin: 0.5rem 0;"><strong>For:</strong> ${p.for}</p>
+                        <p><strong>Dose:</strong> ${p.dose}</p>
+                        <p><strong>When:</strong> ${p.timing}</p>
+                    </div>
+                `;
+            });
+            
+            pesticideList.innerHTML = html;
+        }
+        
+        // Weather data (real-time simulation)
+        function updateWeatherData() {
+            const weatherGrid = document.getElementById('weatherGrid');
+            if (!weatherGrid) return;
+            
+            // Simulate real weather data (replace with actual API call)
+            const weather = {
+                temperature: (28 + Math.random() * 8).toFixed(1),
+                humidity: (60 + Math.random() * 20).toFixed(1),
+                windSpeed: (5 + Math.random() * 10).toFixed(1),
+                rainChance: (20 + Math.random() * 60).toFixed(0),
+                condition: ['Sunny', 'Partly Cloudy', 'Cloudy', 'Light Rain'][Math.floor(Math.random() * 4)]
+            };
+            
+            document.getElementById('rainChance').textContent = weather.rainChance + '%';
+            document.getElementById('rainDays').textContent = Math.floor(Math.random() * 5) + 1;
+            document.getElementById('rainAmount').textContent = (weather.rainChance / 100 * 20).toFixed(1);
+            
+            weatherGrid.innerHTML = `
+                <div class="weather-item">
+                    <i class="fas fa-thermometer-half"></i>
+                    <h3>${weather.temperature}°C</h3>
+                    <p>Temperature</p>
+                </div>
+                <div class="weather-item">
+                    <i class="fas fa-tint"></i>
+                    <h3>${weather.humidity}%</h3>
+                    <p>Humidity</p>
+                </div>
+                <div class="weather-item">
+                    <i class="fas fa-wind"></i>
+                    <h3>${weather.windSpeed} km/h</h3>
+                    <p>Wind Speed</p>
+                </div>
+                <div class="weather-item">
+                    <i class="fas fa-cloud-rain"></i>
+                    <h3>${weather.rainChance}%</h3>
+                    <p>Rain Chance</p>
+                </div>
+                <div class="weather-item" style="grid-column: span 2;">
+                    <i class="fas fa-cloud-sun"></i>
+                    <h3>${weather.condition}</h3>
+                    <p>Condition</p>
+                </div>
+            `;
+            
+            document.getElementById('weatherUpdateTime').textContent = 'Updated ' + new Date().toLocaleTimeString();
+        }
+        
+        // Update weather every 30 minutes
+        setInterval(updateWeatherData, 1800000);
+        
+        // Officer Login
+        function officerLogin(event) {
+            event.preventDefault();
+            
+            const officerId = document.getElementById('officerId').value;
+            const password = document.getElementById('officerPassword').value;
+            const district = document.getElementById('officerDistrict').value;
+            
+            // In production, validate against server
+            if (officerId && password) {
+                currentOfficer = { id: officerId, district: district };
+                document.getElementById('officerDistrictDisplay').textContent = district;
+                document.getElementById('officerLogin').style.display = 'none';
+                document.getElementById('officerDashboard').style.display = 'block';
+                
+                // Load officer data
+                loadOfficerDashboard(district);
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+        
+        function loadOfficerDashboard(district) {
+            // Load farmers from localStorage
+            const farmers = JSON.parse(localStorage.getItem('farmers')) || [];
+            const districtFarmers = farmers.filter(f => f.district === district);
+            
+            // Update analytics
+            document.getElementById('totalFarmers').textContent = districtFarmers.length;
+            document.getElementById('totalFarms').textContent = districtFarmers.reduce((sum, f) => sum + (f.farmSize || 0), 0).toFixed(1) + ' acres';
+            document.getElementById('totalCrops').textContent = districtFarmers.length;
+            
+            const avgYield = districtFarmers.reduce((sum, f) => sum + (parseFloat(f.estimatedYield) || 0), 0) / districtFarmers.length || 0;
+            document.getElementById('avgYield').textContent = avgYield.toFixed(1);
+            
+            // Update table
+            updateFarmersTable(districtFarmers);
+        }
+        
+        function updateFarmersTable(farmers) {
+            const tbody = document.getElementById('farmersTableBody');
+            let html = '';
+            
+            farmers.forEach((farmer, index) => {
+                const healthScore = Math.floor(70 + Math.random() * 25); // Simulated
+                const status = healthScore > 80 ? 'Active' : (healthScore > 60 ? 'Needs Attention' : 'Critical');
+                const statusClass = healthScore > 80 ? 'status-active' : (healthScore > 60 ? 'status-pending' : 'status-critical');
+                
+                html += `
+                    <tr>
+                        <td>${farmer.name}</td>
+                        <td>${farmer.village}</td>
+                        <td>${farmer.farmSize} acres</td>
+                        <td>${farmer.primaryCrop}</td>
+                        <td>${farmer.soilType}</td>
+                        <td><span style="color: ${healthScore > 80 ? 'var(--accent-green)' : (healthScore > 60 ? 'var(--warning)' : 'var(--danger)')};">${healthScore}%</span></td>
+                        <td>${Math.floor(Math.random() * 7)} days ago</td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        <td>
+                            <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="viewFarmerDetails('${farmer.id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-outline" style="padding: 0.3rem 0.8rem;" onclick="messageFarmer('${farmer.id}')">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+        }
+        
+        function viewFarmerDetails(farmerId) {
+            const farmers = JSON.parse(localStorage.getItem('farmers')) || [];
+            const farmer = farmers.find(f => f.id === farmerId);
+            
+            if (!farmer) return;
+            
+            const modal = document.getElementById('farmerDetailsModal');
+            const content = document.getElementById('farmerDetailsContent');
+            
+            content.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-top: 1.5rem;">
+                    <div>
+                        <h3 style="color: var(--accent-green);">Personal Info</h3>
+                        <p><strong>Name:</strong> ${farmer.name}</p>
+                        <p><strong>Phone:</strong> ${farmer.phone}</p>
+                        <p><strong>Email:</strong> ${farmer.email || 'N/A'}</p>
+                        <p><strong>Registration:</strong> ${new Date(farmer.registrationDate).toLocaleDateString()}</p>
+                        
+                        <h3 style="color: var(--accent-green); margin-top: 1.5rem;">Location</h3>
+                        <p><strong>Village:</strong> ${farmer.village}</p>
+                        <p><strong>District:</strong> ${farmer.district}</p>
+                        <p><strong>State:</strong> ${farmer.state}</p>
+                        <p><strong>Pincode:</strong> ${farmer.pincode}</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent-green);">Farm Details</h3>
+                        <p><strong>Farm Size:</strong> ${farmer.farmSize} acres</p>
+                        <p><strong>Soil Type:</strong> ${farmer.soilType}</p>
+                        <p><strong>Water Source:</strong> ${farmer.waterSource}</p>
+                        <p><strong>Irrigation:</strong> ${farmer.irrigationType}</p>
+                        
+                        <h3 style="color: var(--accent-green); margin-top: 1.5rem;">Current Crop</h3>
+                        <p><strong>Crop:</strong> ${farmer.primaryCrop} ${farmer.cropVariety ? '(' + farmer.cropVariety + ')' : ''}</p>
+                        <p><strong>Area:</strong> ${farmer.cropArea} acres</p>
+                        <p><strong>Planted:</strong> ${new Date(farmer.plantingDate).toLocaleDateString()}</p>
+                        <p><strong>Expected Harvest:</strong> ${farmer.harvestDate ? new Date(farmer.harvestDate).toLocaleDateString() : 'Not set'}</p>
+                        <p><strong>Est. Yield:</strong> ${farmer.estimatedYield || 'AI estimating'} kg/acre</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <h3 style="color: var(--accent-green);">Officer Notes</h3>
+                    <textarea rows="3" style="width: 100%; padding: 0.8rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary);" placeholder="Add observations or recommendations..."></textarea>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">Save Notes</button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeFarmerModal() {
+            document.getElementById('farmerDetailsModal').style.display = 'none';
+        }
+        
+        function messageFarmer(farmerId) {
+            alert('Messaging feature coming soon!');
+        }
+        
+        function applyFilters() {
+            const village = document.getElementById('filterVillage').value;
+            const crop = document.getElementById('filterCrop').value;
+            const soil = document.getElementById('filterSoil').value;
+            const search = document.getElementById('searchFarmer').value.toLowerCase();
+            
+            const farmers = JSON.parse(localStorage.getItem('farmers')) || [];
+            const district = currentOfficer?.district;
+            
+            let filtered = farmers.filter(f => f.district === district);
+            
+            if (village) filtered = filtered.filter(f => f.village === village);
+            if (crop) filtered = filtered.filter(f => f.primaryCrop === crop);
+            if (soil) filtered = filtered.filter(f => f.soilType === soil);
+            if (search) filtered = filtered.filter(f => f.name.toLowerCase().includes(search) || f.village.toLowerCase().includes(search));
+            
+            updateFarmersTable(filtered);
+        }
+        
+        function exportData() {
+            const farmers = JSON.parse(localStorage.getItem('farmers')) || [];
+            const district = currentOfficer?.district;
+            const data = farmers.filter(f => f.district === district);
+            
+            const csv = convertToCSV(data);
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `farmers_${district}_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+        
+        function convertToCSV(data) {
+            const headers = ['Name', 'Phone', 'Village', 'Farm Size', 'Crop', 'Soil Type', 'Registration Date'];
+            const rows = data.map(f => [
+                f.name,
+                f.phone,
+                f.village,
+                f.farmSize,
+                f.primaryCrop,
+                f.soilType,
+                new Date(f.registrationDate).toLocaleDateString()
+            ]);
+            
+            return [headers, ...rows].map(row => row.join(',')).join('\n');
+        }
+        
+        function loadFarmersFromStorage() {
+            farmersData = JSON.parse(localStorage.getItem('farmers')) || [];
+        }
+        
+        function downloadFarmPlan() {
+            alert('Downloading farm plan as PDF...');
+            // In production, generate actual PDF
+        }
+        
+        function logoutFarmer() {
+            currentFarmer = null;
+            document.getElementById('farmerDashboard').style.display = 'none';
+            document.getElementById('farmerRegistration').classList.add('active');
+        }
+        
+        function logoutOfficer() {
+            currentOfficer = null;
+            document.getElementById('officerDashboard').style.display = 'none';
+            document.getElementById('officerLogin').style.display = 'block';
+        }
+        
+        // Auto-refresh officer data every 5 minutes
+        setInterval(() => {
+            if (currentOfficer) {
+                loadOfficerDashboard(currentOfficer.district);
+                document.getElementById('lastSync').textContent = new Date().toLocaleTimeString();
+            }
+        }, 300000);
+    </script>
+    
+    <script src="js/theme.js"></script>
+    <script src="js/ai-assistant.js"></script>
+</body>
+</html>

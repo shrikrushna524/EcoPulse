@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/dark-theme.css">
+<link rel="stylesheet" href="css/light-theme.css">
+<link rel="stylesheet" href="css/responsive.css">
+    <style>
+
+        /* ===== ECOPIUSE 360 - MAIN STYLESHEET ===== */
+:root {
+    /* Dark Theme (Default) */
+    --bg-primary: #0a0f0a;
+    --bg-secondary: #111811;
+    --bg-card: #1a231a;
+    --bg-hover: #253025;
+    --text-primary: #ffffff;
+    --text-secondary: #b0c4b0;
+    --text-muted: #708070;
+    --accent-green: #4CAF50;
+    --accent-green-light: #6fbf73;
+    --accent-green-dark: #2e7d32;
+    --border-color: #2a3a2a;
+    --shadow-color: rgba(0, 255, 0, 0.1);
+    --gradient-1: linear-gradient(135deg, #1a2f1a 0%, #0f1a0f 100%);
+    --gradient-2: linear-gradient(45deg, #2e7d32, #4CAF50);
+    --success: #4CAF50;
+    --warning: #ff9800;
+    --danger: #f44336;
+    --info: #2196F3;
+}
+
+/* Light Theme Variables */
+[data-theme="light"] {
+    --bg-primary: #f5f9f5;
+    --bg-secondary: #e8f0e8;
+    --bg-card: #ffffff;
+    --bg-hover: #d0e0d0;
+    --text-primary: #1a2f1a;
+    --text-secondary: #2a4a2a;
+    --text-muted: #5a7a5a;
+    --border-color: #b0d0b0;
+    --shadow-color: rgba(0, 100, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease;
+}
+
+body {
+    font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Animated Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(46, 125, 50, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    background: var(--bg-secondary);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo i {
+    font-size: 2.2rem;
+    color: var(--accent-green);
+    filter: drop-shadow(0 0 10px var(--accent-green));
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--accent-green-light);
+    background: var(--bg-hover);
+}
+
+.nav-links a.active {
+    color: var(--accent-green);
+    background: var(--bg-hover);
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: var(--gradient-2);
+    border-radius: 2px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent-green);
+    transform: scale(1.05);
+}
+
+/* ===== DASHBOARD LAYOUT ===== */
+.dashboard-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.welcome-section {
+    background: var(--gradient-1);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-section::before {
+    content: '🌱';
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    font-size: 8rem;
+    opacity: 0.1;
+    transform: rotate(15deg);
+}
+
+.eco-score-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent-green) 0deg 288deg, #2a3a2a 288deg 360deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.score-circle::before {
+    content: '';
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    position: absolute;
+}
+
+.score-value {
+    position: relative;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    z-index: 1;
+}
+
+/* ===== MODULE GRID ===== */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.module-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-green);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.module-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: var(--gradient-2);
+    transition: height 0.3s ease;
+}
+
+.module-card:hover::after {
+    height: 100%;
+}
+
+.module-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-green);
+}
+
+.module-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.module-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ===== CALCULATOR CARDS ===== */
+.calculator-container {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--gradient-2);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--accent-green);
+    color: var(--accent-green);
+}
+
+.btn-outline:hover {
+    background: var(--accent-green);
+    color: white;
+}
+
+/* ===== AI ASSISTANT CHAT ===== */
+.ai-assistant {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px var(--shadow-color);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.ai-header {
+    background: var(--gradient-1);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+}
+
+.ai-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.ai-chat-body {
+    height: 300px;
+    overflow-y: auto;
+    padding: 1rem;
+    display: none;
+}
+
+.ai-chat-body.active {
+    display: block;
+}
+
+.message {
+    margin-bottom: 1rem;
+    max-width: 80%;
+}
+
+.message.ai {
+    margin-right: auto;
+}
+
+.message.user {
+    margin-left: auto;
+    text-align: right;
+}
+
+.message-content {
+    padding: 0.8rem;
+    border-radius: 12px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+.message.ai .message-content {
+    background: var(--bg-hover);
+    border-color: var(--accent-green);
+}
+
+/* ===== CHARTS & GRAPHS ===== */
+.chart-container {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+}
+
+/* ===== PROGRESS BARS ===== */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-primary);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-2);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ===== BADGES & ACHIEVEMENTS ===== */
+.badge-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.badge {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.badge.earned {
+    border-color: var(--accent-green);
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.badge i {
+    color: var(--accent-green);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ai-assistant {
+        width: 300px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .welcome-section::before {
+        font-size: 4rem;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse-animation {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-green-dark);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-green);
+}
+
+/* ===== GLASSMORPHISM EFFECTS ===== */
+.glass-card {
+    background: rgba(26, 35, 26, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="light"] .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* ===== LOADING SPINNER ===== */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Environmental Intelligence Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+            <div class="user-menu">
+                <i class="fas fa-user-circle" style="font-size: 2rem; color: var(--accent-green);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <!-- Welcome Section with Eco Score -->
+        <div class="welcome-section glass-card">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Welcome back, <span style="color: var(--accent-green);">Earth Guardian</span> 🌍</h1>
+            <p style="color: var(--text-secondary); font-size: 1.2rem;">Your personal environmental impact dashboard. Let's make Earth greener together!</p>
+            
+            <div class="eco-score-card" style="margin-top: 2rem;">
+                <div class="score-circle">
+                    <span class="score-value" id="ecoScore">78</span>
+                </div>
+                <div>
+                    <h2>Your EcoHealth Index</h2>
+                    <p style="color: var(--text-secondary);">Good progress! You're in the top 30% of users.</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <span class="badge earned"><i class="fas fa-seedling"></i> Tree Planter</span>
+                        <span class="badge earned"><i class="fas fa-water"></i> Water Saver</span>
+                        <span class="badge"><i class="fas fa-solar-panel"></i> Solar Rookie</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats Row -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div class="module-card" style="text-align: center;">
+                <i class="fas fa-tree module-icon"></i>
+                <h3 class="module-title">Trees Saved</h3>
+                <p style="font-size: 2rem; color: var(--accent-green);">1,247</p>
+                <small>This month</small>
+            </div>
+            <div class="module-card" style="text-align: center;">
+                <i class="fas fa-droplet module-icon"></i>
+                <h3 class="module-title">Water Saved</h3>
+                <p style="font-size: 2rem; color: var(--accent-green);">15,680 L</p>
+                <small>This month</small>
+            </div>
+            <div class="module-card" style="text-align: center;">
+                <i class="fas fa-cloud-sun module-icon"></i>
+                <h3 class="module-title">CO2 Reduced</h3>
+                <p style="font-size: 2rem; color: var(--accent-green);">342 kg</p>
+                <small>This month</small>
+            </div>
+            <div class="module-card" style="text-align: center;">
+                <i class="fas fa-bolt module-icon"></i>
+                <h3 class="module-title">Energy Saved</h3>
+                <p style="font-size: 2rem; color: var(--accent-green);">847 kWh</p>
+                <small>This month</small>
+            </div>
+        </div>
+
+        <!-- Main Modules Grid -->
+        <h2 style="margin: 2rem 0 1rem; font-size: 1.8rem;">🌿 Environmental Intelligence Modules</h2>
+        <div class="modules-grid">
+            <!-- Agriculture Card -->
+            <div class="module-card" onclick="location.href='agriculture.html'">
+                <i class="fas fa-tractor module-icon"></i>
+                <h3 class="module-title">Agriculture & Farming</h3>
+                <p style="color: var(--text-secondary);">Smart farming techniques, soil health, crop management, and sustainable agriculture practices.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 12 tools</span>
+                    <span><i class="fas fa-clock"></i> Updated today</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+                <small>Community engagement: 75%</small>
+            </div>
+
+            <!-- Forest Card -->
+            <div class="module-card" onclick="location.href='forest.html'">
+                <i class="fas fa-tree module-icon"></i>
+                <h3 class="module-title">Wildlife & Forest Conservation</h3>
+                <p style="color: var(--text-secondary);">Protect forests, track wildlife, monitor deforestation, and conservation efforts.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 8 tools</span>
+                    <span><i class="fas fa-clock"></i> Live data</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 60%;"></div>
+                </div>
+                <small>Species tracked: 2,847</small>
+            </div>
+
+            <!-- Energy Card -->
+            <div class="module-card" onclick="location.href='energy.html'">
+                <i class="fas fa-solar-panel module-icon"></i>
+                <h3 class="module-title">Renewable & Sustainable Energy</h3>
+                <p style="color: var(--text-secondary);">Solar, wind, hydro calculations, savings estimators, and clean energy solutions.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 15 tools</span>
+                    <span><i class="fas fa-clock"></i> Real-time</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 82%;"></div>
+                </div>
+                <small>Potential savings: $2,450/yr</small>
+            </div>
+
+            <!-- Waste Card -->
+            <div class="module-card" onclick="location.href='waste.html'">
+                <i class="fas fa-recycle module-icon"></i>
+                <h3 class="module-title">Waste Management</h3>
+                <p style="color: var(--text-secondary);">Recycling guides, decomposition tracker, waste reduction strategies.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 10 tools</span>
+                    <span><i class="fas fa-clock"></i> Updated daily</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 45%;"></div>
+                </div>
+                <small>Recycling rate: 45%</small>
+            </div>
+
+            <!-- Transport Card -->
+            <div class="module-card" onclick="location.href='transport.html'">
+                <i class="fas fa-bus module-icon"></i>
+                <h3 class="module-title">Transportation</h3>
+                <p style="color: var(--text-secondary);">Eco-route planning, carbon comparisons, commute optimization.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 6 tools</span>
+                    <span><i class="fas fa-clock"></i> Live traffic</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 70%;"></div>
+                </div>
+                <small>CO2 saved: 128 kg</small>
+            </div>
+
+            <!-- Disaster Card -->
+            <div class="module-card" onclick="location.href='disaster.html'">
+                <i class="fas fa-house-flood module-icon"></i>
+                <h3 class="module-title">Disaster Management</h3>
+                <p style="color: var(--text-secondary);">Emergency preparedness, risk assessment, evacuation planning.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 7 tools</span>
+                    <span><i class="fas fa-clock"></i> Alert system</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 90%;"></div>
+                </div>
+                <small>Community ready: 90%</small>
+            </div>
+
+            <!-- Water Card -->
+            <div class="module-card" onclick="location.href='water.html'">
+                <i class="fas fa-water module-icon"></i>
+                <h3 class="module-title">Water Management</h3>
+                <p style="color: var(--text-secondary);">Water footprint, rainwater harvesting, conservation tips.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 9 tools</span>
+                    <span><i class="fas fa-clock"></i> Live data</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 55%;"></div>
+                </div>
+                <small>Usage reduction: 55%</small>
+            </div>
+
+            <!-- EV Card -->
+            <div class="module-card" onclick="location.href='ev.html'">
+                <i class="fas fa-car module-icon"></i>
+                <h3 class="module-title">E-Vehicles</h3>
+                <p style="color: var(--text-secondary);">EV comparison, charging stations, savings calculator.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 5 tools</span>
+                    <span><i class="fas fa-clock"></i> Live map</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 40%;"></div>
+                </div>
+                <small>EV adoption: 40%</small>
+            </div>
+
+            <!-- Pollution Card -->
+            <div class="module-card" onclick="location.href='pollution.html'">
+                <i class="fas fa-industry module-icon"></i>
+                <h3 class="module-title">Pollution Control</h3>
+                <p style="color: var(--text-secondary);">Air quality index, pollution sources, mitigation strategies.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 8 tools</span>
+                    <span><i class="fas fa-clock"></i> Real-time AQI</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 65%;"></div>
+                </div>
+                <small>AQI improvement: 65%</small>
+            </div>
+
+            <!-- Healthcare Card -->
+            <div class="module-card" onclick="location.href='healthcare.html'">
+                <i class="fas fa-heartbeat module-icon"></i>
+                <h3 class="module-title">Healthcare</h3>
+                <p style="color: var(--text-secondary);">Environmental health, nature therapy, pollution health impacts.</p>
+                <div class="module-stats">
+                    <span><i class="fas fa-chart-line"></i> 6 tools</span>
+                    <span><i class="fas fa-clock"></i> Health tips</span>
+                </div>
+                <div class="progress-bar" style="margin-top: 1rem;">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+                <small>Community health: 80%</small>
+            </div>
+        </div>
+
+        <!-- Interactive Charts Section -->
+        <h2 style="margin: 3rem 0 1rem;">📈 Environmental Impact Trends</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+            <div class="chart-container">
+                <h3>Carbon Reduction Progress</h3>
+                <canvas id="carbonChart" style="width: 100%; height: 300px;"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Energy Sources Mix</h3>
+                <canvas id="energyChart" style="width: 100%; height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Activities Feed -->
+        <div style="margin: 3rem 0;">
+            <h2>📋 Community Activities</h2>
+            <div class="glass-card" style="padding: 1.5rem;">
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; padding: 0.5rem; border-bottom: 1px solid var(--border-color);">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-green);">
+                    <div>
+                        <h4>Sarah planted 5 trees 🌳</h4>
+                        <small style="color: var(--text-muted);">2 hours ago • Urban Forestry Project</small>
+                    </div>
+                    <i class="fas fa-leaf" style="color: var(--accent-green); margin-left: auto; font-size: 1.5rem;"></i>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; padding: 0.5rem; border-bottom: 1px solid var(--border-color);">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-green);">
+                    <div>
+                        <h4>Mike installed solar panels ☀️</h4>
+                        <small style="color: var(--text-muted);">5 hours ago • Renewable Energy</small>
+                    </div>
+                    <i class="fas fa-solar-panel" style="color: var(--accent-green); margin-left: auto; font-size: 1.5rem;"></i>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center; padding: 0.5rem;">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-green);">
+                    <div>
+                        <h4>Emma started composting ♻️</h4>
+                        <small style="color: var(--text-muted);">1 day ago • Zero Waste Initiative</small>
+                    </div>
+                    <i class="fas fa-recycle" style="color: var(--accent-green); margin-left: auto; font-size: 1.5rem;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: var(--gradient-1); border-radius: 20px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Together We Can Save Our Planet 🌍</h2>
+            <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem;">Join 50,000+ eco-warriors making a difference every day.</p>
+            <button class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;" onclick="location.href='profile.html'">
+                <i class="fas fa-rocket"></i> Start Your Journey
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Assistant Widget (auto-loaded by JS) -->
+
+    <!-- Footer -->
+    <footer style="background: var(--bg-secondary); padding: 3rem 2rem; margin-top: 4rem; border-top: 1px solid var(--border-color);">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div>
+                <h3><i class="fas fa-leaf" style="color: var(--accent-green);"></i> EcoPulse 360</h3>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Empowering individuals and communities to make data-driven environmental decisions.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li><a href="#" style="color: var(--text-secondary); text-decoration: none;">About Us</a></li>
+                    <li><a href="#" style="color: var(--text-secondary); text-decoration: none;">Contact</a></li>
+                    <li><a href="#" style="color: var(--text-secondary); text-decoration: none;">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Connect With Us</h4>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <i class="fab fa-twitter" style="font-size: 1.5rem; color: var(--accent-green);"></i>
+                    <i class="fab fa-instagram" style="font-size: 1.5rem; color: var(--accent-green);"></i>
+                    <i class="fab fa-linkedin" style="font-size: 1.5rem; color: var(--accent-green);"></i>
+                    <i class="fab fa-github" style="font-size: 1.5rem; color: var(--accent-green);"></i>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem; color: var(--text-muted);">
+            <p>© 2025 EcoPulse 360. Making Earth Greener Every Day. 🌱</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/ai-assistant.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carbon Reduction Chart
+            const carbonCtx = document.getElementById('carbonChart').getContext('2d');
+            new Chart(carbonCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'CO2 Reduction (kg)',
+                        data: [65, 89, 120, 156, 198, 247],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary') }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(76, 175, 80, 0.1)' },
+                            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary') }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary') }
+                        }
+                    }
+                }
+            });
+
+            // Energy Mix Chart
+            const energyCtx = document.getElementById('energyChart').getContext('2d');
+            new Chart(energyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Solar', 'Wind', 'Hydro', 'Other Renewables'],
+                    datasets: [{
+                        data: [45, 25, 20, 10],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#00BCD4', '#FFC107'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary') }
+                        }
+                    }
+                }
+            });
+
+            // Update Eco Score with animation
+            let score = 78;
+            const scoreElement = document.getElementById('ecoScore');
+            let currentScore = 0;
+            const interval = setInterval(() => {
+                if (currentScore < score) {
+                    currentScore += 1;
+                    scoreElement.textContent = currentScore;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 20);
+        });
+
+
+
+
+        // ===== THEME MANAGER WITH LOCAL STORAGE =====
+class ThemeManager {
+    constructor() {
+        this.theme = localStorage.getItem('theme') || 'dark';
+        this.init();
+    }
+
+    init() {
+        document.documentElement.setAttribute('data-theme', this.theme);
+        this.updateThemeIcon();
+        this.setupListeners();
+    }
+
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', this.theme);
+        localStorage.setItem('theme', this.theme);
+        this.updateThemeIcon();
+        this.animateThemeChange();
+    }
+
+    updateThemeIcon() {
+        const toggleBtn = document.getElementById('themeToggle');
+        if (toggleBtn) {
+            toggleBtn.innerHTML = this.theme === 'dark' 
+                ? '<i class="fas fa-sun"></i> Light Mode' 
+                : '<i class="fas fa-moon"></i> Dark Mode';
+        }
+    }
+
+    animateThemeChange() {
+        // Create ripple effect on theme change
+        const ripple = document.createElement('div');
+        ripple.style.position = 'fixed';
+        ripple.style.top = '0';
+        ripple.style.left = '0';
+        ripple.style.width = '100%';
+        ripple.style.height = '100%';
+        ripple.style.backgroundColor = this.theme === 'dark' ? '#0a0f0a' : '#f5f9f5';
+        ripple.style.opacity = '0.3';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.zIndex = '9999';
+        ripple.style.animation = 'fadeOut 0.5s ease';
+        
+        document.body.appendChild(ripple);
+        
+        setTimeout(() => {
+            ripple.remove();
+        }, 500);
+    }
+
+    setupListeners() {
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('#themeToggle')) {
+                this.toggleTheme();
+            }
+        });
+    }
+}
+
+// Initialize theme manager
+const themeManager = new ThemeManager();
+
+
+// ===== AI POWERED ENVIRONMENTAL ASSISTANT =====
+class EcoAI {
+    constructor() {
+        this.responses = {
+            agriculture: [
+                "Based on your location, consider planting cover crops to improve soil health! 🌱",
+                "Companion planting can reduce pest issues naturally. Try basil with tomatoes!",
+                "Drip irrigation could save you up to 60% water compared to sprinklers."
+            ],
+            forest: [
+                "Did you know? One tree can absorb up to 48 lbs of CO2 per year! 🌳",
+                "Plant native species - they support local wildlife better.",
+                "Consider starting a tree nursery with local seeds."
+            ],
+            energy: [
+                "Solar panels on just 25% of roof space could power your entire home! ☀️",
+                "LED bulbs use 75% less energy than incandescent.",
+                "Smart thermostats save average 10-15% on heating/cooling bills."
+            ],
+            waste: [
+                "Composting kitchen waste reduces methane from landfills by 50%! ♻️",
+                "The average person uses 167 plastic bottles per year. Refillable is better!",
+                "Recycling one aluminum can saves enough energy to run a TV for 3 hours."
+            ],
+            transport: [
+                "Cycling 10km daily saves 500kg CO2 yearly - that's like planting 20 trees! 🚲",
+                "Carpooling with just one person cuts emissions in half.",
+                "Walking 30 minutes daily reduces carbon footprint by 0.5 tons annually."
+            ],
+            disaster: [
+                "Create an emergency kit: water, food, radio, first aid, documents. 🌪️",
+                "Know your evacuation routes before disaster strikes.",
+                "Sign up for local emergency alerts on your phone."
+            ],
+            water: [
+                "Fixing a dripping tap saves 5,000+ liters yearly! 💧",
+                "Collect rainwater - 1000 sq ft roof can collect 600 gallons from 1 inch rain.",
+                "Shorten shower by 2 minutes = save 1500 gallons/year."
+            ],
+            ev: [
+                "EVs produce zero tailpipe emissions and cost 60% less to fuel! ⚡",
+                "Charging at night uses cleaner grid electricity.",
+                "EV batteries can be recycled for 95% material recovery."
+            ],
+            pollution: [
+                "Indoor plants can remove up to 87% of air toxins in 24 hours! 🌿",
+                "HEPA filters capture 99.97% of airborne particles.",
+                "Carpooling reduces rush hour pollution by 30%."
+            ],
+            healthcare: [
+                "2 hours in nature weekly significantly boosts mental health! 🏥",
+                "Forest bathing reduces cortisol by 16% on average.",
+                "Gardening burns 300 calories/hour and reduces stress."
+            ]
+        };
+        
+        this.context = [];
+        this.init();
+    }
+
+    init() {
+        this.createChatWidget();
+        this.setupEventListeners();
+    }
+
+    createChatWidget() {
+        const widget = document.createElement('div');
+        widget.className = 'ai-assistant';
+        widget.id = 'aiAssistant';
+        widget.innerHTML = `
+            <div class="ai-header" id="aiHeader">
+                <div class="ai-avatar">🌿</div>
+                <div>
+                    <h4>EcoAI Assistant</h4>
+                    <small>Online • Ask me anything!</small>
+                </div>
+                <i class="fas fa-chevron-up" style="margin-left: auto;"></i>
+            </div>
+            <div class="ai-chat-body" id="aiChatBody">
+                <div class="message ai">
+                    <div class="message-content">
+                        Hi! I'm your environmental AI assistant. Ask me about sustainability, conservation, or any green topic! 🌍
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 1rem; border-top: 1px solid var(--border-color); display: none;" id="aiInput">
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="aiMessageInput" placeholder="Type your question..." style="flex: 1; padding: 0.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 20px; color: var(--text-primary);">
+                    <button class="btn btn-primary" id="aiSendBtn" style="padding: 0.5rem 1rem;">Send</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(widget);
+    }
+
+    setupEventListeners() {
+        const header = document.getElementById('aiHeader');
+        const chatBody = document.getElementById('aiChatBody');
+        const input = document.getElementById('aiInput');
+        const sendBtn = document.getElementById('aiSendBtn');
+        const messageInput = document.getElementById('aiMessageInput');
+
+        let isOpen = false;
+
+        header.addEventListener('click', () => {
+            isOpen = !isOpen;
+            chatBody.style.display = isOpen ? 'block' : 'none';
+            input.style.display = isOpen ? 'block' : 'none';
+            header.querySelector('i').style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0)';
+        });
+
+        sendBtn.addEventListener('click', () => {
+            this.sendMessage(messageInput.value);
+            messageInput.value = '';
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.sendMessage(messageInput.value);
+                messageInput.value = '';
+            }
+        });
+    }
+
+    sendMessage(message) {
+        if (!message.trim()) return;
+
+        // Add user message
+        this.addMessage('user', message);
+        
+        // Get AI response
+        setTimeout(() => {
+            const response = this.generateResponse(message);
+            this.addMessage('ai', response);
+        }, 1000);
+    }
+
+    addMessage(sender, text) {
+        const chatBody = document.getElementById('aiChatBody');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}`;
+        messageDiv.innerHTML = `<div class="message-content">${text}</div>`;
+        chatBody.appendChild(messageDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    generateResponse(query) {
+        query = query.toLowerCase();
+        
+        // Check for keywords and return relevant response
+        if (query.includes('agriculture') || query.includes('farm') || query.includes('crop')) {
+            return this.responses.agriculture[Math.floor(Math.random() * this.responses.agriculture.length)];
+        }
+        if (query.includes('forest') || query.includes('tree') || query.includes('wildlife')) {
+            return this.responses.forest[Math.floor(Math.random() * this.responses.forest.length)];
+        }
+        if (query.includes('energy') || query.includes('solar') || query.includes('renewable')) {
+            return this.responses.energy[Math.floor(Math.random() * this.responses.energy.length)];
+        }
+        if (query.includes('waste') || query.includes('recycle') || query.includes('trash')) {
+            return this.responses.waste[Math.floor(Math.random() * this.responses.waste.length)];
+        }
+        if (query.includes('transport') || query.includes('car') || query.includes('bus')) {
+            return this.responses.transport[Math.floor(Math.random() * this.responses.transport.length)];
+        }
+        if (query.includes('disaster') || query.includes('emergency') || query.includes('flood')) {
+            return this.responses.disaster[Math.floor(Math.random() * this.responses.disaster.length)];
+        }
+        if (query.includes('water') || query.includes('rain') || query.includes('drought')) {
+            return this.responses.water[Math.floor(Math.random() * this.responses.water.length)];
+        }
+        if (query.includes('ev') || query.includes('electric vehicle') || query.includes('charging')) {
+            return this.responses.ev[Math.floor(Math.random() * this.responses.ev.length)];
+        }
+        if (query.includes('pollution') || query.includes('air') || query.includes('quality')) {
+            return this.responses.pollution[Math.floor(Math.random() * this.responses.pollution.length)];
+        }
+        if (query.includes('health') || query.includes('healthcare') || query.includes('medical')) {
+            return this.responses.healthcare[Math.floor(Math.random() * this.responses.healthcare.length)];
+        }
+        
+        // Default response
+        return "That's a great question! While I learn more, check out our specific modules for detailed information. Is there a particular area (agriculture, energy, waste, etc.) you'd like to know about? 🌍";
+    }
+}
+
+// Initialize AI Assistant
+const ecoAI = new EcoAI();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Pollution Control Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Pollution Module Specific Styles */
+        .pollution-hero {
+            background: linear-gradient(135deg, #7f8c8d, #34495e);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pollution-hero::before {
+            content: '🌫️';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .aqi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .aqi-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .aqi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        
+        .aqi-card.good { border-left-color: #4CAF50; }
+        .aqi-card.moderate { border-left-color: #FFC107; }
+        .aqi-card.unhealthy-sensitive { border-left-color: #FF9800; }
+        .aqi-card.unhealthy { border-left-color: #F44336; }
+        .aqi-card.very-unhealthy { border-left-color: #9C27B0; }
+        .aqi-card.hazardous { border-left-color: #7B1FA2; }
+        
+        .aqi-value {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .aqi-label {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pollutant-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .pollutant-item {
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+        
+        .source-map {
+            height: 400px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid var(--border-color);
+        }
+        
+        .heat-map-overlay {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            z-index: 10;
+        }
+        
+        .heat-legend {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .heat-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .heat-low { background: #4CAF50; }
+        .heat-medium { background: #FFC107; }
+        .heat-high { background: #F44336; }
+        
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .plant-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .plant-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+        }
+        
+        .plant-image {
+            height: 180px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .plant-content {
+            padding: 1.5rem;
+        }
+        
+        .plant-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .plant-scientific {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .removal-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .health-calculator {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .risk-meter {
+            height: 20px;
+            background: linear-gradient(90deg, #4CAF50, #FFC107, #F44336, #9C27B0);
+            border-radius: 10px;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .risk-indicator {
+            position: absolute;
+            width: 4px;
+            height: 30px;
+            background: white;
+            border: 2px solid black;
+            top: -5px;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .risk-level {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .recommendation-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .tracker-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .tracker-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tracker-btn:hover {
+            border-color: #4CAF50;
+        }
+        
+        .tracker-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            height: 400px;
+        }
+        
+        .pollution-tip {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pollution-tip::before {
+            content: '💡';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+        
+        .city-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .city-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .city-btn:hover {
+            border-color: #4CAF50;
+        }
+        
+        .city-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .aqi-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            font-size: 0.8rem;
+        }
+        
+        .scale-item {
+            flex: 1;
+            text-align: center;
+            padding: 0.2rem;
+        }
+        
+        .scale-good { background: #4CAF50; color: white; }
+        .scale-moderate { background: #FFC107; color: black; }
+        .scale-unhealthy-sensitive { background: #FF9800; color: white; }
+        .scale-unhealthy { background: #F44336; color: white; }
+        .scale-very-unhealthy { background: #9C27B0; color: white; }
+        .scale-hazardous { background: #7B1FA2; color: white; }
+        
+        .health-impact-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .health-impact-table th {
+            background: #4CAF50;
+            color: white;
+            padding: 0.75rem;
+        }
+        
+        .health-impact-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html" class="active"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="pollution-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-industry" style="color: #fff;"></i> 
+                Pollution Control Hub
+            </h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px;">
+                Monitor air quality, track pollution sources, and protect your health with real-time data and recommendations.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Live AQI Data</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> 20+ Cities</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Health Recommendations</div>
+            </div>
+        </div>
+
+        <!-- AQI Scale -->
+        <div class="aqi-scale">
+            <div class="scale-item scale-good">Good (0-50)</div>
+            <div class="scale-item scale-moderate">Moderate (51-100)</div>
+            <div class="scale-item scale-unhealthy-sensitive">Unhealthy for Sensitive (101-150)</div>
+            <div class="scale-item scale-unhealthy">Unhealthy (151-200)</div>
+            <div class="scale-item scale-very-unhealthy">Very Unhealthy (201-300)</div>
+            <div class="scale-item scale-hazardous">Hazardous (301-500)</div>
+        </div>
+
+        <!-- 1. AIR QUALITY INDEX -->
+        <div class="ev-card">
+            <h2><i class="fas fa-globe-asia" style="color: #4CAF50;"></i> 🌍 Air Quality Index - Live</h2>
+            <p style="color: var(--text-secondary);">Real-time AQI for major Indian cities <span class="live-indicator"></span> Live</p>
+            
+            <div class="city-selector">
+                <span class="city-btn active" onclick="selectAQICity('all')">All Cities</span>
+                <span class="city-btn" onclick="selectAQICity('delhi')">Delhi</span>
+                <span class="city-btn" onclick="selectAQICity('mumbai')">Mumbai</span>
+                <span class="city-btn" onclick="selectAQICity('bangalore')">Bangalore</span>
+                <span class="city-btn" onclick="selectAQICity('chennai')">Chennai</span>
+                <span class="city-btn" onclick="selectAQICity('kolkata')">Kolkata</span>
+                <span class="city-btn" onclick="selectAQICity('hyderabad')">Hyderabad</span>
+                <span class="city-btn" onclick="selectAQICity('pune')">Pune</span>
+            </div>
+            
+            <div class="aqi-grid" id="aqiGrid">
+                <!-- AQI cards will be populated by JavaScript -->
+            </div>
+            
+            <p style="text-align: right; color: var(--text-muted); font-size: 0.8rem;">
+                <i class="fas fa-sync-alt"></i> Auto-refreshes every 30 minutes • Data: OpenAQ/CPCB
+            </p>
+        </div>
+
+        <!-- 2. POLLUTION SOURCES MAP -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-map-marked-alt" style="color: #e67e22;"></i> 🏭 Pollution Sources Map</h2>
+            <p style="color: var(--text-secondary);">Industrial areas vs residential zones heat map</p>
+            
+            <div class="source-map" id="sourceMap">
+                <canvas id="mapCanvas" width="800" height="400" style="width: 100%; height: 100%;"></canvas>
+                <div class="heat-map-overlay">
+                    <h4>Pollution Intensity</h4>
+                    <div class="heat-legend">
+                        <div><span class="heat-color heat-low"></span> Low</div>
+                        <div><span class="heat-color heat-medium"></span> Medium</div>
+                        <div><span class="heat-color heat-high"></span> High</div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <div><i class="fas fa-industry"></i> Industrial Zone</div>
+                        <div><i class="fas fa-home"></i> Residential Zone</div>
+                        <div><i class="fas fa-tree"></i> Green Zone</div>
+                    </div>
+                    
+                    <select id="cityMapSelect" class="form-control" style="margin-top: 1rem;" onchange="updateSourceMap()">
+                        <option value="delhi">Delhi NCR</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="kolkata">Kolkata</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem;">
+                <div class="station-card">
+                    <strong>Major Sources:</strong>
+                    <p>Industrial areas, vehicular emissions, construction</p>
+                </div>
+                <div class="station-card">
+                    <strong>Peak Hours:</strong>
+                    <p>8-10 AM, 5-8 PM (traffic peaks)</p>
+                </div>
+                <div class="station-card">
+                    <strong>Wind Direction:</strong>
+                    <p>NW at 12 km/h • Pollution dispersing</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. AIR-PURIFYING PLANTS -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-leaf" style="color: #4CAF50;"></i> 🌿 Air-Purifying Plants</h2>
+            <p style="color: var(--text-secondary);">NASA Clean Air Study - Plants that remove toxins</p>
+            
+            <div class="model-filters">
+                <span class="filter-btn active" onclick="filterPlants('all')">All Plants</span>
+                <span class="filter-btn" onclick="filterPlants('formaldehyde')">Formaldehyde</span>
+                <span class="filter-btn" onclick="filterPlants('benzene')">Benzene</span>
+                <span class="filter-btn" onclick="filterPlants('trichloroethylene')">Trichloroethylene</span>
+                <span class="filter-btn" onclick="filterPlants('xylene')">Xylene</span>
+                <span class="filter-btn" onclick="filterPlants('ammonia')">Ammonia</span>
+            </div>
+            
+            <div class="plant-grid" id="plantGrid">
+                <!-- Plants will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- 4. HEALTH IMPACT CALCULATOR -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-heartbeat" style="color: #e74c3c;"></i> 😷 Health Impact Calculator</h2>
+            <p style="color: var(--text-secondary);">Assess your health risk based on pollution exposure</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div class="health-calculator">
+                    <div class="form-group">
+                        <label><i class="fas fa-city"></i> Your City</label>
+                        <select id="healthCity" class="form-control" onchange="updateHealthRisk()">
+                            <option value="delhi">Delhi</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="pune">Pune</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Hours spent outdoors daily</label>
+                        <input type="range" id="outdoorHours" min="0" max="12" value="4" step="1" onchange="updateHealthRisk()">
+                        <span id="outdoorValue">4 hours</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-heart"></i> Pre-existing conditions</label>
+                        <select id="healthConditions" class="form-control" onchange="updateHealthRisk()">
+                            <option value="none">None</option>
+                            <option value="asthma">Asthma</option>
+                            <option value="heart">Heart Disease</option>
+                            <option value="respiratory">Respiratory Issues</option>
+                            <option value="elderly">Elderly (65+)</option>
+                            <option value="child">Child (under 12)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-smoking"></i> Smoking status</label>
+                        <select id="smokingStatus" class="form-control" onchange="updateHealthRisk()">
+                            <option value="none">Non-smoker</option>
+                            <option value="former">Former smoker</option>
+                            <option value="light">Light smoker (1-5/day)</option>
+                            <option value="moderate">Moderate smoker (5-15/day)</option>
+                            <option value="heavy">Heavy smoker (15+/day)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-briefcase"></i> Occupation type</label>
+                        <select id="occupation" class="form-control" onchange="updateHealthRisk()">
+                            <option value="indoor">Indoor (office)</option>
+                            <option value="mixed">Mixed indoor/outdoor</option>
+                            <option value="outdoor">Outdoor worker</option>
+                            <option value="traffic">Traffic police/Street vendor</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Your Health Risk Assessment</h3>
+                    
+                    <div class="risk-meter">
+                        <div class="risk-indicator" id="riskIndicator" style="left: 50%;"></div>
+                    </div>
+                    
+                    <div class="risk-level" id="riskLevel">Moderate Risk</div>
+                    
+                    <div id="healthRecommendations">
+                        <div class="recommendation-card" style="border-left-color: #FFC107;">
+                            <strong>⚠️ Moderate Risk</strong>
+                            <p>Limit prolonged outdoor exertion. Wear mask if sensitive.</p>
+                        </div>
+                    </div>
+                    
+                    <table class="health-impact-table">
+                        <tr>
+                            <th>Health Factor</th>
+                            <th>Impact</th>
+                        </tr>
+                        <tr>
+                            <td>Lung function</td>
+                            <td id="lungImpact">-8%</td>
+                        </tr>
+                        <tr>
+                            <td>Asthma risk</td>
+                            <td id="asthmaRisk">+15%</td>
+                        </tr>
+                        <tr>
+                            <td>Heart disease risk</td>
+                            <td id="heartRisk">+5%</td>
+                        </tr>
+                        <tr>
+                            <td>Life expectancy</td>
+                            <td id="lifeExpectancy">-0.8 years</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. POLLUTION TRACKER -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-chart-line" style="color: #3498db;"></i> 📉 Pollution Tracker</h2>
+            <p style="color: var(--text-secondary);">Track air quality trends over time</p>
+            
+            <div class="tracker-controls">
+                <span class="tracker-btn" onclick="setTrackerPeriod('24h')">24 Hours</span>
+                <span class="tracker-btn active" onclick="setTrackerPeriod('week')">Last 7 Days</span>
+                <span class="tracker-btn" onclick="setTrackerPeriod('month')">Last Month</span>
+                <span class="tracker-btn" onclick="setTrackerPeriod('year')">Last Year</span>
+                
+                <select id="trackerCity" class="form-control" style="width: 200px; margin-left: auto;" onchange="updateTrackerChart()">
+                    <option value="delhi">Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="bangalore">Bangalore</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="kolkata">Kolkata</option>
+                </select>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="pollutionChart"></canvas>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                <div class="station-card">
+                    <strong>Average AQI:</strong>
+                    <span id="avgAQI">156</span>
+                </div>
+                <div class="station-card">
+                    <strong>Max AQI:</strong>
+                    <span id="maxAQI">198</span>
+                </div>
+                <div class="station-card">
+                    <strong>Min AQI:</strong>
+                    <span id="minAQI">124</span>
+                </div>
+                <div class="station-card">
+                    <strong>Trend:</strong>
+                    <span id="trend">↑ +5%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pollution Tips -->
+        <div class="pollution-tip">
+            <h3>💡 Pollution Protection Tips</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 1rem;">
+                <div>
+                    <i class="fas fa-check-circle"></i> Wear N95 masks when AQI > 150
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Keep windows closed during peak hours
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Use air purifiers indoors
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">🌫️</div>
+            <div>
+                <h4>Pollution AI Assistant</h4>
+                <small>Ask me about air quality or health tips!</small>
+            </div>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    Hi! I'm your pollution expert. Ask me about AQI in your city, health impacts, or air-purifying plants! 🌿
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // ===== AQI DATABASE (Simulated real-time data) =====
+        const aqiData = {
+            delhi: { aqi: 187, pm25: 58, pm10: 142, o3: 45, no2: 38, so2: 12, co: 2.1, category: 'unhealthy' },
+            mumbai: { aqi: 124, pm25: 42, pm10: 98, o3: 38, no2: 32, so2: 8, co: 1.2, category: 'unhealthy-sensitive' },
+            bangalore: { aqi: 76, pm25: 28, pm10: 52, o3: 42, no2: 22, so2: 5, co: 0.8, category: 'moderate' },
+            chennai: { aqi: 82, pm25: 32, pm10: 68, o3: 35, no2: 25, so2: 6, co: 0.9, category: 'moderate' },
+            kolkata: { aqi: 158, pm25: 52, pm10: 128, o3: 32, no2: 35, so2: 15, co: 1.8, category: 'unhealthy' },
+            hyderabad: { aqi: 94, pm25: 36, pm10: 78, o3: 40, no2: 28, so2: 7, co: 1.0, category: 'moderate' },
+            pune: { aqi: 88, pm25: 34, pm10: 72, o3: 38, no2: 26, so2: 6, co: 0.9, category: 'moderate' },
+            lucknow: { aqi: 215, pm25: 78, pm10: 185, o3: 28, no2: 45, so2: 22, co: 2.5, category: 'very-unhealthy' },
+            patna: { aqi: 245, pm25: 92, pm10: 210, o3: 25, no2: 52, so2: 28, co: 3.2, category: 'very-unhealthy' },
+            ahmedabad: { aqi: 112, pm25: 38, pm10: 88, o3: 36, no2: 30, so2: 10, co: 1.4, category: 'unhealthy-sensitive' }
+        };
+
+        // ===== AIR-PURIFYING PLANTS DATABASE (NASA Clean Air Study) =====
+        const plants = [
+            {
+                name: 'Snake Plant',
+                scientific: 'Sansevieria trifasciata',
+                image: '🌿',
+                removes: ['formaldehyde', 'benzene', 'trichloroethylene', 'xylene'],
+                removalRate: { formaldehyde: 85, benzene: 80, trichloroethylene: 75, xylene: 70 },
+                care: 'Low light, water every 2-3 weeks',
+                nasaRating: 9.5,
+                toxicity: 'Mildly toxic to pets'
+            },
+            {
+                name: 'Spider Plant',
+                scientific: 'Chlorophytum comosum',
+                image: '🕷️',
+                removes: ['formaldehyde', 'xylene', 'carbon monoxide'],
+                removalRate: { formaldehyde: 90, xylene: 75, carbonMonoxide: 70 },
+                care: 'Bright indirect light, water weekly',
+                nasaRating: 9.0,
+                toxicity: 'Non-toxic'
+            },
+            {
+                name: 'Peace Lily',
+                scientific: 'Spathiphyllum wallisii',
+                image: '🌸',
+                removes: ['benzene', 'formaldehyde', 'trichloroethylene', 'ammonia'],
+                removalRate: { benzene: 85, formaldehyde: 80, trichloroethylene: 75, ammonia: 70 },
+                care: 'Low to medium light, water weekly',
+                nasaRating: 9.8,
+                toxicity: 'Toxic to pets'
+            },
+            {
+                name: 'Aloe Vera',
+                scientific: 'Aloe barbadensis',
+                image: '🌵',
+                removes: ['formaldehyde', 'benzene'],
+                removalRate: { formaldehyde: 75, benzene: 70 },
+                care: 'Bright light, water every 2-3 weeks',
+                nasaRating: 8.5,
+                toxicity: 'Toxic to pets'
+            },
+            {
+                name: 'Boston Fern',
+                scientific: 'Nephrolepis exaltata',
+                image: '🌿',
+                removes: ['formaldehyde', 'xylene', 'toluene'],
+                removalRate: { formaldehyde: 95, xylene: 80, toluene: 75 },
+                care: 'Humid environment, water frequently',
+                nasaRating: 9.2,
+                toxicity: 'Non-toxic'
+            },
+            {
+                name: 'Rubber Plant',
+                scientific: 'Ficus elastica',
+                image: '🪴',
+                removes: ['formaldehyde', 'carbon monoxide'],
+                removalRate: { formaldehyde: 80, carbonMonoxide: 70 },
+                care: 'Bright light, water when dry',
+                nasaRating: 8.8,
+                toxicity: 'Toxic to pets'
+            },
+            {
+                name: 'Chinese Evergreen',
+                scientific: 'Aglaonema modestum',
+                image: '🎋',
+                removes: ['benzene', 'formaldehyde'],
+                removalRate: { benzene: 85, formaldehyde: 80 },
+                care: 'Low light, water weekly',
+                nasaRating: 8.9,
+                toxicity: 'Toxic to pets'
+            },
+            {
+                name: 'Dracaena',
+                scientific: 'Dracaena marginata',
+                image: '🌴',
+                removes: ['benzene', 'formaldehyde', 'trichloroethylene'],
+                removalRate: { benzene: 80, formaldehyde: 75, trichloroethylene: 70 },
+                care: 'Medium light, water weekly',
+                nasaRating: 8.7,
+                toxicity: 'Toxic to pets'
+            },
+            {
+                name: 'Pothos',
+                scientific: 'Epipremnum aureum',
+                image: '🌱',
+                removes: ['formaldehyde', 'benzene', 'carbon monoxide'],
+                removalRate: { formaldehyde: 85, benzene: 80, carbonMonoxide: 70 },
+                care: 'Low light, water when dry',
+                nasaRating: 8.6,
+                toxicity: 'Toxic to pets'
+            },
+            {
+                name: 'Areca Palm',
+                scientific: 'Dypsis lutescens',
+                image: '🌴',
+                removes: ['xylene', 'toluene', 'formaldehyde'],
+                removalRate: { xylene: 85, toluene: 80, formaldehyde: 75 },
+                care: 'Bright light, water weekly',
+                nasaRating: 9.3,
+                toxicity: 'Non-toxic'
+            }
+        ];
+
+        // ===== POLLUTION TREND DATA =====
+        let pollutionChart;
+        let currentPeriod = 'week';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayAQIAll();
+            drawSourceMap('delhi');
+            displayAllPlants();
+            initPollutionChart();
+            updateHealthRisk();
+            
+            // Auto-refresh AQI every 30 seconds (simulated)
+            setInterval(() => {
+                refreshAQI();
+            }, 30000);
+        });
+
+        // ===== 1. AIR QUALITY INDEX =====
+        function displayAQIAll() {
+            const grid = document.getElementById('aqiGrid');
+            grid.innerHTML = '';
+            
+            for (const [city, data] of Object.entries(aqiData)) {
+                const card = createAQICard(city, data);
+                grid.appendChild(card);
+            }
+        }
+
+        function createAQICard(city, data) {
+            const card = document.createElement('div');
+            card.className = `aqi-card ${data.category}`;
+            
+            const cityName = city.charAt(0).toUpperCase() + city.slice(1);
+            
+            let bgColor;
+            switch(data.category) {
+                case 'good': bgColor = '#4CAF50'; break;
+                case 'moderate': bgColor = '#FFC107'; break;
+                case 'unhealthy-sensitive': bgColor = '#FF9800'; break;
+                case 'unhealthy': bgColor = '#F44336'; break;
+                case 'very-unhealthy': bgColor = '#9C27B0'; break;
+                case 'hazardous': bgColor = '#7B1FA2'; break;
+                default: bgColor = '#FFC107';
+            }
+            
+            card.style.backgroundColor = bgColor + '20';
+            
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <h3>${cityName}</h3>
+                    <span style="background: ${bgColor}; color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">
+                        ${data.category.replace('-', ' ')}
+                    </span>
+                </div>
+                <div class="aqi-value">${data.aqi}</div>
+                <div class="aqi-label">AQI</div>
+                <div class="pollutant-grid">
+                    <div class="pollutant-item">
+                        <div>PM2.5</div>
+                        <strong>${data.pm25} µg</strong>
+                    </div>
+                    <div class="pollutant-item">
+                        <div>PM10</div>
+                        <strong>${data.pm10} µg</strong>
+                    </div>
+                    <div class="pollutant-item">
+                        <div>O₃</div>
+                        <strong>${data.o3} ppb</strong>
+                    </div>
+                    <div class="pollutant-item">
+                        <div>NO₂</div>
+                        <strong>${data.no2} ppb</strong>
+                    </div>
+                    <div class="pollutant-item">
+                        <div>SO₂</div>
+                        <strong>${data.so2} ppb</strong>
+                    </div>
+                    <div class="pollutant-item">
+                        <div>CO</div>
+                        <strong>${data.co} ppm</strong>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;">${getRecommendation(data.category)}</p>
+            `;
+            
+            return card;
+        }
+
+        function getRecommendation(category) {
+            const recs = {
+                good: 'Perfect day for outdoor activities! 🌞',
+                moderate: 'Sensitive individuals should limit prolonged exertion.',
+                'unhealthy-sensitive': 'Sensitive groups: reduce outdoor activities. Wear mask if needed.',
+                unhealthy: 'Everyone should limit outdoor activities. Wear N95 mask.',
+                'very-unhealthy': 'Stay indoors. Keep windows closed. Use air purifier.',
+                hazardous: 'Health alert! Remain indoors. Avoid all outdoor activities.'
+            };
+            return recs[category] || 'Check local advisories.';
+        }
+
+        function selectAQICity(city) {
+            document.querySelectorAll('.city-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const grid = document.getElementById('aqiGrid');
+            grid.innerHTML = '';
+            
+            if (city === 'all') {
+                displayAQIAll();
+            } else {
+                const card = createAQICard(city, aqiData[city]);
+                grid.appendChild(card);
+            }
+        }
+
+        function refreshAQI() {
+            // Simulate AQI fluctuations
+            for (const city in aqiData) {
+                const change = Math.floor(Math.random() * 10) - 5; // -5 to +5
+                aqiData[city].aqi = Math.max(20, Math.min(500, aqiData[city].aqi + change));
+                aqiData[city].pm25 = Math.max(5, Math.min(200, aqiData[city].pm25 + change/2));
+                
+                // Update category
+                if (aqiData[city].aqi <= 50) aqiData[city].category = 'good';
+                else if (aqiData[city].aqi <= 100) aqiData[city].category = 'moderate';
+                else if (aqiData[city].aqi <= 150) aqiData[city].category = 'unhealthy-sensitive';
+                else if (aqiData[city].aqi <= 200) aqiData[city].category = 'unhealthy';
+                else if (aqiData[city].aqi <= 300) aqiData[city].category = 'very-unhealthy';
+                else aqiData[city].category = 'hazardous';
+            }
+            
+            // Refresh display
+            const activeCity = document.querySelector('.city-btn.active').textContent.toLowerCase();
+            if (activeCity === 'all cities') {
+                displayAQIAll();
+            } else {
+                selectAQICity(activeCity);
+            }
+        }
+
+        // ===== 2. POLLUTION SOURCES MAP =====
+        function drawSourceMap(city) {
+            const canvas = document.getElementById('mapCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw base map
+            ctx.fillStyle = 'rgba(46, 204, 113, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(76, 175, 80, 0.2)';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i <= 8; i++) {
+                const x = i * 100;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+                
+                const y = i * 50;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            
+            // Draw heat map (gradient)
+            const gradient = ctx.createRadialGradient(200, 150, 50, 200, 150, 200);
+            gradient.addColorStop(0, 'rgba(244, 67, 54, 0.3)');
+            gradient.addColorStop(0.5, 'rgba(255, 193, 7, 0.2)');
+            gradient.addColorStop(1, 'rgba(76, 175, 80, 0.1)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw industrial zones
+            ctx.fillStyle = 'rgba(244, 67, 54, 0.5)';
+            ctx.fillRect(150, 100, 80, 60);
+            ctx.fillStyle = 'rgba(244, 67, 54, 0.7)';
+            ctx.font = 'bold 12px Arial';
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Industrial Zone', 160, 140);
+            
+            // Draw residential zones
+            ctx.fillStyle = 'rgba(255, 193, 7, 0.3)';
+            ctx.fillRect(400, 200, 120, 80);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Residential', 430, 250);
+            
+            // Draw green zones
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.3)';
+            ctx.fillRect(600, 50, 150, 100);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Green Belt', 640, 100);
+            
+            // Draw monitoring stations
+            ctx.fillStyle = '#3498db';
+            ctx.beginPath();
+            ctx.arc(300, 300, 5, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.font = '10px Arial';
+            ctx.fillText('Monitor A', 310, 290);
+            
+            ctx.fillStyle = '#3498db';
+            ctx.beginPath();
+            ctx.arc(500, 150, 5, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Monitor B', 510, 140);
+        }
+
+        function updateSourceMap() {
+            const city = document.getElementById('cityMapSelect').value;
+            drawSourceMap(city);
+        }
+
+        // ===== 3. AIR-PURIFYING PLANTS =====
+        function displayAllPlants() {
+            displayPlants(plants);
+        }
+
+        function displayPlants(plantsToShow) {
+            const grid = document.getElementById('plantGrid');
+            grid.innerHTML = plantsToShow.map(plant => `
+                <div class="plant-card">
+                    <div class="plant-image">${plant.image}</div>
+                    <div class="plant-content">
+                        <div class="plant-name">${plant.name}</div>
+                        <div class="plant-scientific">${plant.scientific}</div>
+                        <div style="margin: 0.5rem 0;">
+                            ${plant.removes.map(r => `<span class="removal-badge">${r}</span>`).join('')}
+                        </div>
+                        <p><strong>Removes:</strong> ${plant.removes.join(', ')}</p>
+                        <p><strong>Care:</strong> ${plant.care}</p>
+                        <p><strong>NASA Rating:</strong> ${plant.nasaRating}/10</p>
+                        <p><small>⚠️ ${plant.toxicity}</small></p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterPlants(pollutant) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (pollutant === 'all') {
+                displayPlants(plants);
+            } else {
+                const filtered = plants.filter(p => p.removes.includes(pollutant));
+                displayPlants(filtered);
+            }
+        }
+
+        // ===== 4. HEALTH IMPACT CALCULATOR =====
+        function updateHealthRisk() {
+            const city = document.getElementById('healthCity').value;
+            const hours = parseInt(document.getElementById('outdoorHours').value);
+            const conditions = document.getElementById('healthConditions').value;
+            const smoking = document.getElementById('smokingStatus').value;
+            const occupation = document.getElementById('occupation').value;
+            
+            document.getElementById('outdoorValue').textContent = hours + ' hours';
+            
+            // Get city AQI
+            const aqi = aqiData[city].aqi;
+            
+            // Calculate risk score (0-100)
+            let riskScore = 0;
+            
+            // AQI contribution
+            if (aqi <= 50) riskScore += 10;
+            else if (aqi <= 100) riskScore += 20;
+            else if (aqi <= 150) riskScore += 40;
+            else if (aqi <= 200) riskScore += 60;
+            else if (aqi <= 300) riskScore += 80;
+            else riskScore += 95;
+            
+            // Hours outdoors
+            riskScore += hours * 2;
+            
+            // Pre-existing conditions
+            const conditionMultipliers = {
+                none: 1.0,
+                asthma: 1.5,
+                heart: 1.4,
+                respiratory: 1.5,
+                elderly: 1.4,
+                child: 1.4
+            };
+            riskScore *= conditionMultipliers[conditions];
+            
+            // Smoking
+            const smokingMultipliers = {
+                none: 1.0,
+                former: 1.1,
+                light: 1.2,
+                moderate: 1.3,
+                heavy: 1.4
+            };
+            riskScore *= smokingMultipliers[smoking];
+            
+            // Occupation
+            const occupationMultipliers = {
+                indoor: 1.0,
+                mixed: 1.2,
+                outdoor: 1.4,
+                traffic: 1.6
+            };
+            riskScore *= occupationMultipliers[occupation];
+            
+            // Cap at 100
+            riskScore = Math.min(100, Math.round(riskScore));
+            
+            // Update meter
+            const indicator = document.getElementById('riskIndicator');
+            indicator.style.left = riskScore + '%';
+            
+            // Update risk level
+            const riskLevel = document.getElementById('riskLevel');
+            let levelText, levelColor;
+            
+            if (riskScore < 30) {
+                levelText = 'Low Risk';
+                levelColor = '#4CAF50';
+            } else if (riskScore < 50) {
+                levelText = 'Moderate Risk';
+                levelColor = '#FFC107';
+            } else if (riskScore < 70) {
+                levelText = 'High Risk';
+                levelColor = '#FF9800';
+            } else {
+                levelText = 'Very High Risk';
+                levelColor = '#F44336';
+            }
+            
+            riskLevel.textContent = levelText;
+            riskLevel.style.color = levelColor;
+            
+            // Update health impacts
+            const lungImpact = Math.round((riskScore / 100) * 15);
+            document.getElementById('lungImpact').textContent = `-${lungImpact}%`;
+            
+            const asthmaRisk = Math.round((riskScore / 100) * 30);
+            document.getElementById('asthmaRisk').textContent = `+${asthmaRisk}%`;
+            
+            const heartRisk = Math.round((riskScore / 100) * 15);
+            document.getElementById('heartRisk').textContent = `+${heartRisk}%`;
+            
+            const lifeYears = (riskScore / 100 * 2).toFixed(1);
+            document.getElementById('lifeExpectancy').textContent = `-${lifeYears} years`;
+            
+            // Update recommendations
+            const recDiv = document.getElementById('healthRecommendations');
+            let recHtml = '';
+            
+            if (riskScore < 30) {
+                recHtml = `
+                    <div class="recommendation-card" style="border-left-color: #4CAF50;">
+                        <strong>✅ Low Risk</strong>
+                        <p>Air quality is good. Enjoy outdoor activities!</p>
+                    </div>
+                `;
+            } else if (riskScore < 50) {
+                recHtml = `
+                    <div class="recommendation-card" style="border-left-color: #FFC107;">
+                        <strong>⚠️ Moderate Risk</strong>
+                        <p>Limit prolonged outdoor exertion. Wear mask if sensitive.</p>
+                    </div>
+                `;
+            } else if (riskScore < 70) {
+                recHtml = `
+                    <div class="recommendation-card" style="border-left-color: #FF9800;">
+                        <strong>🚨 High Risk</strong>
+                        <p>Avoid outdoor activities. Wear N95 mask. Keep windows closed.</p>
+                    </div>
+                `;
+            } else {
+                recHtml = `
+                    <div class="recommendation-card" style="border-left-color: #F44336;">
+                        <strong>⚠️⚠️ VERY HIGH RISK ⚠️⚠️</strong>
+                        <p>STAY INDOORS. Use air purifier. Seek medical help if symptoms appear.</p>
+                    </div>
+                `;
+            }
+            
+            recDiv.innerHTML = recHtml;
+        }
+
+        // ===== 5. POLLUTION TRACKER =====
+        function initPollutionChart() {
+            const ctx = document.getElementById('pollutionChart').getContext('2d');
+            
+            pollutionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'AQI',
+                        data: [142, 158, 135, 168, 175, 152, 148],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#fff' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#fff' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#fff' }
+                        }
+                    }
+                }
+            });
+            
+            updateTrackerStats();
+        }
+
+        function setTrackerPeriod(period) {
+            document.querySelectorAll('.tracker-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            currentPeriod = period;
+            updateTrackerChart();
+        }
+
+        function updateTrackerChart() {
+            const city = document.getElementById('trackerCity').value;
+            
+            // Generate data based on period
+            let labels = [];
+            let data = [];
+            
+            if (currentPeriod === '24h') {
+                labels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+                data = [120, 115, 125, 145, 150, 142, 138, 130];
+            } else if (currentPeriod === 'week') {
+                labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                data = [142, 158, 135, 168, 175, 152, 148];
+            } else if (currentPeriod === 'month') {
+                labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+                data = [152, 165, 148, 158];
+            } else if (currentPeriod === 'year') {
+                labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                data = [185, 172, 158, 142, 128, 115, 108, 112, 125, 138, 152, 168];
+            }
+            
+            pollutionChart.data.labels = labels;
+            pollutionChart.data.datasets[0].data = data;
+            pollutionChart.update();
+            
+            updateTrackerStats();
+        }
+
+        function updateTrackerStats() {
+            const data = pollutionChart.data.datasets[0].data;
+            const avg = Math.round(data.reduce((a, b) => a + b, 0) / data.length);
+            const max = Math.max(...data);
+            const min = Math.min(...data);
+            const trend = data[data.length - 1] > data[0] ? '↑ Increasing' : '↓ Decreasing';
+            
+            document.getElementById('avgAQI').textContent = avg;
+            document.getElementById('maxAQI').textContent = max;
+            document.getElementById('minAQI').textContent = min;
+            document.getElementById('trend').textContent = trend;
+        }
+
+        // ===== AI ASSISTANT TOGGLE =====
+        document.querySelector('.ai-header').addEventListener('click', function() {
+            const body = document.querySelector('.ai-chat-body');
+            const icon = this.querySelector('i');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(0)';
+            }
+        });
+    </script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

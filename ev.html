@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - E-Vehicles Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* EV Module Specific Styles */
+        .ev-hero {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ev-hero::before {
+            content: '🚗';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .ev-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .ev-stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .ev-stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #27ae60;
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.2);
+        }
+        
+        .ev-stat-icon {
+            font-size: 2.5rem;
+            color: #27ae60;
+            margin-bottom: 1rem;
+        }
+        
+        .ev-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .ev-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ev-card:hover {
+            transform: translateY(-5px);
+            border-color: #27ae60;
+            box-shadow: 0 20px 40px rgba(39, 174, 96, 0.2);
+        }
+        
+        .ev-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #27ae60, #2ecc71);
+        }
+        
+        .ev-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #27ae60;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .charging-map {
+            height: 300px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid var(--border-color);
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            z-index: 10;
+        }
+        
+        .station-marker {
+            fill: #27ae60;
+            r: 8;
+            cursor: pointer;
+            transition: r 0.3s ease;
+        }
+        
+        .station-marker:hover {
+            r: 12;
+            fill: #2ecc71;
+        }
+        
+        .station-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .station-type {
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .type-ccs { background: #3498db; color: white; }
+        .type-chademo { background: #e67e22; color: white; }
+        .type-type2 { background: #27ae60; color: white; }
+        .type-tesla { background: #e74c3c; color: white; }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: #27ae60;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        .ev-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-top { background: #f1c40f; color: #000; }
+        .badge-good { background: #27ae60; color: white; }
+        .badge-average { background: #e67e22; color: white; }
+        
+        .range-slider {
+            width: 100%;
+            margin: 2rem 0;
+        }
+        
+        .range-meter {
+            height: 200px;
+            background: linear-gradient(180deg, #27ae60, #f1c40f, #e74c3c);
+            border-radius: 16px;
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .range-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 75%;
+            background: rgba(0,0,0,0.5);
+            border-radius: 16px;
+            transition: height 0.5s ease;
+        }
+        
+        .battery-icon {
+            width: 60px;
+            height: 100px;
+            border: 3px solid var(--border-color);
+            border-radius: 12px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .battery-icon::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .battery-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(180deg, #27ae60, #2ecc71);
+            border-radius: 0 0 8px 8px;
+            transition: height 0.5s ease;
+        }
+        
+        .recycling-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .timeline-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1;
+        }
+        
+        .timeline-step:last-child::before {
+            display: none;
+        }
+        
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: #27ae60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .model-filters {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            border-color: #27ae60;
+        }
+        
+        .filter-btn.active {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .sortable-header {
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .sortable-header:hover {
+            background: rgba(39, 174, 96, 0.2);
+        }
+        
+        .sortable-header i {
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .ev-quick-tip {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ev-quick-tip::before {
+            content: '⚡';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+        
+        .charger-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-available { background: #27ae60; }
+        .status-occupied { background: #e74c3c; }
+        .status-maintenance { background: #f1c40f; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes charge {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .charging-animation {
+            animation: charge 2s infinite;
+        }
+        
+        .ev-comparison-card {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .ev-model-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .ev-model-card:hover {
+            transform: translateY(-5px);
+            border-color: #27ae60;
+        }
+        
+        .ev-model-card.winner {
+            border-color: #f1c40f;
+            box-shadow: 0 0 30px rgba(241, 196, 15, 0.3);
+        }
+        
+        .ev-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html" class="active"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="ev-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-car" style="color: #fff;"></i> 
+                E-Vehicles Hub
+            </h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px;">
+                Find charging stations, compare EV models, calculate savings, and learn about battery recycling.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> 500+ Charging Stations</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> 20+ EV Models</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Save ₹1.5L/year</div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="ev-stats">
+            <div class="ev-stat-card">
+                <i class="fas fa-charging-station ev-stat-icon"></i>
+                <div class="ev-stat-value" id="totalStations">524</div>
+                <div class="stat-label">Charging Stations</div>
+            </div>
+            <div class="ev-stat-card">
+                <i class="fas fa-car ev-stat-icon"></i>
+                <div class="ev-stat-value" id="totalModels">23</div>
+                <div class="stat-label">EV Models</div>
+            </div>
+            <div class="ev-stat-card">
+                <i class="fas fa-bolt ev-stat-icon"></i>
+                <div class="ev-stat-value" id="avgRange">350</div>
+                <div class="stat-label">Avg Range (km)</div>
+            </div>
+            <div class="ev-stat-card">
+                <i class="fas fa-coins ev-stat-icon"></i>
+                <div class="ev-stat-value" id="avgSavings">1.5L</div>
+                <div class="stat-label">Yearly Savings (₹)</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="calculator-grid">
+            <!-- 1. CHARGING STATION MAP -->
+            <div class="ev-card">
+                <i class="fas fa-map-marked-alt ev-icon"></i>
+                <h2>🔌 Charging Station Map</h2>
+                <p style="color: var(--text-secondary);">Find EV charging stations near you</p>
+                
+                <div class="charging-map" id="chargingMap">
+                    <canvas id="mapCanvas" width="800" height="300" style="width: 100%; height: 100%;"></canvas>
+                    <div class="map-overlay">
+                        <h4>Filter Stations:</h4>
+                        <select id="chargerType" class="form-control" style="margin-bottom: 0.5rem;" onchange="filterStations()">
+                            <option value="all">All Types</option>
+                            <option value="ccs">CCS</option>
+                            <option value="chademo">CHAdeMO</option>
+                            <option value="type2">Type 2</option>
+                            <option value="tesla">Tesla Supercharger</option>
+                        </select>
+                        
+                        <select id="chargerSpeed" class="form-control" onchange="filterStations()">
+                            <option value="all">All Speeds</option>
+                            <option value="fast">Fast (50kW+)</option>
+                            <option value="rapid">Rapid (150kW+)</option>
+                            <option value="ultra">Ultra (350kW+)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin: 1rem 0;">
+                    <div><span class="charger-status status-available"></span> Available</div>
+                    <div><span class="charger-status status-occupied"></span> Occupied</div>
+                    <div><span class="charger-status status-maintenance"></span> Maintenance</div>
+                </div>
+                
+                <div id="stationList">
+                    <!-- Station list will be populated by JavaScript -->
+                </div>
+                
+                <button class="btn btn-primary" style="margin-top: 1rem;" onclick="findNearestStation()">
+                    <i class="fas fa-location-arrow"></i> Find Nearest Station
+                </button>
+            </div>
+
+            <!-- 2. EV vs GAS SAVINGS -->
+            <div class="ev-card">
+                <i class="fas fa-coins ev-icon"></i>
+                <h2>💰 EV vs Gas Savings</h2>
+                <p style="color: var(--text-secondary);">Compare costs and see your savings</p>
+                
+                <div style="margin: 2rem 0;">
+                    <div class="form-group">
+                        <label><i class="fas fa-road"></i> Monthly Distance (km)</label>
+                        <input type="range" id="monthlyKm" min="500" max="5000" value="1500" step="100" oninput="updateSavings()">
+                        <span id="kmValue">1,500 km</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-car"></i> Current Vehicle Mileage (km/l)</label>
+                        <input type="range" id="gasMileage" min="8" max="25" value="15" step="1" oninput="updateSavings()">
+                        <span id="mileageValue">15 km/l</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-bolt"></i> EV Efficiency (km/kWh)</label>
+                        <input type="range" id="evEfficiency" min="4" max="8" value="6" step="0.5" oninput="updateSavings()">
+                        <span id="efficiencyValue">6 km/kWh</span>
+                    </div>
+                </div>
+                
+                <div class="ev-comparison-card">
+                    <div class="ev-model-card">
+                        <i class="fas fa-gas-pump" style="font-size: 2rem; color: #e74c3c;"></i>
+                        <h3>Petrol Car</h3>
+                        <div class="ev-price" id="gasMonthly">₹10,000</div>
+                        <small>per month</small>
+                        <div class="spec-item">
+                            <span>Yearly:</span>
+                            <span id="gasYearly">₹1,20,000</span>
+                        </div>
+                        <div class="spec-item">
+                            <span>CO₂:</span>
+                            <span id="gasCO2">1,800 kg</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ev-model-card">
+                        <i class="fas fa-bolt" style="font-size: 2rem; color: #27ae60;"></i>
+                        <h3>Electric Car</h3>
+                        <div class="ev-price" id="evMonthly">₹2,500</div>
+                        <small>per month</small>
+                        <div class="spec-item">
+                            <span>Yearly:</span>
+                            <span id="evYearly">₹30,000</span>
+                        </div>
+                        <div class="spec-item">
+                            <span>CO₂:</span>
+                            <span id="evCO2">450 kg</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="savings-badge" style="background: #27ae60; color: white; padding: 1rem; border-radius: 12px; text-align: center;">
+                    <h3>You Save: ₹<span id="totalSavings">7,500</span> per month!</h3>
+                    <p>That's ₹<span id="yearlySavings">90,000</span> per year</p>
+                </div>
+                
+                <div class="ev-quick-tip" style="margin-top: 1rem;">
+                    <i class="fas fa-leaf"></i> By switching to EV, you'll save <span id="treesSaved">15</span> trees worth of CO₂ annually!
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. BATTERY RANGE ESTIMATOR -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <i class="fas fa-battery-full ev-icon"></i>
+            <h2>⚡ Battery Range Estimator</h2>
+            <p style="color: var(--text-secondary);">Calculate range based on weather and speed</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <div class="form-group">
+                        <label><i class="fas fa-temperature-high"></i> Temperature (°C)</label>
+                        <input type="range" id="temperature" min="-10" max="50" value="25" step="1" oninput="updateRange()">
+                        <span id="tempValue">25°C</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-tachometer-alt"></i> Speed (km/h)</label>
+                        <input type="range" id="speed" min="20" max="140" value="80" step="5" oninput="updateRange()">
+                        <span id="speedValue">80 km/h</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-snowflake"></i> AC/Heater Usage</label>
+                        <input type="range" id="acUsage" min="0" max="100" value="50" step="5" oninput="updateRange()">
+                        <span id="acValue">50%</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-car"></i> Select EV Model</label>
+                        <select id="evModelSelect" class="form-control" onchange="updateRange()">
+                            <option value="ecocar_a">EcoCar A (40 kWh)</option>
+                            <option value="ecocar_b">EcoCar B (60 kWh)</option>
+                            <option value="ecocar_c">EcoCar C (30 kWh)</option>
+                            <option value="tesla_m3">Tesla Model 3 (75 kWh)</option>
+                            <option value="nexon_ev">Tata Nexon EV (30 kWh)</option>
+                            <option value="mg_zsev">MG ZS EV (50 kWh)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <div class="battery-icon" style="margin: 2rem auto;">
+                        <div class="battery-fill" id="batteryFill" style="height: 75%;"></div>
+                    </div>
+                    
+                    <div style="font-size: 3rem; font-weight: 700; color: #27ae60;" id="estimatedRange">300</div>
+                    <div>km range</div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <div class="spec-item">
+                            <span>Battery capacity:</span>
+                            <span id="batteryCapacity">40 kWh</span>
+                        </div>
+                        <div class="spec-item">
+                            <span>Energy consumption:</span>
+                            <span id="energyConsumption">13.3 kWh/100km</span>
+                        </div>
+                        <div class="spec-item">
+                            <span>Charging time (50kW):</span>
+                            <span id="chargeTime">48 min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. EV MODELS DATABASE -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <i class="fas fa-database ev-icon"></i>
+            <h2>📊 EV Models Database</h2>
+            <p style="color: var(--text-secondary);">Compare specifications of popular EVs</p>
+            
+            <div class="model-filters">
+                <span class="filter-btn active" onclick="filterModels('all')">All</span>
+                <span class="filter-btn" onclick="filterModels('budget')">Budget (under ₹20L)</span>
+                <span class="filter-btn" onclick="filterModels('mid')">Mid-Range (₹20-40L)</span>
+                <span class="filter-btn" onclick="filterModels('premium')">Premium (above ₹40L)</span>
+                <span class="filter-btn" onclick="filterModels('suv')">SUV</span>
+                <span class="filter-btn" onclick="filterModels('hatchback')">Hatchback</span>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table class="comparison-table" id="evModelsTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable-header" onclick="sortModels('model')">Model <i class="fas fa-sort"></i></th>
+                            <th class="sortable-header" onclick="sortModels('range')">Range (km) <i class="fas fa-sort"></i></th>
+                            <th class="sortable-header" onclick="sortModels('price')">Price (₹ Lakhs) <i class="fas fa-sort"></i></th>
+                            <th class="sortable-header" onclick="sortModels('chargeTime')">Charge Time (min) <i class="fas fa-sort"></i></th>
+                            <th class="sortable-header" onclick="sortModels('acceleration')">0-100 km/h <i class="fas fa-sort"></i></th>
+                            <th>Battery (kWh)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modelsTableBody">
+                        <!-- Table will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top: 1rem;">
+                <p><span class="badge-top">★ Top Pick</span> Based on value for money</p>
+            </div>
+        </div>
+
+        <!-- 5. BATTERY RECYCLING INFO -->
+        <div class="ev-card" style="margin-top: 2rem;">
+            <i class="fas fa-recycle ev-icon"></i>
+            <h2>♻️ Battery Recycling Info</h2>
+            <p style="color: var(--text-secondary);">What happens to old EV batteries</p>
+            
+            <div class="recycling-timeline">
+                <div class="timeline-step">
+                    <div class="step-icon"><i class="fas fa-car"></i></div>
+                    <h4>End of Life</h4>
+                    <p style="font-size: 0.9rem;">8-10 years of use</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon"><i class="fas fa-battery-half"></i></div>
+                    <h4>Second Life</h4>
+                    <p style="font-size: 0.9rem;">Solar storage</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon"><i class="fas fa-industry"></i></div>
+                    <h4>Dismantling</h4>
+                    <p style="font-size: 0.9rem;">Separate materials</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon"><i class="fas fa-flask"></i></div>
+                    <h4>Recovery</h4>
+                    <p style="font-size: 0.9rem;">95% materials</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon"><i class="fas fa-battery-full"></i></div>
+                    <h4>New Battery</h4>
+                    <p style="font-size: 0.9rem;">Circular economy</p>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2rem 0;">
+                <div style="background: var(--bg-primary); padding: 1rem; border-radius: 12px;">
+                    <i class="fas fa-bolt" style="color: #27ae60; font-size: 2rem;"></i>
+                    <h4>Lithium</h4>
+                    <p>Recovered for new batteries</p>
+                </div>
+                <div style="background: var(--bg-primary); padding: 1rem; border-radius: 12px;">
+                    <i class="fas fa-microchip" style="color: #3498db; font-size: 2rem;"></i>
+                    <h4>Cobalt</h4>
+                    <p>95% recovery rate</p>
+                </div>
+                <div style="background: var(--bg-primary); padding: 1rem; border-radius: 12px;">
+                    <i class="fas fa-chart-line" style="color: #e67e22; font-size: 2rem;"></i>
+                    <h4>Nickel</h4>
+                    <p>Reused in alloys</p>
+                </div>
+            </div>
+            
+            <div class="ev-quick-tip">
+                <h4>Did you know?</h4>
+                <p>EV batteries can be recycled up to 95%. A recycled battery provides enough materials for a new battery with 40% less carbon footprint!</p>
+            </div>
+            
+            <div style="margin-top: 1rem;">
+                <h4>Recycling Centers</h4>
+                <div id="recyclingCenters">
+                    <div class="station-card">
+                        <div>
+                            <strong>Li-Cycle India</strong><br>
+                            <small>Mumbai, Maharashtra</small>
+                        </div>
+                        <span class="station-type type-ccs">Lithium Recovery</span>
+                    </div>
+                    <div class="station-card">
+                        <div>
+                            <strong>Attero Recycling</strong><br>
+                            <small>Noida, UP</small>
+                        </div>
+                        <span class="station-type type-type2">Full Recycling</span>
+                    </div>
+                    <div class="station-card">
+                        <div>
+                            <strong>TES-AMM</strong><br>
+                            <small>Bangalore</small>
+                        </div>
+                        <span class="station-type type-chademo">E-Waste</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EV Quick Tips -->
+        <div class="ev-quick-tip">
+            <h3>⚡ EV Ownership Tips</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 1rem;">
+                <div>
+                    <i class="fas fa-check-circle"></i> Charge to 80% for daily use
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Pre-condition battery while plugged in
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Use regenerative braking
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">🚗</div>
+            <div>
+                <h4>EV AI Assistant</h4>
+                <small>Ask me about EVs, charging, or savings!</small>
+            </div>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    Hi! I'm your EV expert. Ask me about charging stations, model comparisons, or battery recycling! ⚡
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== EV MODELS DATABASE =====
+        const evModels = [
+            { model: 'Tata Nexon EV', range: 312, price: 15.5, chargeTime: 60, acceleration: 9.0, battery: 30, type: 'suv', category: 'budget' },
+            { model: 'MG ZS EV', range: 461, price: 23.5, chargeTime: 50, acceleration: 8.5, battery: 50, type: 'suv', category: 'mid' },
+            { model: 'Hyundai Kona', range: 452, price: 24.0, chargeTime: 57, acceleration: 7.9, battery: 39, type: 'suv', category: 'mid' },
+            { model: 'Tata Tiago EV', range: 250, price: 8.5, chargeTime: 65, acceleration: 11.5, battery: 19, type: 'hatchback', category: 'budget' },
+            { model: 'Citroen eC3', range: 320, price: 12.0, chargeTime: 55, acceleration: 10.5, battery: 29, type: 'hatchback', category: 'budget' },
+            { model: 'BYD Atto 3', range: 521, price: 34.0, chargeTime: 45, acceleration: 7.3, battery: 60, type: 'suv', category: 'mid' },
+            { model: 'Kia EV6', range: 708, price: 65.0, chargeTime: 18, acceleration: 5.2, battery: 77, type: 'suv', category: 'premium' },
+            { model: 'Hyundai Ioniq 5', range: 631, price: 45.0, chargeTime: 18, acceleration: 5.1, battery: 72, type: 'suv', category: 'premium' },
+            { model: 'BMW i4', range: 590, price: 72.0, chargeTime: 30, acceleration: 5.7, battery: 80, type: 'sedan', category: 'premium' },
+            { model: 'Mercedes EQS', range: 857, price: 1.5, chargeTime: 31, acceleration: 4.3, battery: 108, type: 'sedan', category: 'premium' },
+            { model: 'Tesla Model 3', range: 629, price: 58.0, chargeTime: 25, acceleration: 4.4, battery: 75, type: 'sedan', category: 'premium' },
+            { model: 'Tesla Model Y', range: 676, price: 68.0, chargeTime: 27, acceleration: 3.7, battery: 75, type: 'suv', category: 'premium' },
+            { model: 'Porsche Taycan', range: 484, price: 1.8, chargeTime: 22, acceleration: 2.8, battery: 93, type: 'sedan', category: 'premium' },
+            { model: 'MG Comet', range: 230, price: 8.0, chargeTime: 90, acceleration: 12.0, battery: 17, type: 'hatchback', category: 'budget' },
+            { model: 'EcoCar A', range: 250, price: 35, chargeTime: 360, acceleration: 7.5, battery: 40, type: 'sedan', category: 'mid' },
+            { model: 'EcoCar B', range: 350, price: 45, chargeTime: 240, acceleration: 5.2, battery: 60, type: 'sedan', category: 'premium' },
+            { model: 'EcoCar C', range: 200, price: 28, chargeTime: 480, acceleration: 9.0, battery: 30, type: 'hatchback', category: 'budget' }
+        ];
+
+        // ===== CHARGING STATIONS DATABASE =====
+        const chargingStations = [
+            { name: 'EV Power Station', location: 'Andheri East, Mumbai', distance: 1.2, type: 'ccs', speed: 'fast', available: true, connectors: 2 },
+            { name: 'Tata Power EZ', location: 'Bandra West, Mumbai', distance: 2.5, type: 'ccs', speed: 'rapid', available: false, connectors: 4 },
+            { name: 'Tesla Supercharger', location: 'Lower Parel, Mumbai', distance: 3.8, type: 'tesla', speed: 'ultra', available: true, connectors: 6 },
+            { name: 'Fortum Charge', location: 'Powai, Mumbai', distance: 5.1, type: 'type2', speed: 'fast', available: true, connectors: 2 },
+            { name: 'Delta Electronics', location: 'Goregaon East, Mumbai', distance: 6.3, type: 'chademo', speed: 'fast', available: false, connectors: 1 },
+            { name: 'Magenta Power', location: 'Navi Mumbai', distance: 8.7, type: 'ccs', speed: 'rapid', available: true, connectors: 3 },
+            { name: 'Ather Grid', location: 'Juhu, Mumbai', distance: 4.2, type: 'type2', speed: 'fast', available: true, connectors: 2 },
+            { name: 'ChargeZone', location: 'Worli, Mumbai', distance: 3.4, type: 'ccs', speed: 'rapid', available: false, connectors: 4 }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayStations(chargingStations);
+            displayModels(evModels);
+            drawMap(chargingStations);
+            updateSavings();
+            updateRange();
+        });
+
+        // ===== 1. CHARGING STATION MAP =====
+        function drawMap(stations) {
+            const canvas = document.getElementById('mapCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw base map
+            ctx.fillStyle = 'rgba(39, 174, 96, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw roads
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            
+            // Main roads
+            ctx.beginPath();
+            ctx.moveTo(100, 100);
+            ctx.lineTo(700, 100);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(100, 200);
+            ctx.lineTo(700, 200);
+            ctx.stroke();
+            
+            // Draw stations
+            ctx.setLineDash([]);
+            stations.forEach((station, index) => {
+                const x = 150 + (index * 70) % 500;
+                const y = 150 + Math.floor(index / 5) * 50;
+                
+                // Station color based on availability
+                if (station.available) {
+                    ctx.fillStyle = '#27ae60';
+                } else if (station.available === false) {
+                    ctx.fillStyle = '#e74c3c';
+                } else {
+                    ctx.fillStyle = '#f1c40f';
+                }
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Draw connector type
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(station.type, x - 15, y - 15);
+            });
+        }
+
+        function displayStations(stations) {
+            const list = document.getElementById('stationList');
+            list.innerHTML = stations.map(station => `
+                <div class="station-card">
+                    <div>
+                        <strong>${station.name}</strong><br>
+                        <small><i class="fas fa-map-marker-alt"></i> ${station.location}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="station-type type-${station.type}">${station.type.toUpperCase()}</span>
+                        <div>
+                            <span class="charger-status status-${station.available ? 'available' : 'occupied'}"></span>
+                            ${station.available ? 'Available' : 'Occupied'}
+                        </div>
+                        <small>${station.distance} km • ${station.connectors} connectors</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterStations() {
+            const type = document.getElementById('chargerType').value;
+            const speed = document.getElementById('chargerSpeed').value;
+            
+            let filtered = chargingStations;
+            
+            if (type !== 'all') {
+                filtered = filtered.filter(s => s.type === type);
+            }
+            
+            if (speed !== 'all') {
+                filtered = filtered.filter(s => s.speed === speed);
+            }
+            
+            displayStations(filtered);
+            drawMap(filtered);
+        }
+
+        function findNearestStation() {
+            const available = chargingStations.filter(s => s.available);
+            if (available.length > 0) {
+                const nearest = available.reduce((prev, curr) => 
+                    prev.distance < curr.distance ? prev : curr
+                );
+                alert(`Nearest available station:\n${nearest.name}\n${nearest.location}\nDistance: ${nearest.distance} km\nType: ${nearest.type}`);
+            }
+        }
+
+        // ===== 2. EV VS GAS SAVINGS =====
+        function updateSavings() {
+            const km = parseInt(document.getElementById('monthlyKm').value);
+            const gasMileage = parseInt(document.getElementById('gasMileage').value);
+            const evEfficiency = parseFloat(document.getElementById('evEfficiency').value);
+            
+            document.getElementById('kmValue').textContent = km.toLocaleString() + ' km';
+            document.getElementById('mileageValue').textContent = gasMileage + ' km/l';
+            document.getElementById('efficiencyValue').textContent = evEfficiency + ' km/kWh';
+            
+            // Cost calculations
+            const petrolPrice = 100; // ₹ per liter
+            const electricityPrice = 8; // ₹ per kWh
+            
+            const gasMonthly = Math.round((km / gasMileage) * petrolPrice);
+            const evMonthly = Math.round((km / evEfficiency) * electricityPrice);
+            const savings = gasMonthly - evMonthly;
+            
+            // CO2 calculations (kg)
+            const gasCO2 = Math.round((km / gasMileage) * 2.31); // 2.31 kg CO2 per liter
+            const evCO2 = Math.round((km / evEfficiency) * 0.85); // 0.85 kg CO2 per kWh (grid average)
+            
+            // Trees saved (1 tree absorbs 21kg CO2/year)
+            const treesSaved = Math.round((gasCO2 - evCO2) * 12 / 21);
+            
+            document.getElementById('gasMonthly').textContent = '₹' + gasMonthly.toLocaleString();
+            document.getElementById('evMonthly').textContent = '₹' + evMonthly.toLocaleString();
+            document.getElementById('gasYearly').textContent = '₹' + (gasMonthly * 12).toLocaleString();
+            document.getElementById('evYearly').textContent = '₹' + (evMonthly * 12).toLocaleString();
+            document.getElementById('gasCO2').textContent = gasCO2 + ' kg';
+            document.getElementById('evCO2').textContent = evCO2 + ' kg';
+            document.getElementById('totalSavings').textContent = savings.toLocaleString();
+            document.getElementById('yearlySavings').textContent = (savings * 12).toLocaleString();
+            document.getElementById('treesSaved').textContent = treesSaved;
+        }
+
+        // ===== 3. BATTERY RANGE ESTIMATOR =====
+        function updateRange() {
+            const temp = parseInt(document.getElementById('temperature').value);
+            const speed = parseInt(document.getElementById('speed').value);
+            const ac = parseInt(document.getElementById('acUsage').value);
+            const model = document.getElementById('evModelSelect').value;
+            
+            document.getElementById('tempValue').textContent = temp + '°C';
+            document.getElementById('speedValue').textContent = speed + ' km/h';
+            document.getElementById('acValue').textContent = ac + '%';
+            
+            // Model specs
+            const modelSpecs = {
+                'ecocar_a': { battery: 40, range: 250 },
+                'ecocar_b': { battery: 60, range: 350 },
+                'ecocar_c': { battery: 30, range: 200 },
+                'tesla_m3': { battery: 75, range: 500 },
+                'nexon_ev': { battery: 30, range: 312 },
+                'mg_zsev': { battery: 50, range: 461 }
+            };
+            
+            const spec = modelSpecs[model] || modelSpecs.ecocar_a;
+            document.getElementById('batteryCapacity').textContent = spec.battery + ' kWh';
+            
+            // Calculate range factors
+            let tempFactor = 1.0;
+            if (temp < 10) tempFactor = 0.7; // Cold reduces range
+            else if (temp < 20) tempFactor = 0.85;
+            else if (temp > 35) tempFactor = 0.9; // Heat reduces range
+            
+            let speedFactor = 1.0;
+            if (speed > 100) speedFactor = 0.75;
+            else if (speed > 80) speedFactor = 0.85;
+            else if (speed > 60) speedFactor = 0.95;
+            
+            let acFactor = 1.0 - (ac / 100) * 0.15; // AC can reduce range by up to 15%
+            
+            const estimatedRange = Math.round(spec.range * tempFactor * speedFactor * acFactor);
+            document.getElementById('estimatedRange').textContent = estimatedRange;
+            
+            // Battery fill
+            const batteryPercent = (estimatedRange / spec.range) * 100;
+            document.getElementById('batteryFill').style.height = Math.min(100, batteryPercent) + '%';
+            
+            // Energy consumption
+            const consumption = (spec.battery / estimatedRange * 100).toFixed(1);
+            document.getElementById('energyConsumption').textContent = consumption + ' kWh/100km';
+            
+            // Charging time (50kW charger)
+            const chargeTime = Math.round((spec.battery / 50) * 60);
+            document.getElementById('chargeTime').textContent = chargeTime + ' min';
+        }
+
+        // ===== 4. EV MODELS DATABASE =====
+        let currentModels = [...evModels];
+        let sortField = 'model';
+        let sortDirection = 'asc';
+
+        function displayModels(models) {
+            const tbody = document.getElementById('modelsTableBody');
+            tbody.innerHTML = models.map(model => `
+                <tr>
+                    <td>${model.model}</td>
+                    <td>${model.range} km</td>
+                    <td>₹${model.price}L</td>
+                    <td>${model.chargeTime} min</td>
+                    <td>${model.acceleration}s</td>
+                    <td>${model.battery} kWh</td>
+                </tr>
+            `).join('');
+            
+            // Update stats
+            document.getElementById('totalModels').textContent = models.length;
+            const avgRange = Math.round(models.reduce((sum, m) => sum + m.range, 0) / models.length);
+            document.getElementById('avgRange').textContent = avgRange;
+        }
+
+        function filterModels(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                currentModels = [...evModels];
+            } else {
+                currentModels = evModels.filter(m => m.category === category || m.type === category);
+            }
+            
+            sortModels(sortField);
+        }
+
+        function sortModels(field) {
+            if (field === sortField) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortField = field;
+                sortDirection = 'asc';
+            }
+            
+            currentModels.sort((a, b) => {
+                let aVal = a[field];
+                let bVal = b[field];
+                
+                if (field === 'model') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+                
+                if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            displayModels(currentModels);
+        }
+
+        // ===== AI ASSISTANT TOGGLE =====
+        document.querySelector('.ai-header').addEventListener('click', function() {
+            const body = document.querySelector('.ai-chat-body');
+            const icon = this.querySelector('i');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(0)';
+            }
+        });
+    </script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

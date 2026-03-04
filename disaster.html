@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Disaster Management Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Disaster Module Specific Styles */
+        .disaster-hero {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .disaster-hero::before {
+            content: '🌪️';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .alert-banner {
+            background: #e74c3c;
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .alert-banner i {
+            font-size: 2rem;
+        }
+        
+        .risk-meter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .risk-meter {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .risk-meter h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .meter {
+            width: 150px;
+            height: 150px;
+            margin: 1rem auto;
+            position: relative;
+        }
+        
+        .meter svg {
+            width: 150px;
+            height: 150px;
+        }
+        
+        .meter-bg {
+            fill: none;
+            stroke: var(--border-color);
+            stroke-width: 8;
+        }
+        
+        .meter-fill {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s;
+        }
+        
+        .meter-fill.flood { stroke: #3498db; }
+        .meter-fill.fire { stroke: #e67e22; }
+        .meter-fill.earthquake { stroke: #95a5a6; }
+        
+        .meter-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .risk-level {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .risk-low { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .risk-moderate { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .risk-high { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .risk-extreme { background: rgba(192, 57, 43, 0.2); color: #c0392b; }
+        
+        .alerts-feed {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 16px;
+        }
+        
+        .alert-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-card.cyclone { border-left-color: #3498db; }
+        .alert-card.flood { border-left-color: #2980b9; }
+        .alert-card.earthquake { border-left-color: #7f8c8d; }
+        .alert-card.fire { border-left-color: #e67e22; }
+        .alert-card.heatwave { border-left-color: #e74c3c; }
+        
+        .alert-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin: 0.3rem 0;
+        }
+        
+        .alert-location {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .emergency-kit {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .kit-category {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        
+        .kit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .kit-item:hover {
+            background: var(--bg-hover);
+        }
+        
+        .kit-item.completed {
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+        
+        .kit-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #e74c3c;
+        }
+        
+        .evacuation-map {
+            height: 300px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid var(--border-color);
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            z-index: 10;
+        }
+        
+        .route-line {
+            stroke: #e74c3c;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+        }
+        
+        .evacuation-point {
+            fill: #2ecc71;
+            r: 8;
+        }
+        
+        .danger-zone {
+            fill: #e74c3c;
+            opacity: 0.3;
+        }
+        
+        .plan-form {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+        }
+        
+        .faq-section {
+            margin: 2rem 0;
+        }
+        
+        .faq-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1rem;
+            background: var(--bg-primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: var(--bg-hover);
+        }
+        
+        .faq-answer {
+            padding: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .faq-answer.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .safety-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .badge-important {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .badge-info {
+            background: #3498db;
+            color: white;
+        }
+        
+        .emergency-contact {
+            background: #27ae60;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .emergency-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .quick-tips {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .tip-card {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .tip-icon {
+            font-size: 2rem;
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .earthquake-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        .weather-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        
+        .prep-progress {
+            height: 10px;
+            background: var(--bg-primary);
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .prep-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #f1c40f, #e74c3c);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .disaster-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .timeline-point {
+            width: 20px;
+            height: 20px;
+            background: var(--border-color);
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-point.active {
+            background: #e74c3c;
+            transform: scale(1.2);
+        }
+        
+        .timeline-point.completed {
+            background: #27ae60;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html" class="active"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="disaster-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-house-flood" style="color: #fff;"></i> 
+                Disaster Management Hub
+            </h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px;">
+                Stay prepared, stay safe. Real-time alerts, emergency planning, and disaster readiness tools.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Live Alerts</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Emergency Kits</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Evacuation Routes</div>
+            </div>
+        </div>
+
+        <!-- Emergency Banner (shows for high-risk areas) -->
+        <div class="alert-banner" id="emergencyBanner" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>HIGH ALERT:</strong> <span id="emergencyMessage">Cyclone warning in your area. Prepare for evacuation.</span>
+            </div>
+        </div>
+
+        <!-- Disaster Risk Meter -->
+        <h2><i class="fas fa-chart-line" style="color: #e74c3c;"></i> 🌪️ Your Area Risk Assessment</h2>
+        <p style="color: var(--text-secondary);">Based on your location: <span id="userLocation">Mumbai, Maharashtra</span></p>
+        
+        <div class="risk-meter-grid">
+            <!-- Flood Risk -->
+            <div class="risk-meter">
+                <h3><i class="fas fa-water" style="color: #3498db;"></i> Flood Risk</h3>
+                <div class="meter">
+                    <svg viewBox="0 0 200 200">
+                        <circle class="meter-bg" cx="100" cy="100" r="80"/>
+                        <circle class="meter-fill flood" id="floodMeter" cx="100" cy="100" r="80" stroke-dasharray="502.4" stroke-dashoffset="251.2"/>
+                    </svg>
+                    <div class="meter-value" id="floodValue">65</div>
+                </div>
+                <div class="risk-level risk-high" id="floodRisk">HIGH RISK</div>
+                <p style="margin-top: 1rem;">2.5km from coast • 3 rivers nearby</p>
+            </div>
+            
+            <!-- Fire Risk -->
+            <div class="risk-meter">
+                <h3><i class="fas fa-fire" style="color: #e67e22;"></i> Fire Risk</h3>
+                <div class="meter">
+                    <svg viewBox="0 0 200 200">
+                        <circle class="meter-bg" cx="100" cy="100" r="80"/>
+                        <circle class="meter-fill fire" id="fireMeter" cx="100" cy="100" r="80" stroke-dasharray="502.4" stroke-dashoffset="376.8"/>
+                    </svg>
+                    <div class="meter-value" id="fireValue">25</div>
+                </div>
+                <div class="risk-level risk-low" id="fireRisk">LOW RISK</div>
+                <p style="margin-top: 1rem;">Urban area • Low vegetation</p>
+            </div>
+            
+            <!-- Earthquake Risk -->
+            <div class="risk-meter">
+                <h3><i class="fas fa-mountain" style="color: #95a5a6;"></i> Earthquake Risk</h3>
+                <div class="meter">
+                    <svg viewBox="0 0 200 200">
+                        <circle class="meter-bg" cx="100" cy="100" r="80"/>
+                        <circle class="meter-fill earthquake" id="quakeMeter" cx="100" cy="100" r="80" stroke-dasharray="502.4" stroke-dashoffset="125.6"/>
+                    </svg>
+                    <div class="meter-value" id="quakeValue">75</div>
+                </div>
+                <div class="risk-level risk-high" id="quakeRisk">HIGH RISK</div>
+                <p style="margin-top: 1rem;">Near fault line • Zone IV</p>
+            </div>
+        </div>
+
+        <!-- Location Selector -->
+        <div style="display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
+            <select id="citySelect" class="form-control" style="width: 200px;" onchange="updateRiskMeter()">
+                <option value="mumbai">Mumbai, Maharashtra</option>
+                <option value="delhi">Delhi, NCR</option>
+                <option value="chennai">Chennai, Tamil Nadu</option>
+                <option value="kolkata">Kolkata, West Bengal</option>
+                <option value="bangalore">Bangalore, Karnataka</option>
+                <option value="guwahati">Guwahati, Assam</option>
+                <option value="bhubaneswar">Bhubaneswar, Odisha</option>
+                <option value="ahmedabad">Ahmedabad, Gujarat</option>
+            </select>
+            
+            <button class="btn btn-primary" onclick="updateRiskMeter()">
+                <i class="fas fa-sync-alt"></i> Update Risk Assessment
+            </button>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="calculator-grid">
+            <!-- 1. LIVE ALERTS FEED -->
+            <div class="transport-card">
+                <i class="fas fa-bell transport-icon" style="color: #e74c3c;"></i>
+                <h2>⚠️ Live Alerts Feed</h2>
+                <p style="color: var(--text-secondary);">Real-time disaster alerts (simulated)</p>
+                
+                <div class="alerts-feed" id="alertsFeed">
+                    <!-- Alerts will be populated by JavaScript -->
+                </div>
+                
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-outline" onclick="refreshAlerts()">
+                        <i class="fas fa-sync-alt"></i> Refresh Alerts
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. EMERGENCY KIT CHECKLIST -->
+            <div class="transport-card">
+                <i class="fas fa-first-aid transport-icon" style="color: #27ae60;"></i>
+                <h2>🧰 Emergency Kit Checklist</h2>
+                <p style="color: var(--text-secondary);">What to pack for different disasters</p>
+                
+                <div style="margin-bottom: 1rem;">
+                    <select id="disasterType" class="form-control" onchange="updateKitChecklist()">
+                        <option value="all">General Emergency Kit</option>
+                        <option value="flood">Flood Kit</option>
+                        <option value="earthquake">Earthquake Kit</option>
+                        <option value="fire">Fire Kit</option>
+                        <option value="cyclone">Cyclone Kit</option>
+                    </select>
+                </div>
+                
+                <div class="emergency-kit" id="kitChecklist">
+                    <!-- Checklist will be populated by JavaScript -->
+                </div>
+                
+                <div class="prep-progress">
+                    <div class="prep-fill" id="kitProgress" style="width: 0%;"></div>
+                </div>
+                <p id="kitStatus">0/30 items packed</p>
+                
+                <button class="btn btn-primary" style="margin-top: 1rem;" onclick="saveKitProgress()">
+                    <i class="fas fa-save"></i> Save Progress
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. EVACUATION ROUTES -->
+        <div class="transport-card" style="margin-top: 2rem;">
+            <i class="fas fa-map-signs transport-icon" style="color: #3498db;"></i>
+            <h2>🗺️ Evacuation Routes</h2>
+            <p style="color: var(--text-secondary);">Sample maps for major cities</p>
+            
+            <div class="city-selector">
+                <span class="city-btn active" onclick="selectEvacCity('mumbai')">Mumbai</span>
+                <span class="city-btn" onclick="selectEvacCity('delhi')">Delhi</span>
+                <span class="city-btn" onclick="selectEvacCity('chennai')">Chennai</span>
+                <span class="city-btn" onclick="selectEvacCity('kolkata')">Kolkata</span>
+                <span class="city-btn" onclick="selectEvacCity('bangalore')">Bangalore</span>
+            </div>
+            
+            <div class="evacuation-map" id="evacuationMap">
+                <canvas id="mapCanvas" width="800" height="300" style="width: 100%; height: 100%;"></canvas>
+                <div class="map-overlay">
+                    <h4>Evacuation Centers</h4>
+                    <div id="evacCenters">
+                        <div>🏫 School (0.5 km)</div>
+                        <div>🏛️ Community Hall (1.2 km)</div>
+                        <div>🏟️ Stadium (2.5 km)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem;">
+                <div class="kit-item">
+                    <i class="fas fa-route" style="color: #3498db;"></i>
+                    <span>Primary Route: NH 48</span>
+                </div>
+                <div class="kit-item">
+                    <i class="fas fa-route" style="color: #e67e22;"></i>
+                    <span>Alternate Route: Western Express</span>
+                </div>
+                <div class="kit-item">
+                    <i class="fas fa-clock" style="color: #27ae60;"></i>
+                    <span>Estimated time: 45 min</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. FAMILY EMERGENCY PLAN -->
+        <div class="transport-card" style="margin-top: 2rem;">
+            <i class="fas fa-users transport-icon" style="color: #9b59b6;"></i>
+            <h2>📱 Family Emergency Plan</h2>
+            <p style="color: var(--text-secondary);">Create your personalized emergency plan</p>
+            
+            <div class="plan-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Family Name</label>
+                        <input type="text" id="familyName" placeholder="e.g., Sharma Family">
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Contact</label>
+                        <input type="text" id="primaryContact" placeholder="e.g., 98765-43210">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Meeting Point 1 (Near Home)</label>
+                        <input type="text" id="meeting1" value="Neighborhood Park">
+                    </div>
+                    <div class="form-group">
+                        <label>Meeting Point 2 (Outside Area)</label>
+                        <input type="text" id="meeting2" value="City Stadium">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Out-of-State Contact</label>
+                        <input type="text" id="outContact" placeholder="Name & Phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Medical Info</label>
+                        <input type="text" id="medicalInfo" placeholder="Blood types, allergies">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Emergency Notes</label>
+                    <textarea id="emergencyNotes" rows="3" placeholder="Special needs, pet care, etc."></textarea>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary" onclick="generatePlan()">
+                    <i class="fas fa-file-pdf"></i> Generate PDF Plan
+                </button>
+                <button class="btn btn-outline" onclick="savePlan()">
+                    <i class="fas fa-save"></i> Save Draft
+                </button>
+                <button class="btn btn-outline" onclick="printPlan()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+            
+            <div class="emergency-contact">
+                <i class="fas fa-phone-alt" style="font-size: 2rem;"></i>
+                <div class="emergency-number">112</div>
+                <p>Emergency Number (India) - Police, Fire, Ambulance</p>
+            </div>
+        </div>
+
+        <!-- 5. AFTER-DISASTER TIPS -->
+        <div class="transport-card" style="margin-top: 2rem;">
+            <i class="fas fa-clipboard-list transport-icon" style="color: #f39c12;"></i>
+            <h2>📋 After-Disaster Tips</h2>
+            <p style="color: var(--text-secondary);">What to do after floods, fires, earthquakes</p>
+            
+            <div class="faq-section">
+                <!-- Flood FAQ -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ('flood')">
+                        <span><i class="fas fa-water" style="color: #3498db;"></i> After a Flood</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" id="faq-flood">
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Wait for official all-clear before returning home</li>
+                            <li>Watch for downed power lines</li>
+                            <li>Don't walk through flowing water (just 6 inches can knock you down)</li>
+                            <li>Check for structural damage before entering</li>
+                            <li>Document damage with photos for insurance</li>
+                            <li>Throw away food that came in contact with floodwater</li>
+                            <li>Clean and disinfect everything that got wet</li>
+                            <li>Watch for mold growth - dry within 24-48 hours</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Fire FAQ -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ('fire')">
+                        <span><i class="fas fa-fire" style="color: #e67e22;"></i> After a Fire</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" id="faq-fire">
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Don't re-enter until authorities say it's safe</li>
+                            <li>Be careful of structural damage</li>
+                            <li>Watch for hot spots that could re-ignite</li>
+                            <li>Don't use electrical appliances until checked</li>
+                            <li>Save undamaged possessions for cleaning</li>
+                            <li>Contact your insurance company immediately</li>
+                            <li>Beware of respiratory issues from smoke damage</li>
+                            <li>Secure your property from weather and theft</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Earthquake FAQ -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ('earthquake')">
+                        <span><i class="fas fa-mountain" style="color: #95a5a6;"></i> After an Earthquake</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" id="faq-earthquake">
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Expect aftershocks - they can cause additional damage</li>
+                            <li>Check yourself and others for injuries</li>
+                            <li>Put on sturdy shoes to avoid broken glass</li>
+                            <li>Check gas, water, electrical lines for damage</li>
+                            <li>If you smell gas, turn off main valve and leave</li>
+                            <li>Listen to radio for emergency information</li>
+                            <li>Stay away from damaged buildings</li>
+                            <li>Use text messages, not calls, to conserve network</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Cyclone FAQ -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ('cyclone')">
+                        <span><i class="fas fa-wind" style="color: #3498db;"></i> After a Cyclone</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" id="faq-cyclone">
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Stay indoors until official all-clear</li>
+                            <li>Watch for fallen power lines and trees</li>
+                            <li>Be careful of flooded roads while driving</li>
+                            <li>Check on neighbors, especially elderly</li>
+                            <li>Boil water until declared safe</li>
+                            <li>Document property damage for insurance</li>
+                            <li>Be cautious of wild animals displaced by storm</li>
+                            <li>Help with community cleanup if safe</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Heatwave FAQ -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ('heatwave')">
+                        <span><i class="fas fa-sun" style="color: #f39c12;"></i> During a Heatwave</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" id="faq-heatwave">
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Stay in air-conditioned buildings</li>
+                            <li>Drink plenty of water (don't wait until thirsty)</li>
+                            <li>Wear lightweight, light-colored clothing</li>
+                            <li>Never leave children or pets in cars</li>
+                            <li>Check on elderly family and neighbors</li>
+                            <li>Avoid strenuous outdoor activity</li>
+                            <li>Watch for signs of heat exhaustion</li>
+                            <li>Use fans and take cool showers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Safety Tips -->
+        <div class="quick-tips">
+            <div class="tip-card">
+                <div class="tip-icon"><i class="fas fa-water"></i></div>
+                <h4>Flood Safety</h4>
+                <p style="font-size: 0.9rem;">Turn Around, Don't Drown. Just 6 inches of water can knock you down.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon"><i class="fas fa-fire"></i></div>
+                <h4>Fire Safety</h4>
+                <p style="font-size: 0.9rem;">Stop, Drop, and Roll. Have two escape routes from every room.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon"><i class="fas fa-mountain"></i></div>
+                <h4>Earthquake Safety</h4>
+                <p style="font-size: 0.9rem;">Drop, Cover, and Hold On. Stay away from windows.</p>
+            </div>
+        </div>
+
+        <!-- Disaster Preparedness Timeline -->
+        <div class="disaster-timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-point completed"></div>
+            <div class="timeline-point active"></div>
+            <div class="timeline-point"></div>
+            <div class="timeline-point"></div>
+            <div class="timeline-point"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+            <span>Kit Ready</span>
+            <span>Plan Made</span>
+            <span>Alert System</span>
+            <span>Route Known</span>
+            <span>Fully Prepared</span>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">🌪️</div>
+            <div>
+                <h4>Disaster AI Assistant</h4>
+                <small>Ask me about emergency preparedness!</small>
+            </div>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    I'm your disaster preparedness expert. Ask me about emergency kits, evacuation routes, or what to do in specific disasters! 🆘
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== LIVE ALERTS FEED =====
+        const alerts = [
+            { type: 'cyclone', title: 'Cyclone Alert: Very Severe Cyclonic Storm', location: 'Bay of Bengal', time: '10 min ago', severity: 'high' },
+            { type: 'flood', title: 'Flood Warning: Heavy rainfall predicted', location: 'Mumbai', time: '25 min ago', severity: 'moderate' },
+            { type: 'earthquake', title: 'Earthquake: Magnitude 4.2 tremor felt', location: 'Delhi NCR', time: '1 hour ago', severity: 'low' },
+            { type: 'fire', title: 'Forest Fire Alert: Dry conditions', location: 'Uttarakhand', time: '2 hours ago', severity: 'high' },
+            { type: 'heatwave', title: 'Heatwave: Temperatures above 45°C', location: 'Rajasthan', time: '3 hours ago', severity: 'moderate' },
+            { type: 'flood', title: 'Flash Flood: Urban flooding reported', location: 'Chennai', time: '4 hours ago', severity: 'high' },
+            { type: 'cyclone', title: 'Cyclone: Depression in Arabian Sea', location: 'Gujarat Coast', time: '5 hours ago', severity: 'moderate' },
+            { type: 'earthquake', title: 'Earthquake: Magnitude 3.5 tremor', location: 'Guwahati', time: '6 hours ago', severity: 'low' }
+        ];
+        
+        function displayAlerts() {
+            const feed = document.getElementById('alertsFeed');
+            feed.innerHTML = alerts.map(alert => `
+                <div class="alert-card ${alert.type}">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="alert-time"><i class="far fa-clock"></i> ${alert.time}</span>
+                        <span class="safety-badge badge-important">${alert.severity}</span>
+                    </div>
+                    <div class="alert-title">${alert.title}</div>
+                    <div class="alert-location"><i class="fas fa-map-marker-alt"></i> ${alert.location}</div>
+                </div>
+            `).join('');
+        }
+        
+        function refreshAlerts() {
+            // Simulate new alert
+            const newAlert = {
+                type: ['cyclone', 'flood', 'earthquake'][Math.floor(Math.random() * 3)],
+                title: 'NEW: ' + ['Heavy rainfall warning', 'Moderate earthquake tremor', 'Cyclone alert'][Math.floor(Math.random() * 3)],
+                location: ['Mumbai', 'Delhi', 'Chennai'][Math.floor(Math.random() * 3)],
+                time: 'Just now',
+                severity: 'high'
+            };
+            
+            alerts.unshift(newAlert);
+            if (alerts.length > 8) alerts.pop();
+            displayAlerts();
+            
+            // Shake animation for new alert
+            document.querySelector('.alerts-feed').classList.add('earthquake-shake');
+            setTimeout(() => {
+                document.querySelector('.alerts-feed').classList.remove('earthquake-shake');
+            }, 500);
+        }
+
+        // ===== EMERGENCY KIT CHECKLIST =====
+        const kitItems = {
+            general: [
+                'Water (3-day supply, 3L per person/day)',
+                'Non-perishable food (3-day supply)',
+                'First aid kit',
+                'Flashlight with extra batteries',
+                'Battery-powered radio',
+                'Whistle to signal for help',
+                'Dust masks',
+                'Moist towelettes, garbage bags',
+                'Wrench or pliers to turn off utilities',
+                'Manual can opener',
+                'Cell phone with chargers',
+                'Cash and important documents'
+            ],
+            flood: [
+                'Rubber boots',
+                'Waterproof bags for documents',
+                'Rubber gloves',
+                'Life jackets',
+                'Waterproof flashlight',
+                'Portable pump',
+                'Sandbags',
+                'Emergency blankets'
+            ],
+            earthquake: [
+                'Hard hat',
+                'Work gloves',
+                'Sturdy shoes',
+                'Crowbar',
+                'Fire extinguisher',
+                'Heavy duty rope',
+                'Multi-tool',
+                'Tarp and duct tape'
+            ],
+            fire: [
+                'N95 masks',
+                'Fire extinguisher',
+                'Fire escape ladder',
+                'Fire blanket',
+                'Smoke detectors',
+                'Heat-resistant gloves',
+                'Goggles',
+                'Important documents in fireproof safe'
+            ],
+            cyclone: [
+                'Tarps and plastic sheeting',
+                'Duct tape',
+                'Rope',
+                'Boarding materials',
+                'Battery-powered fans',
+                'Extra water containers',
+                'Rain gear',
+                'Waterproof containers'
+            ]
+        };
+        
+        let kitProgress = JSON.parse(localStorage.getItem('kitProgress')) || {};
+        
+        function updateKitChecklist() {
+            const type = document.getElementById('disasterType').value;
+            const checklist = document.getElementById('kitChecklist');
+            
+            let items = [];
+            if (type === 'all') {
+                items = [...kitItems.general, ...kitItems.flood, ...kitItems.earthquake, ...kitItems.fire, ...kitItems.cyclone];
+            } else {
+                items = [...kitItems.general, ...(kitItems[type] || [])];
+            }
+            
+            checklist.innerHTML = items.map((item, index) => `
+                <div class="kit-item ${kitProgress[item] ? 'completed' : ''}">
+                    <input type="checkbox" id="kit_${index}" ${kitProgress[item] ? 'checked' : ''} onchange="updateKitItem('${item}')">
+                    <label for="kit_${index}">${item}</label>
+                </div>
+            `).join('');
+            
+            updateKitProgress();
+        }
+        
+        function updateKitItem(item) {
+            kitProgress[item] = !kitProgress[item];
+            updateKitProgress();
+        }
+        
+        function updateKitProgress() {
+            const total = Object.keys(kitProgress).length;
+            const completed = Object.values(kitProgress).filter(v => v).length;
+            const percent = total > 0 ? (completed / total) * 100 : 0;
+            
+            document.getElementById('kitProgress').style.width = percent + '%';
+            document.getElementById('kitStatus').textContent = `${completed}/${total} items packed`;
+        }
+        
+        function saveKitProgress() {
+            localStorage.setItem('kitProgress', JSON.stringify(kitProgress));
+            alert('Kit progress saved!');
+        }
+
+        // ===== RISK METER =====
+        function updateRiskMeter() {
+            const city = document.getElementById('citySelect').value;
+            document.getElementById('userLocation').textContent = 
+                document.getElementById('citySelect').options[document.getElementById('citySelect').selectedIndex].text;
+            
+            // Risk data for different cities
+            const riskData = {
+                mumbai: { flood: 75, fire: 25, quake: 35 },
+                delhi: { flood: 40, fire: 45, quake: 55 },
+                chennai: { flood: 70, fire: 30, quake: 40 },
+                kolkata: { flood: 80, fire: 20, quake: 50 },
+                bangalore: { flood: 30, fire: 60, quake: 45 },
+                guwahati: { flood: 65, fire: 40, quake: 85 },
+                bhubaneswar: { flood: 75, fire: 35, quake: 45 },
+                ahmedabad: { flood: 35, fire: 55, quake: 40 }
+            };
+            
+            const risks = riskData[city] || { flood: 50, fire: 50, quake: 50 };
+            
+            // Update meters
+            updateMeter('flood', risks.flood);
+            updateMeter('fire', risks.fire);
+            updateMeter('quake', risks.quake);
+            
+            // Update risk levels
+            updateRiskLevel('flood', risks.flood);
+            updateRiskLevel('fire', risks.fire);
+            updateRiskLevel('quake', risks.quake);
+            
+            // Show emergency banner for high risk
+            if (risks.flood > 70 || risks.quake > 70) {
+                document.getElementById('emergencyBanner').style.display = 'flex';
+                document.getElementById('emergencyMessage').textContent = 
+                    risks.flood > 70 ? 'High flood risk in your area. Prepare evacuation kit.' :
+                    'High earthquake risk. Secure heavy furniture.';
+            } else {
+                document.getElementById('emergencyBanner').style.display = 'none';
+            }
+        }
+        
+        function updateMeter(type, value) {
+            const circumference = 2 * Math.PI * 80;
+            const offset = circumference - (value / 100) * circumference;
+            document.getElementById(type + 'Meter').style.strokeDashoffset = offset;
+            document.getElementById(type + 'Value').textContent = value;
+        }
+        
+        function updateRiskLevel(type, value) {
+            const element = document.getElementById(type + 'Risk');
+            let level, className;
+            
+            if (value < 30) {
+                level = 'LOW RISK';
+                className = 'risk-low';
+            } else if (value < 50) {
+                level = 'MODERATE RISK';
+                className = 'risk-moderate';
+            } else if (value < 75) {
+                level = 'HIGH RISK';
+                className = 'risk-high';
+            } else {
+                level = 'EXTREME RISK';
+                className = 'risk-extreme';
+            }
+            
+            element.textContent = level;
+            element.className = 'risk-level ' + className;
+        }
+
+        // ===== EVACUATION ROUTES =====
+        let currentEvacCity = 'mumbai';
+        
+        function selectEvacCity(city) {
+            currentEvacCity = city;
+            document.querySelectorAll('.city-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            drawEvacuationMap(city);
+        }
+        
+        function drawEvacuationMap(city) {
+            const canvas = document.getElementById('mapCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw base map
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw roads
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([5, 5]);
+            
+            // Main route
+            ctx.beginPath();
+            ctx.moveTo(50, 250);
+            ctx.lineTo(400, 150);
+            ctx.lineTo(700, 100);
+            ctx.stroke();
+            
+            // Alternate route
+            ctx.strokeStyle = '#e67e22';
+            ctx.beginPath();
+            ctx.moveTo(100, 280);
+            ctx.lineTo(450, 200);
+            ctx.lineTo(650, 150);
+            ctx.stroke();
+            
+            // Draw evacuation centers
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#2ecc71';
+            ctx.beginPath();
+            ctx.arc(700, 100, 10, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 10px Arial';
+            ctx.fillText('Safe Zone', 660, 80);
+            
+            // Draw danger zones
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.3)';
+            ctx.beginPath();
+            ctx.arc(200, 200, 50, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#e74c3c';
+            ctx.font = 'bold 10px Arial';
+            ctx.fillText('DANGER', 170, 190);
+            
+            // Add city-specific labels
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px Arial';
+            ctx.fillText(city.toUpperCase() + ' Evacuation Map', 50, 50);
+        }
+
+        // ===== FAMILY EMERGENCY PLAN =====
+        function generatePlan() {
+            const familyName = document.getElementById('familyName').value || 'My Family';
+            const contact = document.getElementById('primaryContact').value || 'Not provided';
+            const meeting1 = document.getElementById('meeting1').value;
+            const meeting2 = document.getElementById('meeting2').value;
+            const outContact = document.getElementById('outContact').value || 'Not provided';
+            const medical = document.getElementById('medicalInfo').value || 'None';
+            const notes = document.getElementById('emergencyNotes').value || 'None';
+            
+            // Create PDF content (simulated)
+            const planContent = `
+                EMERGENCY PLAN FOR ${familyName.toUpperCase()}
+                Generated on: ${new Date().toLocaleString()}
+                
+                PRIMARY CONTACT: ${contact}
+                
+                MEETING POINTS:
+                Near Home: ${meeting1}
+                Outside Area: ${meeting2}
+                
+                OUT-OF-STATE CONTACT: ${outContact}
+                
+                MEDICAL INFORMATION: ${medical}
+                
+                SPECIAL NOTES: ${notes}
+                
+                EMERGENCY NUMBERS:
+                Police/Fire/Ambulance: 112
+                Disaster Helpline: 1070
+                Women's Helpline: 1091
+                Child Helpline: 1098
+            `;
+            
+            // Simulate PDF download
+            const blob = new Blob([planContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Emergency_Plan_${familyName.replace(/\s+/g, '_')}.txt`;
+            a.click();
+            
+            alert('Emergency plan generated! Check your downloads folder.');
+        }
+        
+        function savePlan() {
+            const plan = {
+                familyName: document.getElementById('familyName').value,
+                contact: document.getElementById('primaryContact').value,
+                meeting1: document.getElementById('meeting1').value,
+                meeting2: document.getElementById('meeting2').value,
+                outContact: document.getElementById('outContact').value,
+                medical: document.getElementById('medicalInfo').value,
+                notes: document.getElementById('emergencyNotes').value,
+                saved: new Date().toISOString()
+            };
+            
+            localStorage.setItem('emergencyPlan', JSON.stringify(plan));
+            alert('Plan saved successfully!');
+        }
+        
+        function printPlan() {
+            window.print();
+        }
+
+        // ===== FAQ TOGGLE =====
+        function toggleFAQ(type) {
+            const answer = document.getElementById('faq-' + type);
+            const icon = event.currentTarget.querySelector('i');
+            
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                answer.classList.add('show');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            displayAlerts();
+            updateKitChecklist();
+            updateRiskMeter();
+            drawEvacuationMap('mumbai');
+            
+            // Auto-refresh alerts every 30 seconds
+            setInterval(() => {
+                refreshAlerts();
+            }, 30000);
+        });
+
+        // ===== AI ASSISTANT TOGGLE =====
+        document.querySelector('.ai-header').addEventListener('click', function() {
+            const body = document.querySelector('.ai-chat-body');
+            const icon = this.querySelector('i');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(0)';
+            }
+        });
+    </script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

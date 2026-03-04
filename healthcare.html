@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Healthcare & Wellness Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Healthcare Module Specific Styles */
+        .healthcare-hero {
+            background: linear-gradient(135deg, #27ae60, #16a085);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .healthcare-hero::before {
+            content: '🏥';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .health-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .health-stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .health-stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #27ae60;
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.2);
+        }
+        
+        .health-stat-icon {
+            font-size: 2.5rem;
+            color: #27ae60;
+            margin-bottom: 1rem;
+        }
+        
+        .health-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .health-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .health-card:hover {
+            transform: translateY(-5px);
+            border-color: #27ae60;
+            box-shadow: 0 20px 40px rgba(39, 174, 96, 0.2);
+        }
+        
+        .health-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #27ae60, #16a085);
+        }
+        
+        .health-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #27ae60;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .herb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .herb-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .herb-card:hover {
+            transform: translateY(-5px);
+            border-color: #27ae60;
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.2);
+        }
+        
+        .herb-image {
+            height: 150px;
+            background: linear-gradient(135deg, #27ae60, #16a085);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .herb-content {
+            padding: 1.5rem;
+        }
+        
+        .herb-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .herb-scientific {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .precaution-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nature-benefits {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            color: white;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .benefit-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            border-left: 4px solid #f1c40f;
+        }
+        
+        .benefit-label {
+            font-weight: 600;
+        }
+        
+        .benefit-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f1c40f;
+        }
+        
+        .exercise-log {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+        
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .log-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .log-activity {
+            font-weight: 600;
+        }
+        
+        .log-calories {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        
+        .therapy-guide {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .therapy-step {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #27ae60;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+        
+        .seasonal-calendar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .month-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .month-card.current {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .month-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #27ae60;
+        }
+        
+        .food-item {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.2rem;
+        }
+        
+        .respiratory-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .respiratory-card.green { border-left-color: #27ae60; }
+        .respiratory-card.yellow { border-left-color: #f1c40f; }
+        .respiratory-card.red { border-left-color: #e74c3c; }
+        
+        .search-box {
+            background: var(--bg-card);
+            border-radius: 50px;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--border-color);
+            margin: 2rem 0;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+        }
+        
+        .search-box button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #27ae60;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .category-pills {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .pill {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pill:hover {
+            border-color: #27ae60;
+        }
+        
+        .pill.active {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .health-tip {
+            background: linear-gradient(135deg, #27ae60, #16a085);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .health-tip::before {
+            content: '💚';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        .nature-icon {
+            font-size: 2rem;
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html" class="active"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="healthcare-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-heartbeat" style="color: #fff;"></i> 
+                Healthcare & Wellness Hub
+            </h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px;">
+                Discover natural remedies, track your outdoor activities, and learn how nature heals.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> 50+ Herbal Remedies</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Activity Tracker</div>
+                <div><i class="fas fa-check-circle" style="color: #fff;"></i> Nature Therapy</div>
+            </div>
+        </div>
+
+        <!-- Health Benefits of Nature Counter -->
+        <div class="nature-benefits">
+            <h2><i class="fas fa-leaf"></i> 🌳 Health Benefits of Nature</h2>
+            <p>Spending 2 hours in nature weekly provides these benefits:</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-label">↓ Stress</span>
+                    <span class="benefit-value">-28%</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-label">↑ Vitamin D</span>
+                    <span class="benefit-value">+40%</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-label">↓ Blood Pressure</span>
+                    <span class="benefit-value">-5 points</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-label">↑ Mood</span>
+                    <span class="benefit-value">+33%</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-label">↓ Illness Risk</span>
+                    <span class="benefit-value">-20%</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-label">↑ Immune Function</span>
+                    <span class="benefit-value">+25%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="health-stats">
+            <div class="health-stat-card">
+                <i class="fas fa-leaf health-stat-icon"></i>
+                <div class="health-stat-value" id="totalHerbs">52</div>
+                <div class="stat-label">Herbal Remedies</div>
+            </div>
+            <div class="health-stat-card">
+                <i class="fas fa-walking health-stat-icon"></i>
+                <div class="health-stat-value" id="totalActivities">847</div>
+                <div class="stat-label">Activities Logged</div>
+            </div>
+            <div class="health-stat-card">
+                <i class="fas fa-calories health-stat-icon"></i>
+                <div class="health-stat-value" id="totalCalories">125K</div>
+                <div class="stat-label">Calories Burned</div>
+            </div>
+            <div class="health-stat-card">
+                <i class="fas fa-clock health-stat-icon"></i>
+                <div class="health-stat-value" id="natureHours">3.2K</div>
+                <div class="stat-label">Hours in Nature</div>
+            </div>
+        </div>
+
+        <!-- Search Box for Herbal Medicine -->
+        <div class="search-box">
+            <input type="text" id="herbSearch" placeholder="Search herbal remedies... (e.g., ginger, tulsi, turmeric)" onkeyup="searchHerbs()">
+            <button onclick="searchHerbs()"><i class="fas fa-search"></i></button>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="category-pills">
+            <span class="pill active" onclick="filterHerbs('all')">All</span>
+            <span class="pill" onclick="filterHerbs('digestive')">Digestive</span>
+            <span class="pill" onclick="filterHerbs('respiratory')">Respiratory</span>
+            <span class="pill" onclick="filterHerbs('immune')">Immune</span>
+            <span class="pill" onclick="filterHerbs('stress')">Stress & Sleep</span>
+            <span class="pill" onclick="filterHerbs('skin')">Skin Care</span>
+            <span class="pill" onclick="filterHerbs('pain')">Pain Relief</span>
+        </div>
+
+        <!-- 1. HERBAL MEDICINE DATABASE -->
+        <div class="herb-grid" id="herbGrid">
+            <!-- Herbs will be populated by JavaScript -->
+        </div>
+
+        <!-- Main Grid -->
+        <div class="calculator-grid">
+            <!-- 2. GREEN EXERCISE TRACKER -->
+            <div class="health-card">
+                <i class="fas fa-walking health-icon"></i>
+                <h2>🏃‍♂️ Green Exercise Tracker</h2>
+                <p style="color: var(--text-secondary);">Log your outdoor activities and track calories</p>
+                
+                <div style="margin: 2rem 0;">
+                    <div class="form-group">
+                        <label><i class="fas fa-activity"></i> Activity Type</label>
+                        <select id="activityType" class="form-control">
+                            <option value="walking">Walking</option>
+                            <option value="hiking">Hiking</option>
+                            <option value="running">Running</option>
+                            <option value="cycling">Cycling</option>
+                            <option value="gardening">Gardening</option>
+                            <option value="yoga">Outdoor Yoga</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Duration (minutes)</label>
+                        <input type="range" id="activityDuration" min="10" max="180" value="30" step="5" oninput="updateCalories()">
+                        <span id="durationValue">30 minutes</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-fire"></i> Estimated Calories</label>
+                        <div style="font-size: 2rem; color: #27ae60;" id="calorieEstimate">150</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                        <input type="text" id="activityLocation" class="form-control" placeholder="e.g., Park, Trail">
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%;" onclick="logActivity()">
+                        <i class="fas fa-plus"></i> Log Activity
+                    </button>
+                </div>
+                
+                <div class="exercise-log" id="exerciseLog">
+                    <!-- Exercise logs will appear here -->
+                </div>
+            </div>
+
+            <!-- 3. RESPIRATORY HEALTH -->
+            <div class="health-card">
+                <i class="fas fa-lungs health-icon"></i>
+                <h2>😮‍💨 Respiratory Health</h2>
+                <p style="color: var(--text-secondary);">Pollution-related health tips and precautions</p>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-city"></i> Your City</label>
+                    <select id="respiratoryCity" class="form-control" onchange="updateRespiratoryTips()">
+                        <option value="delhi">Delhi</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="kolkata">Kolkata</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-heart"></i> Pre-existing Condition</label>
+                    <select id="respiratoryCondition" class="form-control" onchange="updateRespiratoryTips()">
+                        <option value="none">None</option>
+                        <option value="asthma">Asthma</option>
+                        <option value="allergies">Allergies</option>
+                        <option value="copd">COPD</option>
+                        <option value="bronchitis">Bronchitis</option>
+                    </select>
+                </div>
+                
+                <div id="respiratoryTips">
+                    <div class="respiratory-card green">
+                        <strong><i class="fas fa-check-circle"></i> Good Air Quality Today</strong>
+                        <p>Perfect for outdoor activities. Enjoy your time outside!</p>
+                    </div>
+                    <div class="respiratory-card yellow">
+                        <strong><i class="fas fa-exclamation-triangle"></i> Moderate Pollution</strong>
+                        <p>Sensitive individuals should limit prolonged exertion.</p>
+                    </div>
+                    <div class="respiratory-card red">
+                        <strong><i class="fas fa-exclamation-circle"></i> High Pollution Alert</strong>
+                        <p>Wear N95 mask outdoors. Keep windows closed.</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1rem;">
+                    <h4>Breathing Exercises</h4>
+                    <div class="therapy-step" style="text-align: left; padding: 1rem;">
+                        <p><strong>Pranayama:</strong> 5-10 minutes daily</p>
+                        <p><strong>Deep Breathing:</strong> 4-7-8 technique</p>
+                        <p><strong>Steam Inhalation:</strong> With eucalyptus oil</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. NATURE THERAPY GUIDE -->
+        <div class="health-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-spa health-icon"></i> 🧘 Nature Therapy Guide</h2>
+            <p style="color: var(--text-secondary);">Forest bathing, grounding techniques, and mindful nature practices</p>
+            
+            <div class="therapy-guide">
+                <div class="therapy-step">
+                    <div class="step-number">1</div>
+                    <i class="fas fa-tree nature-icon"></i>
+                    <h4>Forest Bathing</h4>
+                    <p>Spend 2 hours mindfully in forest, engaging all senses</p>
+                    <small>Find a quiet forest, walk slowly, breathe deeply</small>
+                </div>
+                
+                <div class="therapy-step">
+                    <div class="step-number">2</div>
+                    <i class="fas fa-mountain nature-icon"></i>
+                    <h4>Grounding</h4>
+                    <p>Walk barefoot on grass, sand, or soil for 30 minutes</p>
+                    <small>Connect with earth's electrons, reduce inflammation</small>
+                </div>
+                
+                <div class="therapy-step">
+                    <div class="step-number">3</div>
+                    <i class="fas fa-sun nature-icon"></i>
+                    <h4>Sun Gazing</h4>
+                    <p>10 minutes at sunrise/sunset for vitamin D</p>
+                    <small>Never look at midday sun, start with 30 seconds</small>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <h4>Weekly Nature Therapy Plan</h4>
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem;">
+                    <div class="month-card">
+                        <strong>Mon</strong>
+                        <small>Forest Bathing</small>
+                    </div>
+                    <div class="month-card">
+                        <strong>Tue</strong>
+                        <small>Grounding</small>
+                    </div>
+                    <div class="month-card">
+                        <strong>Wed</strong>
+                        <small>Sun Gazing</small>
+                    </div>
+                    <div class="month-card">
+                        <strong>Thu</strong>
+                        <small>Forest Bathing</small>
+                    </div>
+                    <div class="month-card">
+                        <strong>Fri</strong>
+                        <small>Grounding</small>
+                    </div>
+                    <div class="month-card current">
+                        <strong>Sat</strong>
+                        <small>Full Practice</small>
+                    </div>
+                    <div class="month-card">
+                        <strong>Sun</strong>
+                        <small>Rest</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. SEASONAL EATING GUIDE -->
+        <div class="health-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-apple-alt health-icon"></i> 🍎 Seasonal Eating Guide</h2>
+            <p style="color: var(--text-secondary);">What to eat each month for health and sustainability</p>
+            
+            <div class="seasonal-calendar" id="seasonalCalendar">
+                <!-- Calendar will be populated by JavaScript -->
+            </div>
+            
+            <div style="margin-top: 2rem; text-align: center;">
+                <p><i class="fas fa-leaf" style="color: #27ae60;"></i> Eating seasonally reduces carbon footprint by up to 10%</p>
+            </div>
+        </div>
+
+        <!-- Health Tip -->
+        <div class="health-tip">
+            <h3>💚 Daily Wellness Tip</h3>
+            <p id="dailyHealthTip">Start your day with a glass of warm water and lemon to boost immunity.</p>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">🏥</div>
+            <div>
+                <h4>Health AI Assistant</h4>
+                <small>Ask me about natural remedies or wellness!</small>
+            </div>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    Hi! I'm your wellness expert. Ask me about herbal remedies, breathing exercises, or nature therapy! 🌿
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== HERBAL MEDICINE DATABASE =====
+        const herbs = [
+            // Digestive Herbs
+            { id: 1, name: 'Ginger', scientific: 'Zingiber officinale', image: '🫚', category: 'digestive', uses: ['Nausea', 'Indigestion', 'Inflammation'], preparation: 'Tea, fresh juice, powder', dosage: '1-2g daily', precautions: ['May interact with blood thinners', 'Avoid before surgery'], benefits: ['Reduces nausea', 'Anti-inflammatory', 'Digestive aid'] },
+            { id: 2, name: 'Peppermint', scientific: 'Mentha piperita', image: '🌱', category: 'digestive', uses: ['IBS', 'Bloating', 'Headaches'], preparation: 'Tea, oil, capsules', dosage: '1-2 cups tea daily', precautions: ['May worsen GERD', 'Avoid with gallstones'], benefits: ['Relieves gas', 'Calms stomach', 'Cooling effect'] },
+            { id: 3, name: 'Fennel', scientific: 'Foeniculum vulgare', image: '🌿', category: 'digestive', uses: ['Bloating', 'Colic', 'Appetite'], preparation: 'Seeds, tea', dosage: '1 tsp seeds after meals', precautions: ['May interact with estrogen'], benefits: ['Freshens breath', 'Reduces bloating', 'Aids digestion'] },
+            
+            // Respiratory Herbs
+            { id: 4, name: 'Tulsi', scientific: 'Ocimum sanctum', image: '🌿', category: 'respiratory', uses: ['Cough', 'Cold', 'Asthma'], preparation: 'Tea, fresh leaves', dosage: '2-3 leaves daily', precautions: ['May lower blood sugar', 'Avoid before surgery'], benefits: ['Immunity booster', 'Adaptogen', 'Antibacterial'] },
+            { id: 5, name: 'Eucalyptus', scientific: 'Eucalyptus globulus', image: '🌳', category: 'respiratory', uses: ['Congestion', 'Cough', 'Sinusitis'], preparation: 'Steam inhalation, oil', dosage: '2-3 drops in steam', precautions: ['Toxic if ingested', 'Not for children'], benefits: ['Clears airways', 'Antimicrobial', 'Cooling'] },
+            { id: 6, name: 'Licorice', scientific: 'Glycyrrhiza glabra', image: '🌱', category: 'respiratory', uses: ['Sore throat', 'Cough', 'Bronchitis'], preparation: 'Tea, root chewed', dosage: '1-2g daily', precautions: ['Avoid with high BP', 'Not during pregnancy'], benefits: ['Soothes throat', 'Expectorant', 'Anti-inflammatory'] },
+            
+            // Immune Herbs
+            { id: 7, name: 'Turmeric', scientific: 'Curcuma longa', image: '🟡', category: 'immune', uses: ['Inflammation', 'Immunity', 'Joint pain'], preparation: 'Golden milk, capsules', dosage: '1-3g daily with black pepper', precautions: ['May thin blood', 'Avoid with gallstones'], benefits: ['Powerful antioxidant', 'Anti-inflammatory', 'Brain health'] },
+            { id: 8, name: 'Ashwagandha', scientific: 'Withania somnifera', image: '🌿', category: 'immune', uses: ['Stress', 'Energy', 'Immunity'], preparation: 'Powder in milk, capsules', dosage: '300-500mg daily', precautions: ['Avoid with hyperthyroid', 'Not during pregnancy'], benefits: ['Adaptogen', 'Reduces cortisol', 'Boosts energy'] },
+            { id: 9, name: 'Echinacea', scientific: 'Echinacea purpurea', image: '🌸', category: 'immune', uses: ['Cold prevention', 'Infection', 'Immunity'], preparation: 'Tea, tincture', dosage: '3x daily at first sign of cold', precautions: ['Autoimmune conditions', 'Not long-term'], benefits: ['Stimulates immune system', 'Reduces cold duration', 'Antiviral'] },
+            
+            // Stress & Sleep
+            { id: 10, name: 'Chamomile', scientific: 'Matricaria chamomilla', image: '🌼', category: 'stress', uses: ['Insomnia', 'Anxiety', 'Digestion'], preparation: 'Tea, essential oil', dosage: '1-2 cups tea before bed', precautions: ['Ragweed allergy', 'May interact with sedatives'], benefits: ['Calming', 'Sleep aid', 'Anti-inflammatory'] },
+            { id: 11, name: 'Lavender', scientific: 'Lavandula angustifolia', image: '🌸', category: 'stress', uses: ['Anxiety', 'Sleep', 'Headache'], preparation: 'Tea, oil, aromatherapy', dosage: '2-3 drops in diffuser', precautions: ['May irritate skin', 'Avoid during pregnancy'], benefits: ['Relaxing', 'Improves sleep', 'Mood booster'] },
+            { id: 12, name: 'Brahmi', scientific: 'Bacopa monnieri', image: '🌿', category: 'stress', uses: ['Memory', 'Stress', 'Focus'], preparation: 'Powder, capsules', dosage: '300mg daily', precautions: ['May slow heart rate', 'Avoid with thyroid meds'], benefits: ['Improves memory', 'Reduces anxiety', 'Neuroprotective'] },
+            
+            // Skin Care
+            { id: 13, name: 'Aloe Vera', scientific: 'Aloe barbadensis', image: '🌵', category: 'skin', uses: ['Burns', 'Wounds', 'Acne'], preparation: 'Fresh gel, juice', dosage: 'Apply topically as needed', precautions: ['Test for allergy first'], benefits: ['Heals burns', 'Moisturizes', 'Anti-inflammatory'] },
+            { id: 14, name: 'Neem', scientific: 'Azadirachta indica', image: '🌳', category: 'skin', uses: ['Acne', 'Eczema', 'Fungal'], preparation: 'Oil, paste, soap', dosage: 'Apply diluted oil', precautions: ['Bitter taste', 'Avoid internally in large amounts'], benefits: ['Antibacterial', 'Antifungal', 'Blood purifier'] },
+            { id: 15, name: 'Calendula', scientific: 'Calendula officinalis', image: '🌼', category: 'skin', uses: ['Wounds', 'Rashes', 'Dry skin'], preparation: 'Cream, oil, tea', dosage: 'Apply cream 2-3x daily', precautions: ['Ragweed allergy'], benefits: ['Heals wounds', 'Anti-inflammatory', 'Soothing'] },
+            
+            // Pain Relief
+            { id: 16, name: 'Willow Bark', scientific: 'Salix alba', image: '🌳', category: 'pain', uses: ['Headache', 'Back pain', 'Arthritis'], preparation: 'Tea, capsules', dosage: '120-240mg salicin daily', precautions: ['Avoid with aspirin allergy', 'Not for children'], benefits: ['Natural aspirin', 'Pain relief', 'Anti-inflammatory'] },
+            { id: 17, name: 'Arnica', scientific: 'Arnica montana', image: '🌸', category: 'pain', uses: ['Bruises', 'Muscle pain', 'Sprains'], preparation: 'Gel, cream, oil', dosage: 'Apply topically 3x daily', precautions: ['Never take internally', 'Avoid broken skin'], benefits: ['Reduces bruising', 'Relieves pain', 'Anti-inflammatory'] },
+            { id: 18, name: 'Capsaicin', scientific: 'Capsicum annuum', image: '🌶️', category: 'pain', uses: ['Arthritis', 'Neuropathy', 'Muscle pain'], preparation: 'Cream, patch', dosage: 'Apply 3-4x daily', precautions: ['Wash hands after use', 'Avoid eyes'], benefits: ['Blocks pain signals', 'Increases circulation', 'Natural'] }
+        ];
+
+        // ===== EXERCISE TRACKER =====
+        let exerciseLogs = JSON.parse(localStorage.getItem('exerciseLogs')) || [];
+
+        // ===== SEASONAL FOOD DATABASE =====
+        const seasonalFoods = {
+            jan: ['Oranges', 'Guava', 'Carrots', 'Spinach', 'Peas', 'Radish', 'Cabbage'],
+            feb: ['Strawberries', 'Cauliflower', 'Broccoli', 'Turnips', 'Beetroot', 'Mint'],
+            mar: ['Mangoes', 'Watermelon', 'Cucumber', 'Tomatoes', 'Zucchini', 'Coriander'],
+            apr: ['Mangoes', 'Lychee', 'Melons', 'Bitter Gourd', 'Bottle Gourd', 'Pumpkin'],
+            may: ['Mangoes', 'Jackfruit', 'Coconut', 'Okra', 'Corn', 'Green Chilies'],
+            jun: ['Plums', 'Peaches', 'Jamun', 'Brinjal', 'Ridge Gourd', 'Curry Leaves'],
+            jul: ['Pears', 'Apples', 'Berries', 'Beans', 'Lady Finger', 'Drumstick'],
+            aug: ['Peaches', 'Plums', 'Almonds', 'Spinach', 'Fenugreek', 'Mustard Greens'],
+            sep: ['Apples', 'Pomegranate', 'Grapes', 'Cauliflower', 'Cabbage', 'Turnips'],
+            oct: ['Apples', 'Pears', 'Quince', 'Carrots', 'Peas', 'Radish', 'Sweet Potato'],
+            nov: ['Oranges', 'Grapefruit', 'Kale', 'Spinach', 'Broccoli', 'Leeks'],
+            dec: ['Oranges', 'Pomelo', 'Dates', 'Cabbage', 'Cauliflower', 'Beetroot']
+        };
+
+        // Current month
+        const currentMonth = new Date().getMonth();
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayHerbs(herbs);
+            displayExerciseLogs();
+            displaySeasonalCalendar();
+            updateRespiratoryTips();
+            updateNatureBenefits();
+            document.getElementById('totalHerbs').textContent = herbs.length;
+            
+            // Start daily health tip rotation
+            rotateHealthTips();
+            setInterval(rotateHealthTips, 86400000); // Change daily
+        });
+
+        // ===== 1. HERBAL MEDICINE DATABASE =====
+        function displayHerbs(herbsToShow) {
+            const grid = document.getElementById('herbGrid');
+            grid.innerHTML = herbsToShow.map(herb => `
+                <div class="herb-card">
+                    <div class="herb-image">${herb.image}</div>
+                    <div class="herb-content">
+                        <div class="herb-name">${herb.name}</div>
+                        <div class="herb-scientific">${herb.scientific}</div>
+                        <div style="margin: 0.5rem 0;">
+                            <span class="precaution-badge">${herb.category}</span>
+                        </div>
+                        <p><strong>Uses:</strong> ${herb.uses.join(', ')}</p>
+                        <p><strong>Preparation:</strong> ${herb.preparation}</p>
+                        <p><strong>Dosage:</strong> ${herb.dosage}</p>
+                        <p><strong>Precautions:</strong> ${herb.precautions.join('; ')}</p>
+                        <p><strong>Benefits:</strong> ${herb.benefits.join(', ')}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchHerbs() {
+            const query = document.getElementById('herbSearch').value.toLowerCase();
+            if (query.length < 2) {
+                displayHerbs(herbs);
+                return;
+            }
+            
+            const filtered = herbs.filter(herb => 
+                herb.name.toLowerCase().includes(query) ||
+                herb.uses.some(u => u.toLowerCase().includes(query)) ||
+                herb.category.includes(query)
+            );
+            displayHerbs(filtered);
+        }
+
+        function filterHerbs(category) {
+            document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                displayHerbs(herbs);
+            } else {
+                const filtered = herbs.filter(herb => herb.category === category);
+                displayHerbs(filtered);
+            }
+        }
+
+        // ===== 2. GREEN EXERCISE TRACKER =====
+        function updateCalories() {
+            const duration = parseInt(document.getElementById('activityDuration').value);
+            const activity = document.getElementById('activityType').value;
+            
+            document.getElementById('durationValue').textContent = duration + ' minutes';
+            
+            // Calories burned per minute for different activities
+            const calorieRates = {
+                'walking': 4,
+                'hiking': 6,
+                'running': 10,
+                'cycling': 8,
+                'gardening': 3,
+                'yoga': 2.5
+            };
+            
+            const calories = Math.round(duration * (calorieRates[activity] || 4));
+            document.getElementById('calorieEstimate').textContent = calories;
+        }
+
+        function logActivity() {
+            const activity = document.getElementById('activityType').value;
+            const duration = parseInt(document.getElementById('activityDuration').value);
+            const location = document.getElementById('activityLocation').value || 'Unknown location';
+            const calories = parseInt(document.getElementById('calorieEstimate').textContent);
+            
+            const log = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString(),
+                activity: activity,
+                duration: duration,
+                location: location,
+                calories: calories
+            };
+            
+            exerciseLogs.unshift(log);
+            localStorage.setItem('exerciseLogs', JSON.stringify(exerciseLogs));
+            
+            displayExerciseLogs();
+            updateStats();
+            
+            // Clear form
+            document.getElementById('activityLocation').value = '';
+        }
+
+        function displayExerciseLogs() {
+            const container = document.getElementById('exerciseLog');
+            container.innerHTML = '<h4>Recent Activities</h4>' + exerciseLogs.slice(0, 5).map(log => `
+                <div class="log-entry">
+                    <div>
+                        <span class="log-date">${log.date}</span>
+                        <span class="log-activity">${log.activity}</span>
+                        <small>${log.duration} min • ${log.location}</small>
+                    </div>
+                    <div class="log-calories">${log.calories} cal</div>
+                </div>
+            `).join('');
+            
+            if (exerciseLogs.length === 0) {
+                container.innerHTML = '<p>No activities logged yet. Start your green exercise journey!</p>';
+            }
+        }
+
+        function updateStats() {
+            const totalActivities = exerciseLogs.length;
+            const totalCalories = exerciseLogs.reduce((sum, log) => sum + log.calories, 0);
+            const totalMinutes = exerciseLogs.reduce((sum, log) => sum + log.duration, 0);
+            
+            document.getElementById('totalActivities').textContent = totalActivities;
+            document.getElementById('totalCalories').textContent = (totalCalories / 1000).toFixed(1) + 'K';
+            document.getElementById('natureHours').textContent = (totalMinutes / 60).toFixed(1) + 'K';
+        }
+
+        // ===== 3. RESPIRATORY HEALTH =====
+        function updateRespiratoryTips() {
+            const city = document.getElementById('respiratoryCity').value;
+            const condition = document.getElementById('respiratoryCondition').value;
+            
+            // Simulate AQI based on city
+            const aqiData = {
+                'delhi': 187,
+                'mumbai': 124,
+                'bangalore': 76,
+                'chennai': 82,
+                'kolkata': 158
+            };
+            
+            const aqi = aqiData[city];
+            const container = document.getElementById('respiratoryTips');
+            
+            let tips = '';
+            
+            if (aqi <= 50) {
+                tips = `
+                    <div class="respiratory-card green">
+                        <strong><i class="fas fa-check-circle"></i> Good Air Quality (AQI: ${aqi})</strong>
+                        <p>Perfect for outdoor activities. Enjoy your time outside! ${condition !== 'none' ? 'Sensitive individuals should still monitor symptoms.' : ''}</p>
+                    </div>
+                `;
+            } else if (aqi <= 100) {
+                tips = `
+                    <div class="respiratory-card green">
+                        <strong><i class="fas fa-check-circle"></i> Moderate Air Quality (AQI: ${aqi})</strong>
+                        <p>Good for most people. ${condition !== 'none' ? 'Sensitive individuals should limit prolonged exertion.' : 'Enjoy your outdoor time!'}</p>
+                    </div>
+                `;
+            } else if (aqi <= 150) {
+                tips = `
+                    <div class="respiratory-card yellow">
+                        <strong><i class="fas fa-exclamation-triangle"></i> Unhealthy for Sensitive Groups (AQI: ${aqi})</strong>
+                        <p>${condition !== 'none' ? 'Limit outdoor activities. Wear mask if going out.' : 'Sensitive individuals should reduce outdoor time.'}</p>
+                    </div>
+                `;
+            } else if (aqi <= 200) {
+                tips = `
+                    <div class="respiratory-card red">
+                        <strong><i class="fas fa-exclamation-circle"></i> Unhealthy (AQI: ${aqi})</strong>
+                        <p>Everyone should limit outdoor activities. Wear N95 mask. Keep windows closed. ${condition !== 'none' ? 'Stay indoors as much as possible.' : ''}</p>
+                    </div>
+                `;
+            } else {
+                tips = `
+                    <div class="respiratory-card red">
+                        <strong><i class="fas fa-exclamation-circle"></i> Very Unhealthy (AQI: ${aqi})</strong>
+                        <p>HEALTH ALERT: Avoid all outdoor activities. Stay indoors with air purifier. Wear N95 mask if absolutely necessary.</p>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = tips;
+        }
+
+        // ===== 4. NATURE THERAPY =====
+        function updateNatureBenefits() {
+            // Already displayed in static HTML with the benefits grid
+        }
+
+        // ===== 5. SEASONAL EATING GUIDE =====
+        function displaySeasonalCalendar() {
+            const calendar = document.getElementById('seasonalCalendar');
+            calendar.innerHTML = monthNames.map((month, index) => `
+                <div class="month-card ${index === currentMonth ? 'current' : ''}">
+                    <div class="month-name">${month}</div>
+                    <div style="font-size: 0.9rem;">
+                        ${seasonalFoods[month.toLowerCase()]?.map(food => 
+                            `<span class="food-item">${food}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ===== HEALTH TIPS ROTATION =====
+        const healthTips = [
+            "Start your day with a glass of warm water and lemon to boost immunity.",
+            "Take 5 deep breaths every hour to reduce stress.",
+            "Walk barefoot on grass for 10 minutes daily (grounding).",
+            "Drink herbal tea instead of coffee for better sleep.",
+            "Spend 20 minutes in sunlight before 10 AM for vitamin D.",
+            "Practice gratitude - write 3 things you're thankful for daily.",
+            "Take a 15-minute walk after meals for better digestion.",
+            "Use tulsi leaves in your tea for respiratory health.",
+            "Meditate for 10 minutes daily to reduce anxiety.",
+            "Eat seasonal fruits and vegetables for better nutrition."
+        ];
+
+        function rotateHealthTips() {
+            const tip = healthTips[Math.floor(Math.random() * healthTips.length)];
+            document.getElementById('dailyHealthTip').textContent = tip;
+        }
+
+        // ===== AI ASSISTANT TOGGLE =====
+        document.querySelector('.ai-header').addEventListener('click', function() {
+            const body = document.querySelector('.ai-chat-body');
+            const icon = this.querySelector('i');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(0)';
+            }
+        });
+    </script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

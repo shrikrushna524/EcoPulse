@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Water Management Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Water Module Specific Styles */
+        .water-hero {
+            background: linear-gradient(135deg, #1a4d8c, #0a2f5a);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .water-hero::before {
+            content: '💧';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .water-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .water-stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .water-stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #2196F3;
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.2);
+        }
+        
+        .water-stat-icon {
+            font-size: 2.5rem;
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+        
+        .water-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2196F3;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .water-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .water-card:hover {
+            transform: translateY(-5px);
+            border-color: #2196F3;
+            box-shadow: 0 20px 40px rgba(33, 150, 243, 0.2);
+        }
+        
+        .water-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #2196F3, #4CAF50);
+        }
+        
+        .water-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #2196F3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .water-level {
+            width: 100%;
+            height: 30px;
+            background: var(--bg-primary);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .water-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196F3, #4CAF50);
+            border-radius: 15px;
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .water-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        .rain-barrel {
+            width: 100px;
+            height: 150px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border-radius: 20px 20px 10px 10px;
+            position: relative;
+            margin: 2rem auto;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .rain-barrel::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 60px;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        
+        .rain-barrel::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.5);
+            transition: height 0.5s ease;
+        }
+        
+        .water-meter {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            position: relative;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+        
+        .water-meter-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(180deg, #2196F3, #1976D2);
+            transition: height 1s ease;
+            animation: wave 2s infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        .leak-checker {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .checklist-item:hover {
+            background: var(--bg-hover);
+        }
+        
+        .checklist-item.completed {
+            background: rgba(33, 150, 243, 0.1);
+            border-left: 4px solid #2196F3;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #2196F3;
+        }
+        
+        .timer-display {
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2196F3;
+            margin: 1rem 0;
+            font-family: monospace;
+            text-shadow: 0 0 20px rgba(33, 150, 243, 0.5);
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .timer-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+        }
+        
+        .timer-btn:hover {
+            background: #2196F3;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .timer-btn.start {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .timer-btn.stop {
+            background: #F44336;
+            color: white;
+            border-color: #F44336;
+        }
+        
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .plant-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .plant-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+        }
+        
+        .plant-image {
+            height: 200px;
+            background: linear-gradient(135deg, #2196F3, #4CAF50);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plant-icon {
+            font-size: 5rem;
+            text-align: center;
+            line-height: 200px;
+            color: white;
+        }
+        
+        .plant-content {
+            padding: 1.5rem;
+        }
+        
+        .plant-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .plant-scientific {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .plant-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .plant-tag {
+            padding: 0.2rem 0.8rem;
+            background: var(--bg-primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .plant-tag.water-wise {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+        }
+        
+        .plant-tag.sun-lover {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+        }
+        
+        .water-drop {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #2196F3;
+            border-radius: 50% 0 50% 50%;
+            transform: rotate(45deg);
+            margin-right: 5px;
+        }
+        
+        .saving-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(33, 150, 243, 0.1);
+            border: 1px solid #2196F3;
+            border-radius: 30px;
+            color: #2196F3;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+        
+        .water-tip {
+            background: linear-gradient(135deg, #1a4d8c, #0a2f5a);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .water-tip::before {
+            content: '💧';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .filter-btn:hover {
+            border-color: #4CAF50;
+        }
+        
+        .filter-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            color: var(--text-primary);
+        }
+        
+        .water-fact {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            margin: 1rem 0;
+        }
+        
+        .unit-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .unit-btn {
+            padding: 0.3rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .unit-btn.active {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        @keyframes drip {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(20px); opacity: 0; }
+        }
+        
+        .drip-animation {
+            position: relative;
+            width: 2px;
+            height: 30px;
+            background: #2196F3;
+            margin: 0 auto;
+            animation: drip 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html" class="active"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="water-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-water" style="color: #2196F3;"></i> 
+                Water Management Hub
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px;">
+                Track your water usage, harvest rainwater, detect leaks, and discover drought-resistant plants.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #2196F3;"></i> 5 Interactive Tools</div>
+                <div><i class="fas fa-check-circle" style="color: #2196F3;"></i> Real-time Calculations</div>
+                <div><i class="fas fa-check-circle" style="color: #2196F3;"></i> Save Water, Save Money</div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="water-stats">
+            <div class="water-stat-card">
+                <i class="fas fa-tint water-stat-icon"></i>
+                <div class="water-stat-value" id="globalWaterUse">150</div>
+                <div class="stat-label">Liters/day (Global avg)</div>
+            </div>
+            <div class="water-stat-card">
+                <i class="fas fa-shower water-stat-icon"></i>
+                <div class="water-stat-value" id="showerWater">65</div>
+                <div class="stat-label">Liters per shower</div>
+            </div>
+            <div class="water-stat-card">
+                <i class="fas fa-toilet water-stat-icon"></i>
+                <div class="water-stat-value" id="flushWater">30</div>
+                <div class="stat-label">Liters per flush</div>
+            </div>
+            <div class="water-stat-card">
+                <i class="fas fa-leaf water-stat-icon"></i>
+                <div class="water-stat-value" id="plantWater">20</div>
+                <div class="stat-label">Liters saved/day</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="calculator-grid">
+            <!-- 1. WATER FOOTPRINT CALCULATOR -->
+            <div class="water-card">
+                <i class="fas fa-calculator water-icon"></i>
+                <h2>💦 Water Footprint Calculator</h2>
+                <p style="color: var(--text-secondary);">Calculate your daily water usage</p>
+                
+                <div style="margin: 2rem 0;">
+                    <div class="form-group">
+                        <label><i class="fas fa-shower"></i> Shower time (minutes/day)</label>
+                        <input type="range" id="showerTime" min="0" max="60" value="10" step="1" oninput="updateFootprint()">
+                        <span id="showerValue">10 minutes</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-toilet"></i> Toilet flushes (per day)</label>
+                        <input type="range" id="flushes" min="0" max="20" value="5" step="1" oninput="updateFootprint()">
+                        <span id="flushValue">5 flushes</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-hands"></i> Hand washing (minutes/day)</label>
+                        <input type="range" id="handWash" min="0" max="30" value="5" step="1" oninput="updateFootprint()">
+                        <span id="handValue">5 minutes</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-utensils"></i> Dishwashing (minutes/day)</label>
+                        <input type="range" id="dishWash" min="0" max="60" value="15" step="1" oninput="updateFootprint()">
+                        <span id="dishValue">15 minutes</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-tshirt"></i> Laundry (loads/week)</label>
+                        <input type="range" id="laundry" min="0" max="14" value="4" step="1" oninput="updateFootprint()">
+                        <span id="laundryValue">4 loads/week</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-garden"></i> Gardening (minutes/week)</label>
+                        <input type="range" id="gardening" min="0" max="120" value="30" step="5" oninput="updateFootprint()">
+                        <span id="gardenValue">30 minutes/week</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-glass-water"></i> Drinking water (glasses/day)</label>
+                        <input type="range" id="drinking" min="0" max="20" value="8" step="1" oninput="updateFootprint()">
+                        <span id="drinkValue">8 glasses</span>
+                    </div>
+                </div>
+                
+                <div class="water-level">
+                    <div class="water-fill" id="footprintFill" style="width: 50%;"></div>
+                </div>
+                
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div style="font-size: 3rem; font-weight: 700; color: #2196F3;" id="totalWater">0</div>
+                    <div style="color: var(--text-secondary);">Liters per day</div>
+                </div>
+                
+                <div class="water-fact">
+                    <i class="fas fa-info-circle" style="color: #2196F3;"></i>
+                    <span id="waterTip">The average Indian uses 135 liters per day</span>
+                </div>
+                
+                <div class="unit-toggle">
+                    <span class="unit-btn active" onclick="setUnit('liters')">Liters</span>
+                    <span class="unit-btn" onclick="setUnit('gallons')">Gallons</span>
+                </div>
+            </div>
+
+            <!-- 2. RAINWATER HARVESTING CALCULATOR -->
+            <div class="water-card">
+                <i class="fas fa-cloud-rain water-icon"></i>
+                <h2>🌧️ Rainwater Harvesting Guide</h2>
+                <p style="color: var(--text-secondary);">Calculate how much you can collect</p>
+                
+                <div class="rain-barrel" id="rainBarrel">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.5); height: 0%;" id="barrelFill"></div>
+                </div>
+                
+                <div style="margin: 2rem 0;">
+                    <div class="form-group">
+                        <label><i class="fas fa-home"></i> Roof area (sq meters)</label>
+                        <input type="range" id="roofArea" min="10" max="500" value="100" step="10" oninput="updateRainwater()">
+                        <span id="roofValue">100 m²</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Your city</label>
+                        <select id="city" onchange="updateRainwater()">
+                            <option value="Mumbai">Mumbai (2,500 mm/year)</option>
+                            <option value="Chennai">Chennai (1,400 mm/year)</option>
+                            <option value="Kolkata">Kolkata (1,600 mm/year)</option>
+                            <option value="Delhi">Delhi (800 mm/year)</option>
+                            <option value="Bangalore">Bangalore (970 mm/year)</option>
+                            <option value="Pune">Pune (700 mm/year)</option>
+                            <option value="Jaipur">Jaipur (650 mm/year)</option>
+                            <option value="Lucknow">Lucknow (1,000 mm/year)</option>
+                            <option value="Hyderabad">Hyderabad (800 mm/year)</option>
+                            <option value="Ahmedabad">Ahmedabad (800 mm/year)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-tint"></i> Collection efficiency</label>
+                        <input type="range" id="efficiency" min="50" max="95" value="85" step="5" oninput="updateRainwater()">
+                        <span id="efficiencyValue">85%</span>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0;">
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 2rem; color: #2196F3;" id="annualRain">0</div>
+                        <small>Liters/year</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 2rem; color: #2196F3;" id="tanksNeeded">0</div>
+                        <small>1000L tanks needed</small>
+                    </div>
+                </div>
+                
+                <div style="background: var(--bg-primary); padding: 1rem; border-radius: 12px;">
+                    <h4>This could cover:</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li id="toiletFlush">• 0 toilet flushes/year</li>
+                        <li id="showerDays">• 0 showers/year</li>
+                        <li id="washingLoads">• 0 laundry loads/year</li>
+                    </ul>
+                </div>
+                
+                <div class="saving-badge" style="margin-top: 1rem;">
+                    <i class="fas fa-rupee-sign"></i> Save ₹<span id="moneySaved">0</span>/year on water bills
+                </div>
+            </div>
+
+            <!-- 3. LEAK DETECTOR GUIDE -->
+            <div class="water-card">
+                <i class="fas fa-search water-icon"></i>
+                <h2>💧 Leak Detector Guide</h2>
+                <p style="color: var(--text-secondary);">Find and fix water leaks</p>
+                
+                <div class="leak-checker">
+                    <h4>Checklist:</h4>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(0)">
+                        <input type="checkbox" id="leak1" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Meter Check</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Turn off all water, check if meter still moves</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(1)">
+                        <input type="checkbox" id="leak2" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Toilet Dye Test</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Add food coloring to tank, check bowl after 15 min</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(2)">
+                        <input type="checkbox" id="leak3" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Faucet Drips</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Check all faucets for drips</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(3)">
+                        <input type="checkbox" id="leak4" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Showerhead</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Check for drips when off</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(4)">
+                        <input type="checkbox" id="leak5" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Under Sink Pipes</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Check for moisture or drips</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(5)">
+                        <input type="checkbox" id="leak6" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Outdoor Spigots</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Check garden taps for leaks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(6)">
+                        <input type="checkbox" id="leak7" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Water Heater</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Check pressure relief valve and connections</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleLeakItem(7)">
+                        <input type="checkbox" id="leak8" onchange="updateLeakScore()">
+                        <div>
+                            <strong>Irrigation System</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Check sprinklers for leaks or misdirection</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin: 2rem 0; text-align: center;">
+                    <div class="progress-ring" style="width: 120px; height: 120px; margin: 0 auto;">
+                        <svg width="120" height="120">
+                            <circle cx="60" cy="60" r="54" fill="none" stroke="var(--border-color)" stroke-width="4"/>
+                            <circle id="leakProgress" cx="60" cy="60" r="54" fill="none" stroke="#2196F3" stroke-width="4" stroke-dasharray="339.3" stroke-dashoffset="339.3" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                        </svg>
+                    </div>
+                    <div style="font-size: 2rem; color: #2196F3;" id="leakScore">0/8</div>
+                    <div>Checks Completed</div>
+                </div>
+                
+                <div id="leakResult" class="water-fact">
+                    <i class="fas fa-droplet"></i>
+                    <span>Complete checks to see potential savings</span>
+                </div>
+                
+                <div style="margin-top: 1rem;">
+                    <div class="drip-animation"></div>
+                </div>
+            </div>
+
+            <!-- 4. SHOWER TIMER -->
+            <div class="water-card">
+                <i class="fas fa-stopwatch water-icon"></i>
+                <h2>🚿 Shower Timer</h2>
+                <p style="color: var(--text-secondary);">Track your shower time and water savings</p>
+                
+                <div class="timer-display" id="timerDisplay">05:00</div>
+                
+                <div class="timer-controls">
+                    <button class="timer-btn start" onclick="startTimer()">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="timer-btn" onclick="pauseTimer()">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <button class="timer-btn" onclick="resetTimer()">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="timer-btn stop" onclick="stopTimer()">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                </div>
+                
+                <div class="water-meter">
+                    <div class="water-meter-fill" id="waterMeterFill" style="height: 25%;"></div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0;">
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 1.5rem; color: #2196F3;" id="waterUsed">0</div>
+                        <small>Liters used</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 1.5rem; color: #4CAF50;" id="waterSaved">0</div>
+                        <small>Liters saved</small>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <div class="unit-btn" onclick="setShowerTarget(3)">3 min</div>
+                    <div class="unit-btn" onclick="setShowerTarget(5)">5 min</div>
+                    <div class="unit-btn active" onclick="setShowerTarget(8)">8 min</div>
+                    <div class="unit-btn" onclick="setShowerTarget(10)">10 min</div>
+                </div>
+                
+                <div style="margin-top: 2rem; text-align: center;">
+                    <i class="fas fa-lightbulb"></i>
+                    <span id="showerTip">A 5-minute shower uses about 50 liters of water</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. DROUGHT-RESISTANT PLANTS -->
+        <div style="margin-top: 3rem;">
+            <h2><i class="fas fa-leaf" style="color: #4CAF50;"></i> 🌱 Drought-Resistant Plants</h2>
+            <p style="color: var(--text-secondary);">Save water with these beautiful, low-water plants</p>
+            
+            <div class="filter-bar">
+                <input type="text" class="search-box" id="plantSearch" placeholder="Search plants..." onkeyup="filterPlants()">
+                <button class="filter-btn active" onclick="filterPlantsBy('all')">All</button>
+                <button class="filter-btn" onclick="filterPlantsBy('succulent')">Succulents</button>
+                <button class="filter-btn" onclick="filterPlantsBy('native')">Native</button>
+                <button class="filter-btn" onclick="filterPlantsBy('herb')">Herbs</button>
+                <button class="filter-btn" onclick="filterPlantsBy('tree')">Trees</button>
+                <button class="filter-btn" onclick="filterPlantsBy('flower')">Flowers</button>
+            </div>
+            
+            <div class="plant-grid" id="plantGrid">
+                <!-- Plants will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Water Saving Tips -->
+        <div class="water-tip">
+            <h3>💡 Quick Water Saving Tips</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 1rem;">
+                <div>
+                    <i class="fas fa-check-circle"></i> Fix dripping taps - saves 5,000L/year
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Turn off tap while brushing - saves 12L/day
+                </div>
+                <div>
+                    <i class="fas fa-check-circle"></i> Use bucket instead of hose - saves 100L/wash
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">💧</div>
+            <div>
+                <h4>Water AI Assistant</h4>
+                <small>Ask me about water conservation!</small>
+            </div>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    Hi! I'm your water conservation expert. Ask me about saving water, rainwater harvesting, or drought-resistant plants! 💧
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== WATER FOOTPRINT CALCULATOR =====
+        let currentUnit = 'liters';
+        let targetShowerTime = 8; // minutes
+        
+        function updateFootprint() {
+            // Get values
+            const shower = parseInt(document.getElementById('showerTime').value);
+            const flushes = parseInt(document.getElementById('flushes').value);
+            const hand = parseInt(document.getElementById('handWash').value);
+            const dish = parseInt(document.getElementById('dishWash').value);
+            const laundry = parseInt(document.getElementById('laundry').value);
+            const garden = parseInt(document.getElementById('gardening').value);
+            const drink = parseInt(document.getElementById('drinking').value);
+            
+            // Update displays
+            document.getElementById('showerValue').textContent = shower + ' minutes';
+            document.getElementById('flushValue').textContent = flushes + ' flushes';
+            document.getElementById('handValue').textContent = hand + ' minutes';
+            document.getElementById('dishValue').textContent = dish + ' minutes';
+            document.getElementById('laundryValue').textContent = laundry + ' loads/week';
+            document.getElementById('gardenValue').textContent = garden + ' minutes/week';
+            document.getElementById('drinkValue').textContent = drink + ' glasses';
+            
+            // Calculate water usage (liters)
+            const showerWater = shower * 10; // 10L per minute
+            const flushWater = flushes * 6; // 6L per flush (dual flush avg)
+            const handWater = hand * 4; // 4L per minute
+            const dishWater = dish * 5; // 5L per minute
+            const laundryWater = (laundry / 7) * 50; // 50L per load, daily avg
+            const gardenWater = (garden / 7) * 15; // 15L per minute
+            const drinkWater = drink * 0.25; // 250ml per glass
+            
+            const total = showerWater + flushWater + handWater + dishWater + laundryWater + gardenWater + drinkWater;
+            
+            // Update display
+            document.getElementById('totalWater').textContent = Math.round(total);
+            document.getElementById('footprintFill').style.width = Math.min(100, (total / 300) * 100) + '%';
+            
+            // Update tip based on usage
+            let tip = '';
+            if (total < 100) tip = 'Excellent! You use less water than 90% of people! 🌟';
+            else if (total < 135) tip = 'Good! You\'re below the Indian average of 135L/day';
+            else if (total < 200) tip = 'Average usage. Try to reduce by 20% to save water';
+            else tip = 'High usage! Check our tips to reduce your water footprint';
+            
+            document.getElementById('waterTip').textContent = tip;
+        }
+
+        // ===== RAINWATER HARVESTING =====
+        function updateRainwater() {
+            const roof = parseInt(document.getElementById('roofArea').value);
+            const city = document.getElementById('city').value;
+            const efficiency = parseInt(document.getElementById('efficiency').value) / 100;
+            
+            // Rainfall data (mm/year)
+            const rainfall = {
+                'Mumbai': 2500,
+                'Chennai': 1400,
+                'Kolkata': 1600,
+                'Delhi': 800,
+                'Bangalore': 970,
+                'Pune': 700,
+                'Jaipur': 650,
+                'Lucknow': 1000,
+                'Hyderabad': 800,
+                'Ahmedabad': 800
+            };
+            
+            document.getElementById('roofValue').textContent = roof + ' m²';
+            document.getElementById('efficiencyValue').textContent = (efficiency * 100) + '%';
+            
+            const rainMM = rainfall[city];
+            const litersPerYear = roof * rainMM * efficiency; // 1mm rain on 1m² = 1 liter
+            
+            document.getElementById('annualRain').textContent = Math.round(litersPerYear).toLocaleString();
+            
+            // 1000L tanks needed
+            const tanks = Math.ceil(litersPerYear / 1000);
+            document.getElementById('tanksNeeded').textContent = tanks;
+            
+            // Calculate usage equivalents
+            const toiletFlushes = Math.round(litersPerYear / 6);
+            const showers = Math.round(litersPerYear / 50);
+            const laundryLoads = Math.round(litersPerYear / 50);
+            
+            document.getElementById('toiletFlush').innerHTML = `• ${toiletFlushes.toLocaleString()} toilet flushes/year`;
+            document.getElementById('showerDays').innerHTML = `• ${showers.toLocaleString()} showers/year`;
+            document.getElementById('washingLoads').innerHTML = `• ${laundryLoads.toLocaleString()} laundry loads/year`;
+            
+            // Money saved (₹50 per 1000L approximate)
+            const moneySaved = Math.round(litersPerYear * 0.05);
+            document.getElementById('moneySaved').textContent = moneySaved.toLocaleString();
+            
+            // Update barrel fill
+            const fillPercent = Math.min(100, (litersPerYear / 100000) * 100);
+            document.getElementById('barrelFill').style.height = fillPercent + '%';
+        }
+
+        // ===== LEAK DETECTOR =====
+        function toggleLeakItem(index) {
+            const checkbox = document.getElementById('leak' + (index + 1));
+            checkbox.checked = !checkbox.checked;
+            updateLeakScore();
+        }
+        
+        function updateLeakScore() {
+            let score = 0;
+            for (let i = 1; i <= 8; i++) {
+                if (document.getElementById('leak' + i).checked) score++;
+            }
+            
+            document.getElementById('leakScore').textContent = score + '/8';
+            
+            // Update progress ring
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (score / 8) * circumference;
+            document.getElementById('leakProgress').style.strokeDashoffset = offset;
+            
+            // Update checklist items styling
+            for (let i = 1; i <= 8; i++) {
+                const item = document.getElementById('leak' + i).parentElement;
+                if (document.getElementById('leak' + i).checked) {
+                    item.classList.add('completed');
+                } else {
+                    item.classList.remove('completed');
+                }
+            }
+            
+            // Calculate potential savings
+            const potentialSavings = score * 5000; // ₹5000 per leak fixed
+            document.getElementById('leakResult').innerHTML = `
+                <i class="fas fa-droplet"></i>
+                You've completed ${score}/8 checks. Potential annual savings: ₹${potentialSavings.toLocaleString()}
+            `;
+        }
+
+        // ===== SHOWER TIMER =====
+        let timerInterval;
+        let seconds = 300; // 5 minutes default
+        let running = false;
+        
+        function updateTimerDisplay() {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            
+            // Calculate water usage (10L per minute)
+            const waterUsed = (seconds / 60) * 10;
+            document.getElementById('waterUsed').textContent = Math.round(waterUsed);
+            
+            // Calculate water saved compared to target
+            const targetSeconds = targetShowerTime * 60;
+            const waterSaved = Math.max(0, ((targetSeconds - seconds) / 60) * 10);
+            document.getElementById('waterSaved').textContent = Math.round(waterSaved);
+            
+            // Update water meter
+            const meterPercent = (seconds / (15 * 60)) * 100; // Max 15 minutes
+            document.getElementById('waterMeterFill').style.height = Math.min(100, meterPercent) + '%';
+        }
+        
+        function startTimer() {
+            if (!running) {
+                running = true;
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            running = false;
+            clearInterval(timerInterval);
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            seconds = 300;
+            updateTimerDisplay();
+        }
+        
+        function stopTimer() {
+            pauseTimer();
+            const waterUsed = (seconds / 60) * 10;
+            alert(`Shower complete!\nTime: ${Math.floor(seconds / 60)}:${seconds % 60}\nWater used: ${Math.round(waterUsed)} liters`);
+            seconds = 300;
+            updateTimerDisplay();
+        }
+        
+        function setShowerTarget(minutes) {
+            targetShowerTime = minutes;
+            document.querySelectorAll('.unit-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const tips = {
+                3: 'Excellent! A 3-minute shower saves 50L compared to average!',
+                5: 'Good! A 5-minute shower is the recommended duration.',
+                8: 'Average shower time. Try to reduce by 3 minutes to save water.',
+                10: 'Long shower! Every minute less saves 10L of water.'
+            };
+            document.getElementById('showerTip').textContent = tips[minutes];
+        }
+
+        // ===== DROUGHT-RESISTANT PLANTS DATABASE =====
+        const plants = [
+            {
+                name: 'Aloe Vera',
+                scientific: 'Aloe barbadensis miller',
+                type: 'succulent',
+                water: 'Very Low',
+                sun: 'Full sun',
+                soil: 'Sandy, well-draining',
+                care: 'Water every 2-3 weeks. Allow soil to dry completely.',
+                benefits: 'Medicinal, air purifying',
+                zone: '10-12',
+                image: '🌵'
+            },
+            {
+                name: 'Snake Plant',
+                scientific: 'Sansevieria trifasciata',
+                type: 'succulent',
+                water: 'Very Low',
+                sun: 'Low to bright indirect',
+                soil: 'Well-draining',
+                care: 'Water every 3-4 weeks. Very forgiving.',
+                benefits: 'Air purifying, releases oxygen at night',
+                zone: '9-11',
+                image: '🌿'
+            },
+            {
+                name: 'Lavender',
+                scientific: 'Lavandula angustifolia',
+                type: 'herb',
+                water: 'Low',
+                sun: 'Full sun',
+                soil: 'Well-draining, alkaline',
+                care: 'Water deeply but infrequently. Prune after flowering.',
+                benefits: 'Fragrant, attracts pollinators',
+                zone: '5-9',
+                image: '🌸'
+            },
+            {
+                name: 'Rosemary',
+                scientific: 'Rosmarinus officinalis',
+                type: 'herb',
+                water: 'Low',
+                sun: 'Full sun',
+                soil: 'Well-draining',
+                care: 'Water when soil is dry. Can be pruned for shape.',
+                benefits: 'Culinary, fragrant',
+                zone: '8-10',
+                image: '🌱'
+            },
+            {
+                name: 'Bougainvillea',
+                scientific: 'Bougainvillea glabra',
+                type: 'flower',
+                water: 'Low',
+                sun: 'Full sun',
+                soil: 'Well-draining',
+                care: 'Water deeply but rarely. Thrives on neglect.',
+                benefits: 'Colorful bracts, fast growing',
+                zone: '9-11',
+                image: '🌸'
+            },
+            {
+                name: 'Agave',
+                scientific: 'Agave americana',
+                type: 'succulent',
+                water: 'Very Low',
+                sun: 'Full sun',
+                soil: 'Sandy, well-draining',
+                care: 'Water monthly in summer, less in winter.',
+                benefits: 'Architectural interest',
+                zone: '8-11',
+                image: '🌵'
+            },
+            {
+                name: 'Neem Tree',
+                scientific: 'Azadirachta indica',
+                type: 'tree',
+                water: 'Low',
+                sun: 'Full sun',
+                soil: 'Wide range',
+                care: 'Water young trees regularly, established trees need little.',
+                benefits: 'Medicinal, shade, pest repellent',
+                zone: '10-12',
+                image: '🌳'
+            },
+            {
+                name: 'Cactus',
+                scientific: 'Various species',
+                type: 'succulent',
+                water: 'Very Low',
+                sun: 'Full sun',
+                soil: 'Cactus mix',
+                care: 'Water monthly in summer, almost none in winter.',
+                benefits: 'Unique shapes, flowers',
+                zone: '9-11',
+                image: '🌵'
+            },
+            {
+                name: 'Oleander',
+                scientific: 'Nerium oleander',
+                type: 'flower',
+                water: 'Low',
+                sun: 'Full sun',
+                soil: 'Well-draining',
+                care: 'Drought tolerant once established. Toxic if ingested.',
+                benefits: 'Beautiful flowers, evergreen',
+                zone: '8-10',
+                image: '🌸'
+            },
+            {
+                name: 'Jade Plant',
+                scientific: 'Crassula ovata',
+                type: 'succulent',
+                water: 'Low',
+                sun: 'Bright indirect',
+                soil: 'Well-draining',
+                care: 'Water when soil is dry. Bring indoors in winter.',
+                benefits: 'Good luck plant, easy to propagate',
+                zone: '10-11',
+                image: '🪴'
+            },
+            {
+                name: 'Portulaca',
+                scientific: 'Portulaca grandiflora',
+                type: 'flower',
+                water: 'Very Low',
+                sun: 'Full sun',
+                soil: 'Poor, sandy',
+                care: 'Water sparingly. Self-seeds easily.',
+                benefits: 'Colorful ground cover',
+                zone: '5-11',
+                image: '🌼'
+            },
+            {
+                name: 'Yucca',
+                scientific: 'Yucca filamentosa',
+                type: 'succulent',
+                water: 'Very Low',
+                sun: 'Full sun',
+                soil: 'Well-draining',
+                care: 'Almost impossible to kill. Remove dead leaves.',
+                benefits: 'Dramatic foliage, flowers',
+                zone: '4-10',
+                image: '🌿'
+            }
+        ];
+
+        function displayPlants(plantsToShow) {
+            const grid = document.getElementById('plantGrid');
+            grid.innerHTML = plantsToShow.map(plant => `
+                <div class="plant-card">
+                    <div class="plant-image">
+                        <div class="plant-icon">${plant.image}</div>
+                    </div>
+                    <div class="plant-content">
+                        <h3 class="plant-title">${plant.name}</h3>
+                        <div class="plant-scientific">${plant.scientific}</div>
+                        <div class="plant-tags">
+                            <span class="plant-tag water-wise">💧 ${plant.water}</span>
+                            <span class="plant-tag sun-lover">☀️ ${plant.sun}</span>
+                            <span class="plant-tag">🌱 ${plant.type}</span>
+                        </div>
+                        <p><strong>Soil:</strong> ${plant.soil}</p>
+                        <p><strong>Care:</strong> ${plant.care}</p>
+                        <p><strong>Benefits:</strong> ${plant.benefits}</p>
+                        <p><strong>Zone:</strong> ${plant.zone}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterPlants() {
+            const search = document.getElementById('plantSearch').value.toLowerCase();
+            const filtered = plants.filter(p => 
+                p.name.toLowerCase().includes(search) ||
+                p.type.toLowerCase().includes(search)
+            );
+            displayPlants(filtered);
+        }
+
+        function filterPlantsBy(type) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (type === 'all') {
+                displayPlants(plants);
+            } else {
+                const filtered = plants.filter(p => p.type === type);
+                displayPlants(filtered);
+            }
+        }
+
+        // ===== UNIT CONVERSION =====
+        function setUnit(unit) {
+            currentUnit = unit;
+            document.querySelectorAll('.unit-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateFootprint();
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFootprint();
+            updateRainwater();
+            updateLeakScore();
+            updateTimerDisplay();
+            displayPlants(plants);
+            
+            // Set initial leak checklist items
+            for (let i = 1; i <= 8; i++) {
+                document.getElementById('leak' + i).checked = false;
+            }
+        });
+
+        // ===== AI ASSISTANT TOGGLE =====
+        document.querySelector('.ai-header').addEventListener('click', function() {
+            const body = document.querySelector('.ai-chat-body');
+            const icon = this.querySelector('i');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(0)';
+            }
+        });
+    </script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

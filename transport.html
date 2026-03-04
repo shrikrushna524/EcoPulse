@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Smart Transportation Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Transportation Module Specific Styles */
+        .transport-hero {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .transport-hero::before {
+            content: '🚌';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .transport-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .transport-stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .transport-stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #3498db;
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.2);
+        }
+        
+        .transport-stat-icon {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+        
+        .transport-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3498db;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .transport-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .transport-card:hover {
+            transform: translateY(-5px);
+            border-color: #3498db;
+            box-shadow: 0 20px 40px rgba(52, 152, 219, 0.2);
+        }
+        
+        .transport-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #3498db, #2ecc71);
+        }
+        
+        .transport-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .mode-btn:hover {
+            border-color: #3498db;
+            transform: translateY(-2px);
+        }
+        
+        .mode-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .mode-btn i {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        .route-result {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .score-meter {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .score-circle-bg {
+            fill: none;
+            stroke: var(--border-color);
+            stroke-width: 8;
+        }
+        
+        .score-circle-fill {
+            fill: none;
+            stroke: #2ecc71;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s;
+        }
+        
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2ecc71;
+        }
+        
+        .schedule-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .schedule-time {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #3498db;
+        }
+        
+        .route-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-metro {
+            background: #3498db;
+            color: white;
+        }
+        
+        .badge-bus {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .badge-train {
+            background: #e67e22;
+            color: white;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .checklist-item:hover {
+            background: var(--bg-hover);
+        }
+        
+        .checklist-item.completed {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #2ecc71;
+        }
+        
+        .carpool-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .carpool-card:hover {
+            border-color: #3498db;
+            transform: translateX(5px);
+        }
+        
+        .carpool-match {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin: 0.5rem 0;
+        }
+        
+        .match-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .match-details {
+            flex: 1;
+        }
+        
+        .match-route {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .contact-btn {
+            padding: 0.5rem 1rem;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn:hover {
+            transform: scale(1.05);
+            background: #27ae60;
+        }
+        
+        .savings-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid #2ecc71;
+            border-radius: 30px;
+            color: #2ecc71;
+            font-weight: 600;
+        }
+        
+        .transport-tip {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .transport-tip::before {
+            content: '💡';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+        
+        .city-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .city-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .city-btn:hover {
+            border-color: #3498db;
+        }
+        
+        .city-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .emissions-bar {
+            height: 30px;
+            background: var(--bg-primary);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+        
+        .emissions-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #f1c40f, #e74c3c);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .route-animation {
+            position: relative;
+            height: 100px;
+            margin: 2rem 0;
+        }
+        
+        .route-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--border-color);
+            transform: translateY(-50%);
+        }
+        
+        .route-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: moveDot 3s linear infinite;
+        }
+        
+        @keyframes moveDot {
+            0% { left: 0; }
+            100% { left: 100%; }
+        }
+        
+        .transport-quick-fact {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html" class="active"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="transport-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-bus" style="color: #3498db;"></i> 
+                Smart Transportation Hub
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px;">
+                Plan eco-friendly routes, compare costs, find carpool matches, and reduce your carbon footprint.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #2ecc71;"></i> 5 Interactive Tools</div>
+                <div><i class="fas fa-check-circle" style="color: #2ecc71;"></i> Real-time Calculations</div>
+                <div><i class="fas fa-check-circle" style="color: #2ecc71;"></i> Save Money & Planet</div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="transport-stats">
+            <div class="transport-stat-card">
+                <i class="fas fa-car transport-stat-icon"></i>
+                <div class="transport-stat-value" id="avgCarCO2">251</div>
+                <div class="stat-label">g CO₂/km (Car)</div>
+            </div>
+            <div class="transport-stat-card">
+                <i class="fas fa-bus transport-stat-icon"></i>
+                <div class="transport-stat-value" id="avgBusCO2">105</div>
+                <div class="stat-label">g CO₂/km (Bus)</div>
+            </div>
+            <div class="transport-stat-card">
+                <i class="fas fa-bicycle transport-stat-icon"></i>
+                <div class="transport-stat-value" id="avgBikeCO2">0</div>
+                <div class="stat-label">g CO₂/km (Bike)</div>
+            </div>
+            <div class="transport-stat-card">
+                <i class="fas fa-walking transport-stat-icon"></i>
+                <div class="transport-stat-value" id="avgWalkCO2">0</div>
+                <div class="stat-label">g CO₂/km (Walk)</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="calculator-grid">
+            <!-- 1. ECO-ROUTE PLANNER -->
+            <div class="transport-card">
+                <i class="fas fa-route transport-icon"></i>
+                <h2>🚲 Eco-Route Planner</h2>
+                <p style="color: var(--text-secondary);">Compare carbon footprint across transport modes</p>
+                
+                <div style="margin: 2rem 0;">
+                    <div class="form-group">
+                        <label><i class="fas fa-road"></i> Distance (km)</label>
+                        <input type="range" id="routeDistance" min="1" max="50" value="10" step="1" oninput="updateRoutePlanner()">
+                        <span id="distanceValue">10 km</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-users"></i> Number of passengers</label>
+                        <input type="range" id="passengers" min="1" max="6" value="1" step="1" oninput="updateRoutePlanner()">
+                        <span id="passengersValue">1 person</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-car"></i> Car fuel efficiency (km/l)</label>
+                        <input type="range" id="carEfficiency" min="8" max="25" value="15" step="1" oninput="updateRoutePlanner()">
+                        <span id="efficiencyValue">15 km/l</span>
+                    </div>
+                </div>
+                
+                <div class="mode-selector">
+                    <div class="mode-btn active" onclick="selectMode('car')">
+                        <i class="fas fa-car"></i>
+                        Car
+                    </div>
+                    <div class="mode-btn" onclick="selectMode('bus')">
+                        <i class="fas fa-bus"></i>
+                        Bus
+                    </div>
+                    <div class="mode-btn" onclick="selectMode('metro')">
+                        <i class="fas fa-subway"></i>
+                        Metro
+                    </div>
+                    <div class="mode-btn" onclick="selectMode('bike')">
+                        <i class="fas fa-bicycle"></i>
+                        Bike
+                    </div>
+                    <div class="mode-btn" onclick="selectMode('walk')">
+                        <i class="fas fa-walking"></i>
+                        Walk
+                    </div>
+                </div>
+                
+                <div class="route-result" id="routeResult">
+                    <h3>Comparison Results</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Mode</th>
+                            <th>Time</th>
+                            <th>CO₂</th>
+                            <th>Cost</th>
+                            <th>Calories</th>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-car"></i> Car</td>
+                            <td id="carTime">15 min</td>
+                            <td id="carCO2">2.5 kg</td>
+                            <td id="carCost">₹50</td>
+                            <td id="carCalories">30</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-bus"></i> Bus</td>
+                            <td id="busTime">25 min</td>
+                            <td id="busCO2">1.1 kg</td>
+                            <td id="busCost">₹15</td>
+                            <td id="busCalories">40</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-bicycle"></i> Bike</td>
+                            <td id="bikeTime">40 min</td>
+                            <td id="bikeCO2">0 kg</td>
+                            <td id="bikeCost">₹0</td>
+                            <td id="bikeCalories">300</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-walking"></i> Walk</td>
+                            <td id="walkTime">120 min</td>
+                            <td id="walkCO2">0 kg</td>
+                            <td id="walkCost">₹0</td>
+                            <td id="walkCalories">400</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="savings-badge" id="savingsMessage">
+                        Switching to bus saves ₹35 and 1.4 kg CO₂!
+                    </div>
+                </div>
+                
+                <div class="emissions-bar">
+                    <div class="emissions-fill" id="emissionsBar" style="width: 50%;"></div>
+                </div>
+            </div>
+
+            <!-- 2. PUBLIC TRANSIT SCHEDULES -->
+            <div class="transport-card">
+                <i class="fas fa-clock transport-icon"></i>
+                <h2>🕒 Public Transit Schedules</h2>
+                <p style="color: var(--text-secondary);">Real-time schedules for major cities</p>
+                
+                <div class="city-selector">
+                    <span class="city-btn active" onclick="selectCity('delhi')">Delhi</span>
+                    <span class="city-btn" onclick="selectCity('mumbai')">Mumbai</span>
+                    <span class="city-btn" onclick="selectCity('bangalore')">Bangalore</span>
+                    <span class="city-btn" onclick="selectCity('chennai')">Chennai</span>
+                    <span class="city-btn" onclick="selectCity('kolkata')">Kolkata</span>
+                </div>
+                
+                <div style="margin: 1rem 0;">
+                    <select id="routeSelect" class="form-control" onchange="updateSchedules()">
+                        <option value="airport">Airport Express</option>
+                        <option value="central">City Center Route</option>
+                        <option value="ring">Ring Road</option>
+                        <option value="east">East Corridor</option>
+                        <option value="west">West Corridor</option>
+                    </select>
+                </div>
+                
+                <div id="schedulesList">
+                    <!-- Schedules will be populated by JavaScript -->
+                </div>
+                
+                <div class="transport-quick-fact">
+                    <i class="fas fa-info-circle" style="color: #3498db;"></i>
+                    Next bus: 5 minutes • Platform 2 • Towards Central
+                </div>
+            </div>
+
+            <!-- 3. WALKABILITY SCORE -->
+            <div class="transport-card">
+                <i class="fas fa-person-walking transport-icon"></i>
+                <h2>🚶 Walkability Score</h2>
+                <p style="color: var(--text-secondary);">Rate how walkable your neighborhood is</p>
+                
+                <div class="score-meter">
+                    <svg width="200" height="200">
+                        <circle class="score-circle-bg" cx="100" cy="100" r="90"/>
+                        <circle class="score-circle-fill" id="walkabilityCircle" cx="100" cy="100" r="90" stroke-dasharray="565.48" stroke-dashoffset="282.74"/>
+                    </svg>
+                    <div class="score-text" id="walkabilityScore">50</div>
+                </div>
+                
+                <div style="margin: 2rem 0;" id="walkabilityChecklist">
+                    <div class="checklist-item" onclick="toggleWalkability(0)">
+                        <input type="checkbox" id="walk1" onchange="updateWalkability()">
+                        <div>
+                            <strong>Grocery store within 15 min walk</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Access to fresh food</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(1)">
+                        <input type="checkbox" id="walk2" onchange="updateWalkability()">
+                        <div>
+                            <strong>School within 15 min walk</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Educational facilities nearby</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(2)">
+                        <input type="checkbox" id="walk3" onchange="updateWalkability()">
+                        <div>
+                            <strong>Park within 10 min walk</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Green space access</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(3)">
+                        <input type="checkbox" id="walk4" onchange="updateWalkability()">
+                        <div>
+                            <strong>Public transport within 10 min walk</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Bus/metro access</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(4)">
+                        <input type="checkbox" id="walk5" onchange="updateWalkability()">
+                        <div>
+                            <strong>Restaurants/cafes within 15 min walk</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Dining options nearby</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(5)">
+                        <input type="checkbox" id="walk6" onchange="updateWalkability()">
+                        <div>
+                            <strong>Pharmacy within 15 min walk</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Healthcare access</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(6)">
+                        <input type="checkbox" id="walk7" onchange="updateWalkability()">
+                        <div>
+                            <strong>Bank/ATM within 15 min walk</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Financial services</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(7)">
+                        <input type="checkbox" id="walk8" onchange="updateWalkability()">
+                        <div>
+                            <strong>Sidewalks in good condition</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Safe walking paths</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(8)">
+                        <input type="checkbox" id="walk9" onchange="updateWalkability()">
+                        <div>
+                            <strong>Crosswalks with signals</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Safe street crossing</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleWalkability(9)">
+                        <input type="checkbox" id="walk10" onchange="updateWalkability()">
+                        <div>
+                            <strong>Street lighting at night</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Safety after dark</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="walkabilityResult" class="transport-quick-fact">
+                    <strong>Your neighborhood:</strong> <span id="walkabilityRating">Average walkability</span>
+                </div>
+            </div>
+
+            <!-- 4. COMMUTE COST CALCULATOR -->
+            <div class="transport-card">
+                <i class="fas fa-coins transport-icon"></i>
+                <h2>📈 Commute Cost Calculator</h2>
+                <p style="color: var(--text-secondary);">Calculate savings from greener transport</p>
+                
+                <div style="margin: 2rem 0;">
+                    <div class="form-group">
+                        <label><i class="fas fa-road"></i> Daily commute distance (km)</label>
+                        <input type="range" id="commuteDistance" min="1" max="100" value="20" step="1" oninput="updateCostCalculator()">
+                        <span id="commuteDistanceValue">20 km</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Working days per month</label>
+                        <input type="range" id="workDays" min="20" max="30" value="22" step="1" oninput="updateCostCalculator()">
+                        <span id="workDaysValue">22 days</span>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2rem 0;">
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 2rem; color: #e74c3c;" id="carCost">₹5,280</div>
+                        <small>Car (monthly)</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 2rem; color: #f39c12;" id="busCost">₹1,100</div>
+                        <small>Bus (monthly)</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 2rem; color: #2ecc71;" id="metroCost">₹1,760</div>
+                        <small>Metro (monthly)</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                        <div style="font-size: 2rem; color: #3498db;" id="bikeCost">₹0</div>
+                        <small>Bike/Walk</small>
+                    </div>
+                </div>
+                
+                <div class="savings-badge" id="monthlySavings">
+                    Switch to bus to save ₹4,180/month!
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <h4>Yearly Projections</h4>
+                    <div class="emissions-bar">
+                        <div class="emissions-fill" id="yearlySavingsBar" style="width: 75%;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Car: ₹<span id="yearlyCar">63,360</span></span>
+                        <span>Bus: ₹<span id="yearlyBus">13,200</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. CARPOOL MATCH -->
+        <div class="transport-card" style="margin-top: 2rem;">
+            <i class="fas fa-car-side transport-icon"></i>
+            <h2>🚘 Carpool Match</h2>
+            <p style="color: var(--text-secondary);">Find carpool partners along your route</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                <div>
+                    <h4>Your Commute</h4>
+                    <div class="form-group">
+                        <label>Start location</label>
+                        <input type="text" id="startLocation" class="form-control" placeholder="e.g., Dwarka" value="Dwarka">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <input type="text" id="endLocation" class="form-control" placeholder="e.g., Connaught Place" value="Connaught Place">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Departure time</label>
+                        <input type="time" id="departureTime" class="form-control" value="09:00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Return time</label>
+                        <input type="time" id="returnTime" class="form-control" value="18:00">
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%;" onclick="findMatches()">
+                        <i class="fas fa-search"></i> Find Matches
+                    </button>
+                </div>
+                
+                <div>
+                    <h4>Potential Matches</h4>
+                    <div id="matchesList">
+                        <div class="carpool-match">
+                            <div class="match-avatar">RK</div>
+                            <div class="match-details">
+                                <strong>Rahul K.</strong>
+                                <div class="match-route">
+                                    <i class="fas fa-circle" style="color: #2ecc71; font-size: 0.5rem;"></i> Dwarka
+                                    <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-circle" style="color: #e74c3c; font-size: 0.5rem;"></i> CP
+                                </div>
+                                <small>⏰ 8:45 AM • 4.2 km away</small>
+                            </div>
+                            <button class="contact-btn" onclick="contactMatch('Rahul')">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="carpool-match">
+                            <div class="match-avatar">PS</div>
+                            <div class="match-details">
+                                <strong>Priya S.</strong>
+                                <div class="match-route">
+                                    <i class="fas fa-circle" style="color: #2ecc71; font-size: 0.5rem;"></i> Vikaspuri
+                                    <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-circle" style="color: #e74c3c; font-size: 0.5rem;"></i> Rajiv Chowk
+                                </div>
+                                <small>⏰ 9:15 AM • 3.1 km away</small>
+                            </div>
+                            <button class="contact-btn" onclick="contactMatch('Priya')">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="carpool-match">
+                            <div class="match-avatar">AM</div>
+                            <div class="match-details">
+                                <strong>Amit M.</strong>
+                                <div class="match-route">
+                                    <i class="fas fa-circle" style="color: #2ecc71; font-size: 0.5rem;"></i> Janakpuri
+                                    <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-circle" style="color: #e74c3c; font-size: 0.5rem;"></i> ITO
+                                </div>
+                                <small>⏰ 8:30 AM • 2.8 km away</small>
+                            </div>
+                            <button class="contact-btn" onclick="contactMatch('Amit')">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transport Tips -->
+        <div class="transport-tip">
+            <h3>💡 Green Commuting Tips</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 1rem;">
+                <div>
+                    <i class="fas fa-check-circle" style="color: #2ecc71;"></i> Carpooling saves ₹4,000/month
+                </div>
+                <div>
+                    <i class="fas fa-check-circle" style="color: #2ecc71;"></i> Cycling burns 300 calories/hour
+                </div>
+                <div>
+                    <i class="fas fa-check-circle" style="color: #2ecc71;"></i> Public transport reduces CO₂ by 60%
+                </div>
+            </div>
+        </div>
+
+        <!-- Route Animation -->
+        <div class="route-animation">
+            <div class="route-line"></div>
+            <div class="route-dot"></div>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">🚌</div>
+            <div>
+                <h4>Transport AI Assistant</h4>
+                <small>Ask me about routes, costs, or carpooling!</small>
+            </div>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    Hi! I'm your transportation expert. Ask me about eco-routes, public transit, or carpool matching! 🚲
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== ECO-ROUTE PLANNER =====
+        let selectedMode = 'car';
+        
+        function updateRoutePlanner() {
+            const distance = parseInt(document.getElementById('routeDistance').value);
+            const passengers = parseInt(document.getElementById('passengers').value);
+            const efficiency = parseInt(document.getElementById('carEfficiency').value);
+            
+            document.getElementById('distanceValue').textContent = distance + ' km';
+            document.getElementById('passengersValue').textContent = passengers + (passengers === 1 ? ' person' : ' people');
+            document.getElementById('efficiencyValue').textContent = efficiency + ' km/l';
+            
+            // Calculate times (assuming average speeds)
+            const carSpeed = 40; // km/h
+            const busSpeed = 25;
+            const bikeSpeed = 15;
+            const walkSpeed = 5;
+            
+            const carTime = Math.round(distance / carSpeed * 60);
+            const busTime = Math.round(distance / busSpeed * 60);
+            const bikeTime = Math.round(distance / bikeSpeed * 60);
+            const walkTime = Math.round(distance / walkSpeed * 60);
+            
+            // Calculate CO2 emissions (g per km)
+            const carCO2 = Math.round(distance * 251 / passengers); // Shared among passengers
+            const busCO2 = Math.round(distance * 105); // Per passenger
+            const bikeCO2 = 0;
+            const walkCO2 = 0;
+            
+            // Calculate costs
+            const fuelPrice = 100; // ₹ per liter
+            const carCost = Math.round(distance / efficiency * fuelPrice / passengers);
+            const busCost = Math.round(distance * 1.5); // ₹1.5 per km
+            const bikeCost = 0;
+            const walkCost = 0;
+            
+            // Calculate calories (per km)
+            const carCalories = 10;
+            const busCalories = 15;
+            const bikeCalories = 30;
+            const walkCalories = 50;
+            
+            // Update display
+            document.getElementById('carTime').textContent = carTime + ' min';
+            document.getElementById('busTime').textContent = busTime + ' min';
+            document.getElementById('bikeTime').textContent = bikeTime + ' min';
+            document.getElementById('walkTime').textContent = walkTime + ' min';
+            
+            document.getElementById('carCO2').textContent = (carCO2 / 1000).toFixed(2) + ' kg';
+            document.getElementById('busCO2').textContent = (busCO2 / 1000).toFixed(2) + ' kg';
+            document.getElementById('bikeCO2').textContent = '0 kg';
+            document.getElementById('walkCO2').textContent = '0 kg';
+            
+            document.getElementById('carCost').textContent = '₹' + carCost;
+            document.getElementById('busCost').textContent = '₹' + busCost;
+            document.getElementById('bikeCost').textContent = '₹0';
+            document.getElementById('walkCost').textContent = '₹0';
+            
+            document.getElementById('carCalories').textContent = carCalories * distance;
+            document.getElementById('busCalories').textContent = busCalories * distance;
+            document.getElementById('bikeCalories').textContent = bikeCalories * distance;
+            document.getElementById('walkCalories').textContent = walkCalories * distance;
+            
+            // Update savings message
+            const savings = carCost - busCost;
+            const co2Savings = ((carCO2 - busCO2) / 1000).toFixed(2);
+            document.getElementById('savingsMessage').innerHTML = 
+                `Switching to bus saves ₹${savings} and ${co2Savings} kg CO₂!`;
+            
+            // Update emissions bar
+            const maxCO2 = 5000; // 5kg max
+            const emissionsPercent = Math.min(100, (carCO2 / maxCO2) * 100);
+            document.getElementById('emissionsBar').style.width = emissionsPercent + '%';
+        }
+        
+        function selectMode(mode) {
+            selectedMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // ===== PUBLIC TRANSIT SCHEDULES =====
+        let currentCity = 'delhi';
+        
+        const schedules = {
+            delhi: {
+                airport: [
+                    { time: '05:30', platform: '1', destination: 'Airport T3', type: 'metro' },
+                    { time: '06:00', platform: '2', destination: 'Airport T3', type: 'metro' },
+                    { time: '06:30', platform: '1', destination: 'Airport T3', type: 'metro' },
+                    { time: '07:00', platform: '2', destination: 'Airport T3', type: 'metro' },
+                    { time: '07:30', platform: '1', destination: 'Airport T3', type: 'metro' }
+                ],
+                central: [
+                    { time: '05:45', platform: '3', destination: 'Rajiv Chowk', type: 'metro' },
+                    { time: '06:15', platform: '4', destination: 'Central Secretariat', type: 'metro' },
+                    { time: '06:45', platform: '3', destination: 'Rajiv Chowk', type: 'metro' },
+                    { time: '07:15', platform: '4', destination: 'Central Secretariat', type: 'metro' }
+                ],
+                ring: [
+                    { time: '06:00', platform: '5', destination: 'Ring Road', type: 'bus' },
+                    { time: '06:20', platform: '5', destination: 'Ring Road', type: 'bus' },
+                    { time: '06:40', platform: '5', destination: 'Ring Road', type: 'bus' },
+                    { time: '07:00', platform: '5', destination: 'Ring Road', type: 'bus' }
+                ]
+            },
+            mumbai: {
+                airport: [
+                    { time: '05:15', platform: '1', destination: 'Airport', type: 'metro' },
+                    { time: '05:45', platform: '2', destination: 'Airport', type: 'metro' },
+                    { time: '06:15', platform: '1', destination: 'Airport', type: 'metro' }
+                ],
+                central: [
+                    { time: '05:30', platform: '1', destination: 'Churchgate', type: 'train' },
+                    { time: '06:00', platform: '2', destination: 'CST', type: 'train' },
+                    { time: '06:30', platform: '1', destination: 'Churchgate', type: 'train' }
+                ]
+            }
+        };
+        
+        function selectCity(city) {
+            currentCity = city;
+            document.querySelectorAll('.city-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateSchedules();
+        }
+        
+        function updateSchedules() {
+            const route = document.getElementById('routeSelect').value;
+            const citySchedules = schedules[currentCity]?.[route] || schedules.delhi.central;
+            
+            const list = document.getElementById('schedulesList');
+            list.innerHTML = citySchedules.map(s => `
+                <div class="schedule-card">
+                    <div>
+                        <span class="schedule-time">${s.time}</span>
+                        <span class="route-badge badge-${s.type}">${s.type}</span>
+                    </div>
+                    <div>
+                        <strong>${s.destination}</strong>
+                        <span style="color: var(--text-secondary); margin-left: 1rem;">Platform ${s.platform}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ===== WALKABILITY SCORE =====
+        function toggleWalkability(index) {
+            const checkbox = document.getElementById('walk' + (index + 1));
+            checkbox.checked = !checkbox.checked;
+            updateWalkability();
+        }
+        
+        function updateWalkability() {
+            let score = 0;
+            for (let i = 1; i <= 10; i++) {
+                if (document.getElementById('walk' + i).checked) score++;
+            }
+            
+            const percentage = (score / 10) * 100;
+            document.getElementById('walkabilityScore').textContent = score * 10;
+            
+            // Update circle
+            const circumference = 2 * Math.PI * 90;
+            const offset = circumference - (percentage / 100) * circumference;
+            document.getElementById('walkabilityCircle').style.strokeDashoffset = offset;
+            
+            // Update checklist items styling
+            for (let i = 1; i <= 10; i++) {
+                const item = document.getElementById('walk' + i).parentElement;
+                if (document.getElementById('walk' + i).checked) {
+                    item.classList.add('completed');
+                } else {
+                    item.classList.remove('completed');
+                }
+            }
+            
+            // Update rating
+            let rating = '';
+            if (score >= 9) rating = 'Walker\'s Paradise (90-100)';
+            else if (score >= 7) rating = 'Very Walkable (70-89)';
+            else if (score >= 5) rating = 'Somewhat Walkable (50-69)';
+            else if (score >= 3) rating = 'Car-Dependent (30-49)';
+            else rating = 'Very Car-Dependent (0-29)';
+            
+            document.getElementById('walkabilityRating').textContent = rating;
+        }
+
+        // ===== COMMUTE COST CALCULATOR =====
+        function updateCostCalculator() {
+            const distance = parseInt(document.getElementById('commuteDistance').value);
+            const days = parseInt(document.getElementById('workDays').value);
+            
+            document.getElementById('commuteDistanceValue').textContent = distance + ' km';
+            document.getElementById('workDaysValue').textContent = days + ' days';
+            
+            // Calculate monthly costs
+            const fuelPrice = 100; // ₹ per liter
+            const efficiency = 15; // km/l
+            const carMonthly = Math.round((distance * 2 * days) / efficiency * fuelPrice);
+            const busMonthly = Math.round(distance * 2 * days * 1.5); // ₹1.5 per km
+            const metroMonthly = Math.round(distance * 2 * days * 2.5); // ₹2.5 per km
+            const bikeMonthly = 0;
+            
+            document.getElementById('carCost').textContent = '₹' + carMonthly.toLocaleString();
+            document.getElementById('busCost').textContent = '₹' + busMonthly.toLocaleString();
+            document.getElementById('metroCost').textContent = '₹' + metroMonthly.toLocaleString();
+            document.getElementById('bikeCost').textContent = '₹0';
+            
+            // Yearly projections
+            const yearlyCar = carMonthly * 12;
+            const yearlyBus = busMonthly * 12;
+            
+            document.getElementById('yearlyCar').textContent = yearlyCar.toLocaleString();
+            document.getElementById('yearlyBus').textContent = yearlyBus.toLocaleString();
+            
+            // Savings bar
+            const savingsPercent = ((yearlyCar - yearlyBus) / yearlyCar) * 100;
+            document.getElementById('yearlySavingsBar').style.width = savingsPercent + '%';
+            
+            // Update message
+            const monthlySavings = carMonthly - busMonthly;
+            document.getElementById('monthlySavings').innerHTML = 
+                `Switch to bus to save ₹${monthlySavings.toLocaleString()}/month!`;
+        }
+
+        // ===== CARPOOL MATCH =====
+        function findMatches() {
+            const start = document.getElementById('startLocation').value;
+            const end = document.getElementById('endLocation').value;
+            const depTime = document.getElementById('departureTime').value;
+            const retTime = document.getElementById('returnTime').value;
+            
+            // Simulate finding matches
+            const matches = [
+                { name: 'Rahul K.', start: 'Dwarka', end: 'CP', time: '8:45 AM', distance: '4.2 km' },
+                { name: 'Priya S.', start: 'Vikaspuri', end: 'Rajiv Chowk', time: '9:15 AM', distance: '3.1 km' },
+                { name: 'Amit M.', start: 'Janakpuri', end: 'ITO', time: '8:30 AM', distance: '2.8 km' },
+                { name: 'Neha G.', start: 'Palam', end: 'AIIMS', time: '8:50 AM', distance: '5.4 km' }
+            ];
+            
+            const list = document.getElementById('matchesList');
+            list.innerHTML = matches.map(m => `
+                <div class="carpool-match">
+                    <div class="match-avatar">${m.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="match-details">
+                        <strong>${m.name}</strong>
+                        <div class="match-route">
+                            <i class="fas fa-circle" style="color: #2ecc71; font-size: 0.5rem;"></i> ${m.start}
+                            <i class="fas fa-arrow-right"></i>
+                            <i class="fas fa-circle" style="color: #e74c3c; font-size: 0.5rem;"></i> ${m.end}
+                        </div>
+                        <small>⏰ ${m.time} • ${m.distance} away</small>
+                    </div>
+                    <button class="contact-btn" onclick="contactMatch('${m.name.split(' ')[0]}')">
+                        <i class="fas fa-comment"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function contactMatch(name) {
+            alert(`Message sent to ${name}! They will respond shortly.`);
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            updateRoutePlanner();
+            updateSchedules();
+            updateCostCalculator();
+            
+            // Set initial walkability checkboxes
+            for (let i = 1; i <= 10; i++) {
+                document.getElementById('walk' + i).checked = false;
+            }
+        });
+
+        // ===== AI ASSISTANT TOGGLE =====
+        document.querySelector('.ai-header').addEventListener('click', function() {
+            const body = document.querySelector('.ai-chat-body');
+            const icon = this.querySelector('i');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(0)';
+            }
+        });
+    </script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

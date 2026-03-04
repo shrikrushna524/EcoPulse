@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Renewable Energy Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/dark-theme.css">
+<link rel="stylesheet" href="css/light-theme.css">
+<link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Energy Module Specific Styles */
+        .energy-hero {
+            background: linear-gradient(135deg, #1a4d3c, #0a2f2a);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .energy-hero::before {
+            content: '⚡';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .solar-panel-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 10px, transparent 10px, transparent 20px);
+            pointer-events: none;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .energy-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .energy-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+            box-shadow: 0 20px 40px rgba(76, 175, 80, 0.2);
+        }
+        
+        .energy-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #4CAF50, #2196F3);
+        }
+        
+        .energy-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #4CAF50;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .savings-badge {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+        
+        .map-container {
+            height: 400px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .wind-speed-indicator {
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #4CAF50, #FFC107, #F44336);
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .battery-level {
+            height: 200px;
+            width: 100px;
+            border: 3px solid var(--accent-green);
+            border-radius: 20px;
+            position: relative;
+            margin: 2rem auto;
+            background: var(--bg-primary);
+        }
+        
+        .battery-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(180deg, #4CAF50, #2196F3);
+            border-radius: 0 0 15px 15px;
+            transition: height 0.5s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .battery-level::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 10px;
+            background: var(--accent-green);
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .audit-checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .audit-checklist li {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .audit-checklist li:hover {
+            background: var(--bg-hover);
+        }
+        
+        .audit-checklist li.completed {
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .audit-checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #4CAF50;
+        }
+        
+        .carbon-counter {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            animation: countUp 2s ease-out;
+        }
+        
+        .energy-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .stat-box {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        
+        .region-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .region-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .region-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .region-btn:hover {
+            border-color: #4CAF50;
+        }
+        
+        .savings-chart {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 1rem 0;
+        }
+        
+        .chart-bar {
+            height: 30px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            border-radius: 15px;
+            margin: 0.5rem 0;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .chart-bar span {
+            position: absolute;
+            right: 10px;
+            color: white;
+            font-weight: 600;
+            line-height: 30px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .energy-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            padding: 2rem;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 16px;
+            margin: 2rem 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        .green-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
+            <a href="energy.html" class="active"><i class="fas fa-solar-panel"></i> Energy</a>
+            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
+            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
+            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
+            <a href="water.html"><i class="fas fa-water"></i> Water</a>
+            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+        </div>
+        <div class="nav-right">
+            <select id="languageSelector" style="margin-right: 1rem; padding: 0.5rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 8px;">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="pa">ਪੰਜਾਬੀ</option>
+            </select>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Hero Section -->
+        <div class="energy-hero">
+            <div class="solar-panel-bg"></div>
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-solar-panel" style="color: #4CAF50;"></i> 
+                Renewable Energy Hub
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px;">
+                Harness the power of clean energy. Calculate savings, explore wind potential, and track your carbon footprint in real-time.
+            </p>
+            <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                <div><i class="fas fa-check-circle" style="color: #4CAF50;"></i> 100% Free Tools</div>
+                <div><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Real-time Calculations</div>
+                <div><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Government Approved</div>
+            </div>
+        </div>
+
+        <!-- Live Carbon Counter -->
+        <div class="energy-card" style="text-align: center; margin-bottom: 2rem;">
+            <i class="fas fa-globe-asia energy-icon"></i>
+            <h2>🌍 Global CO₂ Saved by Renewables Today</h2>
+            <div class="carbon-counter" id="carbonCounter">0</div>
+            <p style="color: var(--text-secondary);">metric tons</p>
+            <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 1rem;">
+                <div class="tooltip">
+                    <i class="fas fa-tree"></i> <span id="treesEquivalent">0</span> trees
+                    <span class="tooltiptext">Equivalent to trees planted</span>
+                </div>
+                <div class="tooltip">
+                    <i class="fas fa-car"></i> <span id="carsEquivalent">0</span> cars
+                    <span class="tooltiptext">Cars off the road for 1 year</span>
+                </div>
+                <div class="tooltip">
+                    <i class="fas fa-home"></i> <span id="homesEquivalent">0</span> homes
+                    <span class="tooltiptext">Homes powered for 1 year</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Calculator Grid -->
+        <div class="calculator-grid">
+            <!-- 1. SOLAR POTENTIAL CALCULATOR -->
+            <div class="energy-card">
+                <i class="fas fa-sun energy-icon"></i>
+                <h2>⚡ Solar Potential Calculator</h2>
+                <p style="color: var(--text-secondary);">Estimate your solar savings and payback period</p>
+                
+                <div style="margin: 2rem 0;">
+                    <div class="form-group">
+                        <label><i class="fas fa-home"></i> Roof Area (sq ft)</label>
+                        <input type="number" id="roofArea" class="form-control" value="500" min="100" max="10000" step="10">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                        <select id="location" class="form-control">
+                            <option value="delhi">Delhi NCR</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="pune">Pune</option>
+                            <option value="ahmedabad">Ahmedabad</option>
+                            <option value="jaipur">Jaipur</option>
+                            <option value="lucknow">Lucknow</option>
+                            <option value="chandigarh">Chandigarh</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-rupee-sign"></i> Monthly Electricity Bill (₹)</label>
+                        <input type="number" id="electricityBill" class="form-control" value="3000" min="0" max="100000" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-bolt"></i> Electricity Rate (₹/kWh)</label>
+                        <input type="number" id="electricityRate" class="form-control" value="7" min="1" max="20" step="0.5">
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%;" onclick="calculateSolar()">
+                        <i class="fas fa-calculator"></i> Calculate Solar Potential
+                    </button>
+                </div>
+                
+                <div id="solarResults" style="display: none; margin-top: 2rem;">
+                    <div class="savings-badge">Your Solar Potential</div>
+                    
+                    <div class="energy-stats">
+                        <div class="stat-box">
+                            <div class="stat-value" id="solarCapacity">5.2</div>
+                            <small>kW System</small>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="solarGeneration">780</div>
+                            <small>kWh/month</small>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="solarSavings">5460</div>
+                            <small>₹/month</small>
+                        </div>
+                    </div>
+                    
+                    <div class="savings-chart">
+                        <h4>20-Year Savings Projection</h4>
+                        <div class="chart-bar" style="width: 100%"><span>Year 1: ₹65,520</span></div>
+                        <div class="chart-bar" style="width: 200%"><span>Year 10: ₹6,55,200</span></div>
+                        <div class="chart-bar" style="width: 300%"><span>Year 20: ₹13,10,400</span></div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <p><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Payback Period: <strong id="paybackPeriod">4.2 years</strong></p>
+                        <p><i class="fas fa-check-circle" style="color: #4CAF50;"></i> CO₂ Reduction: <strong id="co2Reduction">6.2 tons/year</strong></p>
+                        <p><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Trees Equivalent: <strong id="treesSaved">295 trees</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. WIND ENERGY MAP -->
+            <div class="energy-card">
+                <i class="fas fa-wind energy-icon"></i>
+                <h2>💨 Wind Energy Map</h2>
+                <p style="color: var(--text-secondary);">Explore wind potential across India</p>
+                
+                <div class="region-selector">
+                    <button class="region-btn active" onclick="showWindRegion('north')">North India</button>
+                    <button class="region-btn" onclick="showWindRegion('south')">South India</button>
+                    <button class="region-btn" onclick="showWindRegion('west')">West India</button>
+                    <button class="region-btn" onclick="showWindRegion('east')">East India</button>
+                </div>
+                
+                <div class="map-container" id="windMap">
+                    <canvas id="windMapCanvas" style="width: 100%; height: 100%;"></canvas>
+                </div>
+                
+                <div class="wind-speed-indicator"></div>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                    <span><span style="color: #4CAF50;">●</span> Low (0-3 m/s)</span>
+                    <span><span style="color: #FFC107;">●</span> Medium (3-6 m/s)</span>
+                    <span><span style="color: #F44336;">●</span> High (6+ m/s)</span>
+                </div>
+                
+                <div id="windData" style="margin-top: 2rem;">
+                    <h4>Top Wind Locations:</h4>
+                    <table class="comparison-table">
+                        <tr>
+                            <td>1. Jaisalmer (Rajasthan)</td>
+                            <td><span class="green-badge">8.2 m/s</span></td>
+                        </tr>
+                        <tr>
+                            <td>2. Kanyakumari (Tamil Nadu)</td>
+                            <td><span class="green-badge">7.5 m/s</span></td>
+                        </tr>
+                        <tr>
+                            <td>3. Satara (Maharashtra)</td>
+                            <td><span class="green-badge">6.9 m/s</span></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="calculateWindPotential()">
+                    <i class="fas fa-calculator"></i> Calculate My Wind Potential
+                </button>
+                
+                <div id="windPotentialResult" style="display: none; margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                    <p><strong>Estimated Annual Generation:</strong> <span id="windGeneration">0</span> kWh</p>
+                    <p><strong>Savings:</strong> ₹<span id="windSavings">0</span>/year</p>
+                    <p><strong>CO₂ Reduction:</strong> <span id="windCO2">0</span> tons/year</p>
+                </div>
+            </div>
+
+            <!-- 3. BATTERY STORAGE SIMULATOR -->
+            <div class="energy-card">
+                <i class="fas fa-battery-full energy-icon"></i>
+                <h2>🔋 Battery Storage Simulator</h2>
+                <p style="color: var(--text-secondary);">Calculate your backup power needs</p>
+                
+                <div style="display: flex; gap: 2rem; align-items: center; margin: 2rem 0;">
+                    <div class="battery-level">
+                        <div class="battery-fill" id="batteryFill" style="height: 75%;"></div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="form-group">
+                            <label>Daily Usage (kWh)</label>
+                            <input type="range" id="dailyUsage" min="1" max="50" value="10" step="1" oninput="updateBatterySimulator()">
+                            <span id="usageValue">10 kWh</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Backup Days Needed</label>
+                            <input type="range" id="backupDays" min="1" max="7" value="2" step="1" oninput="updateBatterySimulator()">
+                            <span id="daysValue">2 days</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Solar Generation (kWh/day)</label>
+                            <input type="range" id="solarGen" min="0" max="50" value="8" step="1" oninput="updateBatterySimulator()">
+                            <span id="solarValue">8 kWh</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="batteryResults">
+                    <div class="energy-stats">
+                        <div class="stat-box">
+                            <div class="stat-value" id="batteryCapacity">20</div>
+                            <small>kWh Needed</small>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="batteryCost">2,40,000</div>
+                            <small>Estimated Cost (₹)</small>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="batteryLife">10</div>
+                            <small>Years Life</small>
+                        </div>
+                    </div>
+                    
+                    <div class="savings-chart">
+                        <h4>Battery Recommendations:</h4>
+                        <p>✓ <span id="batteryType">Lithium-ion</span> (Best for daily cycling)</p>
+                        <p>✓ <span id="batteryCount">4</span> units of 5kWh each</p>
+                        <p>✓ Space needed: <span id="batterySpace">2</span> sq m</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. HOME ENERGY AUDIT -->
+            <div class="energy-card">
+                <i class="fas fa-clipboard-check energy-icon"></i>
+                <h2>🏠 Home Energy Audit</h2>
+                <p style="color: var(--text-secondary);">Check your home's energy efficiency</p>
+                
+                <ul class="audit-checklist" id="auditChecklist">
+                    <li onclick="toggleAuditItem(0)" id="audit0">
+                        <input type="checkbox" onchange="updateAuditScore()"> LED bulbs installed throughout
+                    </li>
+                    <li onclick="toggleAuditItem(1)" id="audit1">
+                        <input type="checkbox" onchange="updateAuditScore()"> 5-star rated appliances
+                    </li>
+                    <li onclick="toggleAuditItem(2)" id="audit2">
+                        <input type="checkbox" onchange="updateAuditScore()"> Proper insulation in walls/roof
+                    </li>
+                    <li onclick="toggleAuditItem(3)" id="audit3">
+                        <input type="checkbox" onchange="updateAuditScore()"> Energy-efficient windows (double glaze)
+                    </li>
+                    <li onclick="toggleAuditItem(4)" id="audit4">
+                        <input type="checkbox" onchange="updateAuditScore()"> Solar water heater installed
+                    </li>
+                    <li onclick="toggleAuditItem(5)" id="audit5">
+                        <input type="checkbox" onchange="updateAuditScore()"> BEE star rated ACs (5-star)
+                    </li>
+                    <li onclick="toggleAuditItem(6)" id="audit6">
+                        <input type="checkbox" onchange="updateAuditScore()"> Smart power strips for electronics
+                    </li>
+                    <li onclick="toggleAuditItem(7)" id="audit7">
+                        <input type="checkbox" onchange="updateAuditScore()"> Timer switches for outdoor lights
+                    </li>
+                    <li onclick="toggleAuditItem(8)" id="audit8">
+                        <input type="checkbox" onchange="updateAuditScore()"> Energy monitoring system
+                    </li>
+                    <li onclick="toggleAuditItem(9)" id="audit9">
+                        <input type="checkbox" onchange="updateAuditScore()"> Natural ventilation optimized
+                    </li>
+                </ul>
+                
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div style="font-size: 3rem; font-weight: 700; color: #4CAF50;" id="auditScore">0</div>
+                    <div>/100 - Energy Efficiency Score</div>
+                    
+                    <div class="progress-bar" style="margin: 1rem 0;">
+                        <div class="progress-fill" id="auditProgress" style="width: 0%;"></div>
+                    </div>
+                </div>
+                
+                <div id="auditRecommendations" style="background: var(--bg-primary); padding: 1rem; border-radius: 12px;">
+                    <h4>Recommendations:</h4>
+                    <ul style="margin-left: 1.5rem;">
+                        <li id="rec1">✓ Install LED bulbs (save ₹500/year)</li>
+                        <li id="rec2">✓ Upgrade to 5-star appliances (save ₹2000/year)</li>
+                        <li id="rec3">✓ Add insulation (save ₹1500/year)</li>
+                    </ul>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="generateAuditReport()">
+                    <i class="fas fa-file-pdf"></i> Generate Detailed Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Solar vs Wind Comparison -->
+        <div style="margin: 3rem 0;">
+            <h2><i class="fas fa-chart-bar" style="color: #4CAF50;"></i> Solar vs Wind: What's Best for You?</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                <div class="energy-card">
+                    <i class="fas fa-sun" style="font-size: 2rem; color: #FFC107;"></i>
+                    <h3>Solar Power</h3>
+                    <p>✓ Works in most locations</p>
+                    <p>✓ Minimal maintenance</p>
+                    <p>✓ 25+ year lifespan</p>
+                    <p>✓ Government subsidy: 40%</p>
+                    <p>✗ No power at night</p>
+                    <div class="savings-badge" style="margin-top: 1rem;">Best for: Urban homes</div>
+                </div>
+                
+                <div class="energy-card">
+                    <i class="fas fa-wind" style="font-size: 2rem; color: #2196F3;"></i>
+                    <h3>Wind Power</h3>
+                    <p>✓ Works day and night</p>
+                    <p>✓ Higher output per unit</p>
+                    <p>✓ 20+ year lifespan</p>
+                    <p>✓ Ideal for rural areas</p>
+                    <p>✗ Needs minimum wind speed</p>
+                    <div class="savings-badge" style="margin-top: 1rem;">Best for: Open land</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Energy Saving Tips -->
+        <div class="energy-quote">
+            <i class="fas fa-lightbulb" style="color: #FFC107; font-size: 2rem; margin-right: 1rem;"></i>
+            "Did you know? Switching to LED bulbs can save you up to ₹2,000 per year on electricity bills!"
+        </div>
+
+        <!-- Government Subsidies -->
+        <div class="energy-card" style="margin-top: 2rem;">
+            <h2><i class="fas fa-govt" style="color: #4CAF50;"></i> Available Government Subsidies</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                <div style="padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                    <h4>Rooftop Solar</h4>
+                    <p>40% subsidy up to 3kW</p>
+                    <small>Ministry of New & Renewable Energy</small>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                    <h4>Wind Power</h4>
+                    <p>30% capital subsidy</p>
+                    <small>IREDA</small>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-primary); border-radius: 12px;">
+                    <h4>Battery Storage</h4>
+                    <p>20% subsidy on lithium batteries</p>
+                    <small>ACC Battery Scheme</small>
+                </div>
+            </div>
+            
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1.5rem;" onclick="showSubsidyDetails()">
+                Check Your Eligibility
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div id="aiAssistant" class="ai-assistant">
+        <div class="ai-header">
+            <div class="ai-avatar">⚡</div>
+            <div>
+                <h4>Energy AI Assistant</h4>
+                <small>Ask me about solar, wind, or savings!</small>
+            </div>
+            <i class="fas fa-chevron-up" style="margin-left: auto;"></i>
+        </div>
+        <div class="ai-chat-body" style="display: none;">
+            <div class="message ai">
+                <div class="message-content">
+                    Hi! I'm your renewable energy expert. Ask me about solar panels, wind turbines, battery storage, or government subsidies! 🌞
+                </div>
+            </div>
+        </div>
+        <div style="padding: 1rem; border-top: 1px solid var(--border-color); display: none;">
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" placeholder="Type your question..." style="flex: 1; padding: 0.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 20px; color: var(--text-primary);">
+                <button class="btn btn-primary" style="padding: 0.5rem 1rem;">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let carbonInterval;
+        let carbonCount = 0;
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            startCarbonCounter();
+            initWindMap();
+            updateAuditScore();
+            setInterval(updateCarbonCounter, 1000); // Update every second
+        });
+
+        // ===== 1. SOLAR CALCULATOR =====
+        function calculateSolar() {
+            const roofArea = parseFloat(document.getElementById('roofArea').value);
+            const location = document.getElementById('location').value;
+            const bill = parseFloat(document.getElementById('electricityBill').value);
+            const rate = parseFloat(document.getElementById('electricityRate').value);
+            
+            // Solar insolation by location (kWh/m²/day)
+            const solarInsolation = {
+                'delhi': 5.2,
+                'mumbai': 5.5,
+                'bangalore': 5.8,
+                'chennai': 5.7,
+                'kolkata': 4.8,
+                'pune': 5.6,
+                'ahmedabad': 5.9,
+                'jaipur': 5.4,
+                'lucknow': 5.0,
+                'chandigarh': 4.9
+            };
+            
+            const insolation = solarInsolation[location] || 5.2;
+            
+            // Calculations
+            const systemSize = (roofArea * 0.8) / 100; // kW (80% usable area, 100 sq ft per kW)
+            const monthlyGeneration = systemSize * insolation * 30 * 0.75; // kWh (75% efficiency)
+            const monthlySavings = monthlyGeneration * rate;
+            const annualSavings = monthlySavings * 12;
+            const systemCost = systemSize * 50000; // ₹50,000 per kW
+            const paybackPeriod = (systemCost / annualSavings).toFixed(1);
+            const co2Reduction = monthlyGeneration * 12 * 0.85 / 1000; // tons (0.85 kg CO2 per kWh)
+            const treesSaved = Math.round(co2Reduction * 50); // 1 tree absorbs 50kg CO2 per year
+            
+            // Update display
+            document.getElementById('solarResults').style.display = 'block';
+            document.getElementById('solarCapacity').textContent = systemSize.toFixed(1);
+            document.getElementById('solarGeneration').textContent = Math.round(monthlyGeneration);
+            document.getElementById('solarSavings').textContent = Math.round(monthlySavings);
+            document.getElementById('paybackPeriod').textContent = paybackPeriod + ' years';
+            document.getElementById('co2Reduction').textContent = co2Reduction.toFixed(1) + ' tons/year';
+            document.getElementById('treesSaved').textContent = treesSaved;
+            
+            // Update chart bars
+            document.querySelectorAll('.chart-bar')[0].innerHTML = `<span>Year 1: ₹${Math.round(annualSavings).toLocaleString()}</span>`;
+            document.querySelectorAll('.chart-bar')[1].innerHTML = `<span>Year 10: ₹${Math.round(annualSavings * 10).toLocaleString()}</span>`;
+            document.querySelectorAll('.chart-bar')[2].innerHTML = `<span>Year 20: ₹${Math.round(annualSavings * 20).toLocaleString()}</span>`;
+            
+            // Animate the results
+            animateValue('solarCapacity', 0, systemSize, 1000);
+            animateValue('solarGeneration', 0, monthlyGeneration, 1000);
+            animateValue('solarSavings', 0, monthlySavings, 1000);
+        }
+
+        // ===== 2. WIND ENERGY MAP =====
+        function initWindMap() {
+            const canvas = document.getElementById('windMapCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // Draw India map outline (simplified)
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = 2;
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+            
+            // Draw wind zones
+            const zones = [
+                { x: 0.7, y: 0.3, radius: 40, speed: 8.2 }, // Rajasthan (High)
+                { x: 0.8, y: 0.7, radius: 50, speed: 7.5 }, // Tamil Nadu (High)
+                { x: 0.5, y: 0.5, radius: 35, speed: 6.9 }, // Maharashtra (Medium)
+                { x: 0.4, y: 0.2, radius: 30, speed: 5.2 }, // Punjab (Medium)
+                { x: 0.9, y: 0.4, radius: 25, speed: 4.8 }  // Andhra (Low)
+            ];
+            
+            zones.forEach(zone => {
+                // Draw wind circle
+                const x = zone.x * canvas.width;
+                const y = zone.y * canvas.height;
+                
+                // Color based on speed
+                if (zone.speed > 7) ctx.fillStyle = 'rgba(244, 67, 54, 0.3)';
+                else if (zone.speed > 5) ctx.fillStyle = 'rgba(255, 193, 7, 0.3)';
+                else ctx.fillStyle = 'rgba(76, 175, 80, 0.3)';
+                
+                ctx.beginPath();
+                ctx.arc(x, y, zone.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#4CAF50';
+                ctx.stroke();
+                
+                // Add wind speed label
+                ctx.fillStyle = '#fff';
+                ctx.font = '12px Arial';
+                ctx.fillText(zone.speed + ' m/s', x - 20, y - 15);
+            });
+            
+            // Add direction arrows
+            for (let i = 0; i < 10; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                drawArrow(ctx, x, y, 20, Math.random() * 360);
+            }
+        }
+        
+        function drawArrow(ctx, x, y, length, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.strokeStyle = 'rgba(76, 175, 80, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(length, 0);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(length - 5, -3);
+            ctx.lineTo(length, 0);
+            ctx.lineTo(length - 5, 3);
+            ctx.strokeStyle = 'rgba(76, 175, 80, 0.5)';
+            ctx.stroke();
+            ctx.restore();
+        }
+        
+        function showWindRegion(region) {
+            // Update active button
+            document.querySelectorAll('.region-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update map colors based on region
+            const canvas = document.getElementById('windMapCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Highlight selected region
+            if (region === 'north') {
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.2)';
+                ctx.fillRect(canvas.width * 0.3, canvas.height * 0.1, canvas.width * 0.4, canvas.height * 0.3);
+            } else if (region === 'south') {
+                ctx.fillStyle = 'rgba(244, 67, 54, 0.2)';
+                ctx.fillRect(canvas.width * 0.5, canvas.height * 0.6, canvas.width * 0.4, canvas.height * 0.3);
+            } else if (region === 'west') {
+                ctx.fillStyle = 'rgba(255, 193, 7, 0.2)';
+                ctx.fillRect(canvas.width * 0.1, canvas.height * 0.3, canvas.width * 0.3, canvas.height * 0.4);
+            } else if (region === 'east') {
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.2)';
+                ctx.fillRect(canvas.width * 0.7, canvas.height * 0.3, canvas.width * 0.25, canvas.height * 0.3);
+            }
+            
+            // Redraw wind zones
+            initWindMap();
+        }
+        
+        function calculateWindPotential() {
+            const result = document.getElementById('windPotentialResult');
+            result.style.display = 'block';
+            
+            // Simulated calculation
+            const annualGen = 15000 + Math.random() * 10000;
+            const savings = annualGen * 7;
+            const co2 = annualGen * 0.85 / 1000;
+            
+            document.getElementById('windGeneration').textContent = Math.round(annualGen);
+            document.getElementById('windSavings').textContent = Math.round(savings);
+            document.getElementById('windCO2').textContent = co2.toFixed(1);
+        }
+
+        // ===== 3. BATTERY SIMULATOR =====
+        function updateBatterySimulator() {
+            const usage = parseFloat(document.getElementById('dailyUsage').value);
+            const days = parseFloat(document.getElementById('backupDays').value);
+            const solar = parseFloat(document.getElementById('solarGen').value);
+            
+            document.getElementById('usageValue').textContent = usage + ' kWh';
+            document.getElementById('daysValue').textContent = days + ' days';
+            document.getElementById('solarValue').textContent = solar + ' kWh';
+            
+            // Calculate needed capacity
+            const netUsage = Math.max(0, usage - solar);
+            const neededCapacity = netUsage * days * 1.2; // 20% safety factor
+            
+            // Battery specs
+            const batteryCapacity = neededCapacity;
+            const batteryCost = batteryCapacity * 12000; // ₹12,000 per kWh for lithium-ion
+            const batteryLife = 10;
+            const batteryCount = Math.ceil(batteryCapacity / 5); // 5kWh units
+            const spaceNeeded = batteryCount * 0.5; // 0.5 sq m per unit
+            
+            // Update UI
+            document.getElementById('batteryCapacity').textContent = Math.round(batteryCapacity);
+            document.getElementById('batteryCost').textContent = Math.round(batteryCost).toLocaleString();
+            document.getElementById('batteryLife').textContent = batteryLife;
+            document.getElementById('batteryType').textContent = batteryCapacity > 20 ? 'Lithium-ion (Best)' : 'Lead-acid (Economy)';
+            document.getElementById('batteryCount').textContent = batteryCount;
+            document.getElementById('batterySpace').textContent = spaceNeeded.toFixed(1);
+            
+            // Update battery fill animation
+            const fillPercent = (batteryCapacity / 50) * 100;
+            document.getElementById('batteryFill').style.height = Math.min(100, fillPercent) + '%';
+        }
+
+        // ===== 4. HOME ENERGY AUDIT =====
+        function toggleAuditItem(index) {
+            const item = document.getElementById('audit' + index);
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+            
+            updateAuditScore();
+        }
+        
+        function updateAuditScore() {
+            const checkboxes = document.querySelectorAll('#auditChecklist input[type="checkbox"]');
+            let score = 0;
+            
+            checkboxes.forEach((cb, index) => {
+                if (cb.checked) {
+                    score += 10; // Each item worth 10 points
+                }
+            });
+            
+            document.getElementById('auditScore').textContent = score;
+            document.getElementById('auditProgress').style.width = score + '%';
+            
+            // Update recommendations
+            updateRecommendations(checkboxes);
+        }
+        
+        function updateRecommendations(checkboxes) {
+            const recommendations = [
+                "✓ Install LED bulbs (save ₹500/year)",
+                "✓ Upgrade to 5-star appliances (save ₹2000/year)",
+                "✓ Add insulation (save ₹1500/year)",
+                "✓ Install double-glaze windows (save ₹800/year)",
+                "✓ Add solar water heater (save ₹1200/year)",
+                "✓ Upgrade to 5-star ACs (save ₹2500/year)",
+                "✓ Use smart power strips (save ₹300/year)",
+                "✓ Install timer switches (save ₹400/year)",
+                "✓ Add energy monitor (save ₹600/year)",
+                "✓ Optimize ventilation (save ₹500/year)"
+            ];
+            
+            for (let i = 0; i < 3; i++) {
+                const recElement = document.getElementById('rec' + (i+1));
+                if (recElement) {
+                    if (checkboxes[i]?.checked) {
+                        recElement.style.textDecoration = 'line-through';
+                        recElement.style.color = '#4CAF50';
+                    } else {
+                        recElement.style.textDecoration = 'none';
+                        recElement.style.color = 'var(--text-primary)';
+                        recElement.innerHTML = recommendations[i];
+                    }
+                }
+            }
+        }
+        
+        function generateAuditReport() {
+            const score = document.getElementById('auditScore').textContent;
+            const recommendations = [];
+            
+            document.querySelectorAll('#auditChecklist li').forEach((item, index) => {
+                if (!item.querySelector('input').checked) {
+                    recommendations.push(item.textContent.trim());
+                }
+            });
+            
+            alert(`Energy Audit Report\n\nYour Score: ${score}/100\n\nRecommended Improvements:\n- ${recommendations.join('\n- ')}\n\nEstimated Annual Savings: ₹${Math.round(score * 50)}`);
+        }
+
+        // ===== 5. CARBON COUNTER =====
+        function startCarbonCounter() {
+            carbonCount = 1245789; // Starting value
+            updateCarbonCounter();
+        }
+        
+        function updateCarbonCounter() {
+            // Increase counter based on estimated global renewable generation
+            carbonCount += Math.floor(Math.random() * 10) + 5;
+            
+            document.getElementById('carbonCounter').textContent = carbonCount.toLocaleString();
+            
+            // Update equivalents
+            const trees = Math.round(carbonCount * 50); // 1 ton CO2 = 50 trees for 1 year
+            const cars = Math.round(carbonCount / 4.6); // Average car emits 4.6 tons/year
+            const homes = Math.round(carbonCount / 7.5); // Average home emits 7.5 tons/year
+            
+            document.getElementById('treesEquivalent').textContent = trees.toLocaleString();
+            document.getElementById('carsEquivalent').textContent = cars.toLocaleString();
+            document.getElementById('homesEquivalent').textContent = homes.toLocaleString();
+        }
+
+        // ===== UTILITY FUNCTIONS =====
+        function animateValue(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            const range = end - start;
+            const increment = range / (duration / 10);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current).toLocaleString();
+            }, 10);
+        }
+        
+        function showSubsidyDetails() {
+            const location = document.getElementById('location').value;
+            const roofArea = document.getElementById('roofArea').value;
+            
+            let subsidyMessage = "Available Subsidies for " + location.toUpperCase() + ":\n\n";
+            
+            if (roofArea > 300) {
+                subsidyMessage += "✅ Rooftop Solar: 40% subsidy up to 3kW\n";
+                subsidyMessage += "   Estimated amount: ₹60,000\n\n";
+            }
+            
+            subsidyMessage += "✅ Wind Power: 30% capital subsidy (for >1kW systems)\n";
+            subsidyMessage += "✅ Battery Storage: 20% subsidy on lithium batteries\n";
+            subsidyMessage += "✅ Net Metering: Available (sell excess power to grid)\n\n";
+            subsidyMessage += "Contact: Ministry of New & Renewable Energy\nHelpline: 1800-180-3333";
+            
+            alert(subsidyMessage);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            calculateSolar();
+            updateBatterySimulator();
+        };
+    </script>
+
+    <!-- Add before closing body tag -->
+<script src="js/energy-maps.js"></script>
+<script src="js/energy-audit.js"></script>
+<script src="js/carbon-counter.js"></script>
+
+<script>
+    // Initialize all modules
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Energy Maps
+        const energyMaps = new EnergyMaps();
+        energyMaps.initMap('windMap', 'wind', 'north');
+        
+        // Initialize Energy Audit
+        const energyAudit = new EnergyAudit();
+        window.energyAudit = energyAudit;
+        
+        // Carbon counter is already initialized in carbon-counter.js
+        
+        // Add map controls
+        window.energyMaps = energyMaps;
+    });
+    
+    // Map control functions
+    function showWindRegion(region) {
+        if (window.energyMaps) {
+            window.energyMaps.setRegion(region);
+            window.energyMaps.setMapType('wind');
+            
+            // Update active button
+            document.querySelectorAll('.region-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    }
+    
+    function showSolarRegion(region) {
+        if (window.energyMaps) {
+            window.energyMaps.setRegion(region);
+            window.energyMaps.setMapType('solar');
+            
+            document.querySelectorAll('.region-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    }
+    
+    // Export map as image
+    function exportMap() {
+        if (window.energyMaps) {
+            const dataURL = window.energyMaps.exportMap();
+            const link = document.createElement('a');
+            link.download = 'energy-map.png';
+            link.href = dataURL;
+            link.click();
+        }
+    }
+</script>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>
