@@ -732,6 +732,140 @@
         </div>
     </div>
 
+    <!-- ===== NEW: Walk to Earn - Territory Capture Game ===== -->
+<div class="health-card" style="margin-top: 3rem;">
+    <h2><i class="fas fa-flag-checkered" style="color: #f39c12;"></i> 🏃‍♂️ Walk to Earn - Capture Territories!</h2>
+    <p style="color: var(--text-secondary);">Turn on location, walk to claim areas. Defend your territory by walking regularly!</p>
+    
+    <!-- User Login/Register Section -->
+    <div id="gameAuthSection" class="glass-card" style="padding: 1.5rem; margin-bottom: 2rem;">
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <div style="flex: 1;" id="loginForm">
+                <h3><i class="fas fa-sign-in-alt"></i> Login to Play</h3>
+                <div class="form-group">
+                    <input type="text" id="loginUsername" placeholder="Username" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" class="form-control">
+                </div>
+                <button class="btn btn-primary" onclick="loginUser()">Login</button>
+                <button class="btn btn-outline" onclick="showRegister()">Register</button>
+            </div>
+            
+            <div style="flex: 1; display: none;" id="registerForm">
+                <h3><i class="fas fa-user-plus"></i> Register</h3>
+                <div class="form-group">
+                    <input type="text" id="regUsername" placeholder="Choose Username" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="regDisplayName" placeholder="Your Name" class="form-control">
+                </div>
+                <button class="btn btn-primary" onclick="registerUser()">Register</button>
+                <button class="btn btn-outline" onclick="showLogin()">Back to Login</button>
+            </div>
+            
+            <div style="flex: 1; display: none;" id="userProfile">
+                <h3><i class="fas fa-user-circle"></i> <span id="displayName"></span></h3>
+                <div class="stats-grid" style="grid-template-columns: repeat(3,1fr);">
+                    <div class="stat-card">
+                        <div class="stat-value" id="userTerritories">0</div>
+                        <div>Territories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="userSteps">0</div>
+                        <div>Steps Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="userRank">#0</div>
+                        <div>Rank</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="logoutUser()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Map Section -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+        <!-- Map Container -->
+        <div style="background: var(--bg-primary); border-radius: 16px; padding: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                <h3><i class="fas fa-map-marked-alt"></i> Your Territory Map</h3>
+                <div>
+                    <button class="btn btn-sm btn-primary" onclick="startWalking()" id="startWalkBtn">
+                        <i class="fas fa-walking"></i> Start Walking
+                    </button>
+                    <button class="btn btn-sm btn-outline" onclick="stopWalking()" id="stopWalkBtn" style="display: none;">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Canvas Map -->
+            <div style="position: relative; width: 100%; height: 400px; background: #1a2f1a; border-radius: 12px; overflow: hidden;">
+                <canvas id="territoryMap" width="600" height="400" style="width: 100%; height: 100%;"></canvas>
+                
+                <!-- Live Location Indicator -->
+                <div id="locationStatus" style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); padding: 0.5rem; border-radius: 8px; font-size: 0.8rem;">
+                    <span class="live-indicator"></span> Waiting for GPS...
+                </div>
+                
+                <!-- Legend -->
+                <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 0.5rem; border-radius: 8px;">
+                    <div><span style="color: #4CAF50;">■</span> Your Territory</div>
+                    <div><span style="color: #F44336;">■</span> Others' Territory</div>
+                    <div><span style="color: #FFC107;">⬤</span> Current Position</div>
+                    <div><span style="color: #2196F3;">⬤</span> Walk Path</div>
+                </div>
+            </div>
+            
+            <!-- Walk Stats -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem;">
+                <div class="stat-card">
+                    <div class="stat-value" id="walkDistance">0</div>
+                    <div>km today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="walkSteps">0</div>
+                    <div>steps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="walkCalories">0</div>
+                    <div>calories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="territoryEarned">0</div>
+                    <div>territories</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Leaderboard & Rules -->
+        <div style="background: var(--bg-primary); border-radius: 16px; padding: 1.5rem;">
+            <h3><i class="fas fa-trophy" style="color: #f1c40f;"></i> Top Walkers</h3>
+            <div id="leaderboard" style="margin: 1rem 0;">
+                <!-- Leaderboard will populate here -->
+            </div>
+            
+            <h4 style="margin-top: 1.5rem;">📋 How It Works</h4>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Turn on location and start walking</li>
+                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Each 100m walked = 1 territory cell claimed</li>
+                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> If someone walks through your territory, they capture it!</li>
+                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Walk daily to defend your area</li>
+                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #f39c12;"></i> Top walkers win badges and rewards!</li>
+            </ul>
+            
+            <div class="health-tip" style="margin-top: 1rem; padding: 1rem;">
+                <i class="fas fa-lightbulb"></i> Pro tip: Walk new routes to capture more territory!
+            </div>
+        </div>
+    </div>
+</div>
+
     <script>
         // ===== HERBAL MEDICINE DATABASE =====
         const herbs = [
@@ -1036,6 +1170,8 @@
                 icon.style.transform = 'rotate(0)';
             }
         });
+
+        
     </script>
 
     <script src="js/theme.js"></script>
