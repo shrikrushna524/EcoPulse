@@ -76,6 +76,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            scroll-margin-top: 100px;
         }
         
         .health-card:hover {
@@ -167,6 +168,7 @@
             padding: 2rem;
             margin: 2rem 0;
             color: white;
+            scroll-margin-top: 100px;
         }
         
         .benefits-grid {
@@ -381,7 +383,248 @@
             font-size: 4rem;
             opacity: 0.2;
         }
-        
+
+        /* Navigation Buttons */
+        .feature-nav {
+            background: var(--bg-card);
+            border-radius: 60px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-feature-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-feature-btn:hover {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .nav-feature-btn.active {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-scroll {
+            padding: 0.5rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid #27ae60;
+            border-radius: 30px;
+            color: #27ae60;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-scroll:hover {
+            background: #27ae60;
+            color: white;
+        }
+
+        .feature-section {
+            scroll-margin-top: 150px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-view-all {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid #27ae60;
+            border-radius: 20px;
+            color: #27ae60;
+            cursor: pointer;
+        }
+
+        /* ===== FLOATING CORNER LIST SECTION ===== */
+        .floating-corner-list {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 280px;
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .floating-corner-list.minimized {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .floating-corner-list.minimized .list-header {
+            padding: 1rem;
+            justify-content: center;
+        }
+
+        .floating-corner-list.minimized .list-header span,
+        .floating-corner-list.minimized .list-items,
+        .floating-corner-list.minimized .list-footer {
+            display: none;
+        }
+
+        .floating-corner-list.minimized .list-header i {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .list-header {
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #27ae60, #16a085);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .list-header i {
+            font-size: 1.2rem;
+        }
+
+        .list-header span {
+            flex: 1;
+        }
+
+        .minimize-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .list-items {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 2px 0;
+            color: var(--text-primary);
+        }
+
+        .list-item:hover {
+            background: rgba(39, 174, 96, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .list-item i {
+            width: 24px;
+            color: #27ae60;
+            font-size: 1.1rem;
+        }
+
+        .list-item span {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .list-item .badge {
+            background: #27ae60;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        .list-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .list-footer button {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .list-footer button:hover {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .progress-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            background: #27ae60;
+            margin-left: 5px;
+        }
+
+        /* Make room for floating list */
+        .dashboard-container {
+            margin-right: 300px;
+            transition: margin-right 0.3s ease;
+        }
+
+        .dashboard-container.minimized {
+            margin-right: 80px;
+        }
+
+        @media (max-width: 1200px) {
+            .floating-corner-list {
+                display: none;
+            }
+            .dashboard-container {
+                margin-right: 0;
+            }
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -400,6 +643,14 @@
             font-size: 2rem;
             color: #f1c40f;
         }
+
+        /* Quick action buttons */
+        .quick-actions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
@@ -411,28 +662,142 @@
         </div>
         <div class="nav-links">
             <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
-            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
-            <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
-            <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
-            <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
-            <a href="transport.html"><i class="fas fa-bus"></i> Transport</a>
-            <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
-            <a href="water.html"><i class="fas fa-water"></i> Water</a>
-            <a href="ev.html"><i class="fas fa-car"></i> EV</a>
-            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
             <a href="healthcare.html" class="active"><i class="fas fa-heartbeat"></i> Health</a>
+            <a href="diet-planner.html"><i class="fas fa-home"></i> diet planner</a>
+            <a href="exercise.html"><i class="fas fa-home"></i> exercise</a>
+            <a href="games.html"><i class="fas fa-home"></i> Games</a>
         </div>
         <div class="nav-right">
+            <a href="signin.html" class="btn btn-primary" style="margin-right:10px;">
+                <i class="fas fa-user"></i> Sign In
+            </a>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-moon"></i> Dark Mode
             </button>
         </div>
     </nav>
 
+    <!-- Floating Corner List Section -->
+    <div class="floating-corner-list" id="floatingList">
+        <div class="list-header" onclick="toggleFloatingList()">
+            <i class="fas fa-list-ul"></i>
+            <span>Quick Navigation</span>
+            <div class="minimize-btn" onclick="event.stopPropagation(); minimizeFloatingList()">
+                <i class="fas fa-minus"></i>
+            </div>
+        </div>
+        <div class="list-items" id="listItems">
+            <!-- Hero -->
+            <div class="list-item" onclick="scrollToSection('hero'); updateActiveListItem('hero')">
+                <i class="fas fa-home"></i>
+                <span>🏠 Home</span>
+                <div class="progress-indicator"></div>
+            </div>
+            
+<!-- Exercise Library -->
+<div class="list-item" onclick="window.location.href='exercise.html'">
+    <i class="fas fa-dumbbell"></i>
+    <span>💪 Exercise Library</span>
+    <span class="badge">124</span>
+</div>
+
+             <!-- Exercise Tracker -->
+            <div class="list-item" onclick="scrollToSection('exerciseTracker'); updateActiveListItem('exerciseTracker')">
+                <i class="fas fa-walking"></i>
+                <span>🏃 Exercise Tracker</span>
+            </div>
+
+            <!-- Games Section -->
+<div class="list-item" onclick="showGamesMenu()">
+    <i class="fas fa-gamepad"></i>
+    <span>🎮 Games</span>
+    <span class="badge">3</span>
+</div>
+
+<!-- Diet Planner -->
+<div class="list-item" onclick="showDietPlanner()">
+    <i class="fas fa-utensils"></i>
+    <span>🍽️ Diet Planner</span>
+    <span class="badge">New</span>
+</div>
+
+
+            <!-- Nature Benefits -->
+            <div class="list-item" onclick="scrollToSection('natureBenefits'); updateActiveListItem('natureBenefits')">
+                <i class="fas fa-leaf"></i>
+                <span>🌳 Nature Benefits</span>
+                <span class="badge">New</span>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="list-item" onclick="scrollToSection('quickStats'); updateActiveListItem('quickStats')">
+                <i class="fas fa-chart-bar"></i>
+                <span>📊 Quick Stats</span>
+            </div>
+            
+            <!-- Herbal Remedies -->
+            <div class="list-item" onclick="scrollToSection('herbalRemedies'); updateActiveListItem('herbalRemedies')">
+                <i class="fas fa-seedling"></i>
+                <span>🌿 Herbal Remedies</span>
+                <span class="badge">18</span>
+            </div>
+            
+           
+            
+            <!-- Respiratory Health -->
+            <div class="list-item" onclick="scrollToSection('respiratoryHealth'); updateActiveListItem('respiratoryHealth')">
+                <i class="fas fa-lungs"></i>
+                <span>😮‍💨 Respiratory</span>
+            </div>
+            
+            <!-- Nature Therapy -->
+            <div class="list-item" onclick="scrollToSection('natureTherapy'); updateActiveListItem('natureTherapy')">
+                <i class="fas fa-spa"></i>
+                <span>🧘 Nature Therapy</span>
+            </div>
+            
+            <!-- Seasonal Eating -->
+            <div class="list-item" onclick="scrollToSection('seasonalEating'); updateActiveListItem('seasonalEating')">
+                <i class="fas fa-apple-alt"></i>
+                <span>🍎 Seasonal Eating</span>
+            </div>
+            
+            <!-- Daily Tip -->
+            <div class="list-item" onclick="scrollToSection('dailyTip'); updateActiveListItem('dailyTip')">
+                <i class="fas fa-lightbulb"></i>
+                <span>💚 Daily Tip</span>
+            </div>
+            
+            <!-- Walk to Earn -->
+            <div class="list-item" onclick="scrollToSection('walkToEarn'); updateActiveListItem('walkToEarn')">
+                <i class="fas fa-flag-checkered"></i>
+                <span>🎮 Walk to Earn</span>
+                <span class="badge">Hot</span>
+            </div>
+            
+            <!-- AI Assistant -->
+            <div class="list-item" onclick="toggleAIAssistant()">
+                <i class="fas fa-robot"></i>
+                <span>🤖 AI Assistant</span>
+            </div>
+        </div>
+        <div class="list-footer">
+            <button onclick="expandAllSections()"><i class="fas fa-expand"></i> Expand</button>
+            <button onclick="collapseAllSections()"><i class="fas fa-compress"></i> Collapse</button>
+        </div>
+    </div>
+
+    <!-- Quick Actions Floating Button (Mobile) -->
+    <div class="quick-actions" style="display: none;" id="quickActions">
+        <button class="btn btn-primary" onclick="toggleFloatingList()" style="border-radius: 50px; padding: 1rem;">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
     <!-- Main Container -->
-    <div class="dashboard-container">
+    <div class="dashboard-container" id="dashboardContainer">
         <!-- Hero Section -->
-        <div class="healthcare-hero">
+        <div class="healthcare-hero" id="hero">
             <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
                 <i class="fas fa-heartbeat" style="color: #fff;"></i> 
                 Healthcare & Wellness Hub
@@ -447,9 +812,26 @@
             </div>
         </div>
 
+        <!-- Feature Navigation Buttons (Top Bar) 
+        <div class="feature-nav">
+            <button class="nav-feature-btn active" onclick="scrollToSection('hero')">🏠 Home</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('natureBenefits')">🌳 Nature Benefits</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('quickStats')">📊 Quick Stats</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('herbalRemedies')">🌿 Herbal Remedies</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('exerciseTracker')">🏃 Exercise</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('respiratoryHealth')">😮‍💨 Respiratory</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('natureTherapy')">🧘 Nature Therapy</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('seasonalEating')">🍎 Seasonal Eating</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('dailyTip')">💚 Daily Tip</button>
+            <button class="nav-feature-btn" onclick="scrollToSection('walkToEarn')">🎮 Walk to Earn</button>
+        </div>-->
+
         <!-- Health Benefits of Nature Counter -->
-        <div class="nature-benefits">
-            <h2><i class="fas fa-leaf"></i> 🌳 Health Benefits of Nature</h2>
+        <div class="nature-benefits feature-section" id="natureBenefits">
+            <div class="section-header">
+                <h2><i class="fas fa-leaf"></i> 🌳 Health Benefits of Nature</h2>
+                <button class="btn-scroll" onclick="scrollToSection('hero')">Back to Top ↑</button>
+            </div>
             <p>Spending 2 hours in nature weekly provides these benefits:</p>
             
             <div class="benefits-grid">
@@ -481,57 +863,77 @@
         </div>
 
         <!-- Quick Stats -->
-        <div class="health-stats">
-            <div class="health-stat-card">
+        <div class="health-stats feature-section" id="quickStats">
+            <div class="health-stat-card" onclick="scrollToSection('herbalRemedies')" style="cursor: pointer;">
                 <i class="fas fa-leaf health-stat-icon"></i>
                 <div class="health-stat-value" id="totalHerbs">52</div>
                 <div class="stat-label">Herbal Remedies</div>
+                <small>Click to explore</small>
             </div>
-            <div class="health-stat-card">
+            <div class="health-stat-card" onclick="scrollToSection('exerciseTracker')" style="cursor: pointer;">
                 <i class="fas fa-walking health-stat-icon"></i>
                 <div class="health-stat-value" id="totalActivities">847</div>
                 <div class="stat-label">Activities Logged</div>
+                <small>Click to track</small>
             </div>
-            <div class="health-stat-card">
+            <div class="health-stat-card" onclick="scrollToSection('exerciseTracker')" style="cursor: pointer;">
                 <i class="fas fa-calories health-stat-icon"></i>
                 <div class="health-stat-value" id="totalCalories">125K</div>
                 <div class="stat-label">Calories Burned</div>
+                <small>Click to view</small>
             </div>
-            <div class="health-stat-card">
+            <div class="health-stat-card" onclick="scrollToSection('walkToEarn')" style="cursor: pointer;">
                 <i class="fas fa-clock health-stat-icon"></i>
                 <div class="health-stat-value" id="natureHours">3.2K</div>
                 <div class="stat-label">Hours in Nature</div>
+                <small>Click to earn</small>
             </div>
         </div>
 
-        <!-- Search Box for Herbal Medicine -->
-        <div class="search-box">
-            <input type="text" id="herbSearch" placeholder="Search herbal remedies... (e.g., ginger, tulsi, turmeric)" onkeyup="searchHerbs()">
-            <button onclick="searchHerbs()"><i class="fas fa-search"></i></button>
-        </div>
+        <!-- Herbal Remedies Section -->
+        <div class="feature-section" id="herbalRemedies">
+            <div class="section-header">
+                <h2><i class="fas fa-leaf"></i> 🌿 Herbal Medicine Database</h2>
+                <div>
+                    <button class="btn-scroll" onclick="filterHerbs('all')">All</button>
+                    <button class="btn-scroll" onclick="filterHerbs('digestive')">Digestive</button>
+                    <button class="btn-scroll" onclick="filterHerbs('respiratory')">Respiratory</button>
+                    <button class="btn-scroll" onclick="filterHerbs('immune')">Immune</button>
+                    <button class="btn-scroll" onclick="scrollToSection('hero')">↑ Top</button>
+                </div>
+            </div>
 
-        <!-- Category Pills -->
-        <div class="category-pills">
-            <span class="pill active" onclick="filterHerbs('all')">All</span>
-            <span class="pill" onclick="filterHerbs('digestive')">Digestive</span>
-            <span class="pill" onclick="filterHerbs('respiratory')">Respiratory</span>
-            <span class="pill" onclick="filterHerbs('immune')">Immune</span>
-            <span class="pill" onclick="filterHerbs('stress')">Stress & Sleep</span>
-            <span class="pill" onclick="filterHerbs('skin')">Skin Care</span>
-            <span class="pill" onclick="filterHerbs('pain')">Pain Relief</span>
-        </div>
+            <!-- Search Box for Herbal Medicine -->
+            <div class="search-box">
+                <input type="text" id="herbSearch" placeholder="Search herbal remedies... (e.g., ginger, tulsi, turmeric)" onkeyup="searchHerbs()">
+                <button onclick="searchHerbs()"><i class="fas fa-search"></i></button>
+            </div>
 
-        <!-- 1. HERBAL MEDICINE DATABASE -->
-        <div class="herb-grid" id="herbGrid">
-            <!-- Herbs will be populated by JavaScript -->
+            <!-- Category Pills -->
+            <div class="category-pills">
+                <span class="pill active" onclick="filterHerbs('all')">All</span>
+                <span class="pill" onclick="filterHerbs('digestive')">Digestive</span>
+                <span class="pill" onclick="filterHerbs('respiratory')">Respiratory</span>
+                <span class="pill" onclick="filterHerbs('immune')">Immune</span>
+                <span class="pill" onclick="filterHerbs('stress')">Stress & Sleep</span>
+                <span class="pill" onclick="filterHerbs('skin')">Skin Care</span>
+                <span class="pill" onclick="filterHerbs('pain')">Pain Relief</span>
+            </div>
+
+            <!-- Herbal Grid -->
+            <div class="herb-grid" id="herbGrid"></div>
+            <button class="btn-view-all" onclick="filterHerbs('all')" style="width: 100%; margin-top: 1rem;">View All Herbs</button>
         </div>
 
         <!-- Main Grid -->
         <div class="calculator-grid">
-            <!-- 2. GREEN EXERCISE TRACKER -->
-            <div class="health-card">
-                <i class="fas fa-walking health-icon"></i>
-                <h2>🏃‍♂️ Green Exercise Tracker</h2>
+            <!-- Green Exercise Tracker -->
+            <div class="health-card feature-section" id="exerciseTracker">
+                <div class="section-header">
+                    <i class="fas fa-walking health-icon"></i>
+                    <h2>🏃‍♂️ Green Exercise Tracker</h2>
+                    <button class="btn-scroll" onclick="scrollToSection('hero')">↑ Top</button>
+                </div>
                 <p style="color: var(--text-secondary);">Log your outdoor activities and track calories</p>
                 
                 <div style="margin: 2rem 0;">
@@ -568,15 +970,17 @@
                     </button>
                 </div>
                 
-                <div class="exercise-log" id="exerciseLog">
-                    <!-- Exercise logs will appear here -->
-                </div>
+                <div class="exercise-log" id="exerciseLog"></div>
+                <button class="btn-view-all" onclick="viewAllActivities()" style="width: 100%; margin-top: 1rem;">View All Activities</button>
             </div>
 
-            <!-- 3. RESPIRATORY HEALTH -->
-            <div class="health-card">
-                <i class="fas fa-lungs health-icon"></i>
-                <h2>😮‍💨 Respiratory Health</h2>
+            <!-- Respiratory Health -->
+            <div class="health-card feature-section" id="respiratoryHealth">
+                <div class="section-header">
+                    <i class="fas fa-lungs health-icon"></i>
+                    <h2>😮‍💨 Respiratory Health</h2>
+                    <button class="btn-scroll" onclick="scrollToSection('hero')">↑ Top</button>
+                </div>
                 <p style="color: var(--text-secondary);">Pollution-related health tips and precautions</p>
                 
                 <div class="form-group">
@@ -601,20 +1005,7 @@
                     </select>
                 </div>
                 
-                <div id="respiratoryTips">
-                    <div class="respiratory-card green">
-                        <strong><i class="fas fa-check-circle"></i> Good Air Quality Today</strong>
-                        <p>Perfect for outdoor activities. Enjoy your time outside!</p>
-                    </div>
-                    <div class="respiratory-card yellow">
-                        <strong><i class="fas fa-exclamation-triangle"></i> Moderate Pollution</strong>
-                        <p>Sensitive individuals should limit prolonged exertion.</p>
-                    </div>
-                    <div class="respiratory-card red">
-                        <strong><i class="fas fa-exclamation-circle"></i> High Pollution Alert</strong>
-                        <p>Wear N95 mask outdoors. Keep windows closed.</p>
-                    </div>
-                </div>
+                <div id="respiratoryTips"></div>
                 
                 <div style="margin-top: 1rem;">
                     <h4>Breathing Exercises</h4>
@@ -624,99 +1015,245 @@
                         <p><strong>Steam Inhalation:</strong> With eucalyptus oil</p>
                     </div>
                 </div>
+                <button class="btn-view-all" onclick="showBreathingExercises()" style="width: 100%; margin-top: 1rem;">More Breathing Exercises</button>
             </div>
         </div>
 
-        <!-- 4. NATURE THERAPY GUIDE -->
-        <div class="health-card" style="margin-top: 2rem;">
-            <h2><i class="fas fa-spa health-icon"></i> 🧘 Nature Therapy Guide</h2>
+        <!-- Nature Therapy Guide -->
+        <div class="health-card feature-section" id="natureTherapy" style="margin-top: 2rem;">
+            <div class="section-header">
+                <h2><i class="fas fa-spa health-icon"></i> 🧘 Nature Therapy Guide</h2>
+                <button class="btn-scroll" onclick="scrollToSection('hero')">↑ Top</button>
+            </div>
             <p style="color: var(--text-secondary);">Forest bathing, grounding techniques, and mindful nature practices</p>
             
             <div class="therapy-guide">
-                <div class="therapy-step">
+                <div class="therapy-step" onclick="showForestBathingDetails()" style="cursor: pointer;">
                     <div class="step-number">1</div>
                     <i class="fas fa-tree nature-icon"></i>
                     <h4>Forest Bathing</h4>
                     <p>Spend 2 hours mindfully in forest, engaging all senses</p>
-                    <small>Find a quiet forest, walk slowly, breathe deeply</small>
+                    <small>Click for details</small>
                 </div>
                 
-                <div class="therapy-step">
+                <div class="therapy-step" onclick="showGroundingDetails()" style="cursor: pointer;">
                     <div class="step-number">2</div>
                     <i class="fas fa-mountain nature-icon"></i>
                     <h4>Grounding</h4>
                     <p>Walk barefoot on grass, sand, or soil for 30 minutes</p>
-                    <small>Connect with earth's electrons, reduce inflammation</small>
+                    <small>Click for details</small>
                 </div>
                 
-                <div class="therapy-step">
+                <div class="therapy-step" onclick="showSunGazingDetails()" style="cursor: pointer;">
                     <div class="step-number">3</div>
                     <i class="fas fa-sun nature-icon"></i>
                     <h4>Sun Gazing</h4>
                     <p>10 minutes at sunrise/sunset for vitamin D</p>
-                    <small>Never look at midday sun, start with 30 seconds</small>
+                    <small>Click for details</small>
                 </div>
             </div>
             
             <div style="margin-top: 2rem;">
                 <h4>Weekly Nature Therapy Plan</h4>
                 <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem;">
-                    <div class="month-card">
+                    <div class="month-card" onclick="selectDay('mon')" style="cursor: pointer;">
                         <strong>Mon</strong>
                         <small>Forest Bathing</small>
                     </div>
-                    <div class="month-card">
+                    <div class="month-card" onclick="selectDay('tue')" style="cursor: pointer;">
                         <strong>Tue</strong>
                         <small>Grounding</small>
                     </div>
-                    <div class="month-card">
+                    <div class="month-card" onclick="selectDay('wed')" style="cursor: pointer;">
                         <strong>Wed</strong>
                         <small>Sun Gazing</small>
                     </div>
-                    <div class="month-card">
+                    <div class="month-card" onclick="selectDay('thu')" style="cursor: pointer;">
                         <strong>Thu</strong>
                         <small>Forest Bathing</small>
                     </div>
-                    <div class="month-card">
+                    <div class="month-card" onclick="selectDay('fri')" style="cursor: pointer;">
                         <strong>Fri</strong>
                         <small>Grounding</small>
                     </div>
-                    <div class="month-card current">
+                    <div class="month-card current" onclick="selectDay('sat')" style="cursor: pointer;">
                         <strong>Sat</strong>
                         <small>Full Practice</small>
                     </div>
-                    <div class="month-card">
+                    <div class="month-card" onclick="selectDay('sun')" style="cursor: pointer;">
                         <strong>Sun</strong>
                         <small>Rest</small>
                     </div>
                 </div>
             </div>
+            <button class="btn-view-all" onclick="startNatureTherapy()" style="width: 100%; margin-top: 1rem;">Start Today's Practice</button>
         </div>
 
-        <!-- 5. SEASONAL EATING GUIDE -->
-        <div class="health-card" style="margin-top: 2rem;">
-            <h2><i class="fas fa-apple-alt health-icon"></i> 🍎 Seasonal Eating Guide</h2>
+        <!-- Seasonal Eating Guide -->
+        <div class="health-card feature-section" id="seasonalEating" style="margin-top: 2rem;">
+            <div class="section-header">
+                <h2><i class="fas fa-apple-alt health-icon"></i> 🍎 Seasonal Eating Guide</h2>
+                <button class="btn-scroll" onclick="scrollToSection('hero')">↑ Top</button>
+            </div>
             <p style="color: var(--text-secondary);">What to eat each month for health and sustainability</p>
             
-            <div class="seasonal-calendar" id="seasonalCalendar">
-                <!-- Calendar will be populated by JavaScript -->
-            </div>
+            <div class="seasonal-calendar" id="seasonalCalendar"></div>
             
             <div style="margin-top: 2rem; text-align: center;">
                 <p><i class="fas fa-leaf" style="color: #27ae60;"></i> Eating seasonally reduces carbon footprint by up to 10%</p>
             </div>
+            <button class="btn-view-all" onclick="showSeasonalRecipes()" style="width: 100%; margin-top: 1rem;">View Seasonal Recipes</button>
         </div>
 
         <!-- Health Tip -->
-        <div class="health-tip">
-            <h3>💚 Daily Wellness Tip</h3>
+        <div class="health-tip feature-section" id="dailyTip">
+            <div class="section-header">
+                <h3>💚 Daily Wellness Tip</h3>
+                <button class="btn-scroll" onclick="getNewTip()" style="background: white; color: #27ae60;">New Tip</button>
+            </div>
             <p id="dailyHealthTip">Start your day with a glass of warm water and lemon to boost immunity.</p>
+        </div>
+
+        <!-- Walk to Earn - Territory Capture Game -->
+        <div class="health-card feature-section" id="walkToEarn" style="margin-top: 3rem;">
+            <div class="section-header">
+                <h2><i class="fas fa-flag-checkered" style="color: #f39c12;"></i> 🏃‍♂️ Walk to Earn - Capture Territories!</h2>
+                <button class="btn-scroll" onclick="scrollToSection('hero')">↑ Top</button>
+            </div>
+            <p style="color: var(--text-secondary);">Turn on location, walk to claim areas. Defend your territory by walking regularly!</p>
+            
+            <!-- User Login/Register Section -->
+            <div id="gameAuthSection" class="glass-card" style="padding: 1.5rem; margin-bottom: 2rem;">
+                <div style="display: flex; gap: 2rem; align-items: center;">
+                    <div style="flex: 1;" id="loginForm">
+                        <h3><i class="fas fa-sign-in-alt"></i> Login to Play</h3>
+                        <div class="form-group">
+                            <input type="text" id="loginUsername" placeholder="Username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="loginPassword" placeholder="Password" class="form-control">
+                        </div>
+                        <button class="btn btn-primary" onclick="loginUser()">Login</button>
+                        <button class="btn btn-outline" onclick="showRegister()">Register</button>
+                    </div>
+                    
+                    <div style="flex: 1; display: none;" id="registerForm">
+                        <h3><i class="fas fa-user-plus"></i> Register</h3>
+                        <div class="form-group">
+                            <input type="text" id="regUsername" placeholder="Choose Username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="regPassword" placeholder="Password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="regDisplayName" placeholder="Your Name" class="form-control">
+                        </div>
+                        <button class="btn btn-primary" onclick="registerUser()">Register</button>
+                        <button class="btn btn-outline" onclick="showLogin()">Back to Login</button>
+                    </div>
+                    
+                    <div style="flex: 1; display: none;" id="userProfile">
+                        <h3><i class="fas fa-user-circle"></i> <span id="displayName"></span></h3>
+                        <div class="stats-grid" style="grid-template-columns: repeat(3,1fr);">
+                            <div class="stat-card">
+                                <div class="stat-value" id="userTerritories">0</div>
+                                <div>Territories</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="userSteps">0</div>
+                                <div>Steps Today</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="userRank">#0</div>
+                                <div>Rank</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" onclick="logoutUser()">Logout</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Map Section -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                <!-- Map Container -->
+                <div style="background: var(--bg-primary); border-radius: 16px; padding: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3><i class="fas fa-map-marked-alt"></i> Your Territory Map</h3>
+                        <div>
+                            <button class="btn btn-sm btn-primary" onclick="startWalking()" id="startWalkBtn">
+                                <i class="fas fa-walking"></i> Start Walking
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="stopWalking()" id="stopWalkBtn" style="display: none;">
+                                <i class="fas fa-stop"></i> Stop
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Canvas Map -->
+                    <div style="position: relative; width: 100%; height: 400px; background: #1a2f1a; border-radius: 12px; overflow: hidden;">
+                        <canvas id="territoryMap" width="600" height="400" style="width: 100%; height: 100%;"></canvas>
+                        
+                        <!-- Live Location Indicator -->
+                        <div id="locationStatus" style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); padding: 0.5rem; border-radius: 8px; font-size: 0.8rem;">
+                            <span class="live-indicator"></span> Waiting for GPS...
+                        </div>
+                        
+                        <!-- Legend -->
+                        <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 0.5rem; border-radius: 8px;">
+                            <div><span style="color: #4CAF50;">■</span> Your Territory</div>
+                            <div><span style="color: #F44336;">■</span> Others' Territory</div>
+                            <div><span style="color: #FFC107;">⬤</span> Current Position</div>
+                            <div><span style="color: #2196F3;">⬤</span> Walk Path</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Walk Stats -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem;">
+                        <div class="stat-card" onclick="showWalkDetails()" style="cursor: pointer;">
+                            <div class="stat-value" id="walkDistance">0</div>
+                            <div>km today</div>
+                        </div>
+                        <div class="stat-card" onclick="showStepDetails()" style="cursor: pointer;">
+                            <div class="stat-value" id="walkSteps">0</div>
+                            <div>steps</div>
+                        </div>
+                        <div class="stat-card" onclick="showCalorieDetails()" style="cursor: pointer;">
+                            <div class="stat-value" id="walkCalories">0</div>
+                            <div>calories</div>
+                        </div>
+                        <div class="stat-card" onclick="showTerritoryDetails()" style="cursor: pointer;">
+                            <div class="stat-value" id="territoryEarned">0</div>
+                            <div>territories</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Leaderboard & Rules -->
+                <div style="background: var(--bg-primary); border-radius: 16px; padding: 1.5rem;">
+                    <h3><i class="fas fa-trophy" style="color: #f1c40f;"></i> Top Walkers</h3>
+                    <div id="leaderboard" style="margin: 1rem 0;"></div>
+                    
+                    <h4 style="margin-top: 1.5rem;">📋 How It Works</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Turn on location and start walking</li>
+                        <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Each 100m walked = 1 territory cell claimed</li>
+                        <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> If someone walks through your territory, they capture it!</li>
+                        <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Walk daily to defend your area</li>
+                        <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #f39c12;"></i> Top walkers win badges and rewards!</li>
+                    </ul>
+                    
+                    <div class="health-tip" style="margin-top: 1rem; padding: 1rem;">
+                        <i class="fas fa-lightbulb"></i> Pro tip: Walk new routes to capture more territory!
+                    </div>
+                    <button class="btn-view-all" onclick="showGameRules()" style="width: 100%; margin-top: 1rem;">View Full Rules</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- AI Assistant -->
     <div class="ai-assistant">
-        <div class="ai-header">
+        <div class="ai-header" onclick="toggleAssistant()">
             <div class="ai-avatar">🏥</div>
             <div>
                 <h4>Health AI Assistant</h4>
@@ -729,172 +1266,273 @@
                     Hi! I'm your wellness expert. Ask me about herbal remedies, breathing exercises, or nature therapy! 🌿
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- ===== NEW: Walk to Earn - Territory Capture Game ===== -->
-<div class="health-card" style="margin-top: 3rem;">
-    <h2><i class="fas fa-flag-checkered" style="color: #f39c12;"></i> 🏃‍♂️ Walk to Earn - Capture Territories!</h2>
-    <p style="color: var(--text-secondary);">Turn on location, walk to claim areas. Defend your territory by walking regularly!</p>
-    
-    <!-- User Login/Register Section -->
-    <div id="gameAuthSection" class="glass-card" style="padding: 1.5rem; margin-bottom: 2rem;">
-        <div style="display: flex; gap: 2rem; align-items: center;">
-            <div style="flex: 1;" id="loginForm">
-                <h3><i class="fas fa-sign-in-alt"></i> Login to Play</h3>
-                <div class="form-group">
-                    <input type="text" id="loginUsername" placeholder="Username" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="loginPassword" placeholder="Password" class="form-control">
-                </div>
-                <button class="btn btn-primary" onclick="loginUser()">Login</button>
-                <button class="btn btn-outline" onclick="showRegister()">Register</button>
-            </div>
-            
-            <div style="flex: 1; display: none;" id="registerForm">
-                <h3><i class="fas fa-user-plus"></i> Register</h3>
-                <div class="form-group">
-                    <input type="text" id="regUsername" placeholder="Choose Username" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="regPassword" placeholder="Password" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="text" id="regDisplayName" placeholder="Your Name" class="form-control">
-                </div>
-                <button class="btn btn-primary" onclick="registerUser()">Register</button>
-                <button class="btn btn-outline" onclick="showLogin()">Back to Login</button>
-            </div>
-            
-            <div style="flex: 1; display: none;" id="userProfile">
-                <h3><i class="fas fa-user-circle"></i> <span id="displayName"></span></h3>
-                <div class="stats-grid" style="grid-template-columns: repeat(3,1fr);">
-                    <div class="stat-card">
-                        <div class="stat-value" id="userTerritories">0</div>
-                        <div>Territories</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="userSteps">0</div>
-                        <div>Steps Today</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="userRank">#0</div>
-                        <div>Rank</div>
-                    </div>
-                </div>
-                <button class="btn btn-outline" onclick="logoutUser()">Logout</button>
+            <div style="display: flex; margin-top: 1rem;">
+                <input type="text" id="aiQuestion" placeholder="Ask a question..." class="form-control">
+                <button onclick="askAI()" style="background: #27ae60; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px;">Ask</button>
             </div>
         </div>
     </div>
-
-    <!-- Game Map Section -->
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-        <!-- Map Container -->
-        <div style="background: var(--bg-primary); border-radius: 16px; padding: 1rem;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                <h3><i class="fas fa-map-marked-alt"></i> Your Territory Map</h3>
-                <div>
-                    <button class="btn btn-sm btn-primary" onclick="startWalking()" id="startWalkBtn">
-                        <i class="fas fa-walking"></i> Start Walking
-                    </button>
-                    <button class="btn btn-sm btn-outline" onclick="stopWalking()" id="stopWalkBtn" style="display: none;">
-                        <i class="fas fa-stop"></i> Stop
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Canvas Map -->
-            <div style="position: relative; width: 100%; height: 400px; background: #1a2f1a; border-radius: 12px; overflow: hidden;">
-                <canvas id="territoryMap" width="600" height="400" style="width: 100%; height: 100%;"></canvas>
-                
-                <!-- Live Location Indicator -->
-                <div id="locationStatus" style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); padding: 0.5rem; border-radius: 8px; font-size: 0.8rem;">
-                    <span class="live-indicator"></span> Waiting for GPS...
-                </div>
-                
-                <!-- Legend -->
-                <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 0.5rem; border-radius: 8px;">
-                    <div><span style="color: #4CAF50;">■</span> Your Territory</div>
-                    <div><span style="color: #F44336;">■</span> Others' Territory</div>
-                    <div><span style="color: #FFC107;">⬤</span> Current Position</div>
-                    <div><span style="color: #2196F3;">⬤</span> Walk Path</div>
-                </div>
-            </div>
-            
-            <!-- Walk Stats -->
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem;">
-                <div class="stat-card">
-                    <div class="stat-value" id="walkDistance">0</div>
-                    <div>km today</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="walkSteps">0</div>
-                    <div>steps</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="walkCalories">0</div>
-                    <div>calories</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="territoryEarned">0</div>
-                    <div>territories</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Leaderboard & Rules -->
-        <div style="background: var(--bg-primary); border-radius: 16px; padding: 1.5rem;">
-            <h3><i class="fas fa-trophy" style="color: #f1c40f;"></i> Top Walkers</h3>
-            <div id="leaderboard" style="margin: 1rem 0;">
-                <!-- Leaderboard will populate here -->
-            </div>
-            
-            <h4 style="margin-top: 1.5rem;">📋 How It Works</h4>
-            <ul style="list-style: none; padding: 0;">
-                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Turn on location and start walking</li>
-                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Each 100m walked = 1 territory cell claimed</li>
-                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> If someone walks through your territory, they capture it!</li>
-                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Walk daily to defend your area</li>
-                <li style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #f39c12;"></i> Top walkers win badges and rewards!</li>
-            </ul>
-            
-            <div class="health-tip" style="margin-top: 1rem; padding: 1rem;">
-                <i class="fas fa-lightbulb"></i> Pro tip: Walk new routes to capture more territory!
-            </div>
-        </div>
-    </div>
-</div>
 
     <script>
+        // ===== FLOATING LIST FUNCTIONS =====
+        let isFloatingListMinimized = false;
+
+        function toggleFloatingList() {
+            const list = document.getElementById('floatingList');
+            const dashboard = document.getElementById('dashboardContainer');
+            
+            if (isFloatingListMinimized) {
+                list.classList.remove('minimized');
+                dashboard.classList.remove('minimized');
+                isFloatingListMinimized = false;
+            } else {
+                list.classList.add('minimized');
+                dashboard.classList.add('minimized');
+                isFloatingListMinimized = true;
+            }
+        }
+
+
+        // ===== GAMES MENU =====
+function showGamesMenu() {
+    const games = [
+        "1. 🏃 Walk to Earn - Territory Capture",
+        "2. 🧩 Herb Match - Memory Game",
+        "3. 🏋️‍♂️ Daily Exercise Challenge"
+    ];
+    
+    let message = "🎮 GAMES HUB\n\n";
+    games.forEach(game => message += game + "\n");
+    message += "\nSelect a game to play:\n";
+    message += "1️⃣ Walk to Earn (Already in page)\n";
+    message += "2️⃣ Herb Match (Memory)\n";
+    message += "3️⃣ Exercise Challenge";
+    
+    const choice = prompt(message + "\n\nEnter game number (1-3):");
+    
+    if (choice === "1") scrollToSection('walkToEarn');
+    else if (choice === "2") startHerbMatchGame();
+    else if (choice === "3") startExerciseChallenge();
+    else alert("Invalid choice! 🎮");
+}
+
+// Simple Herb Match Memory Game
+function startHerbMatchGame() {
+    const herbs = ["🌿 Tulsi", "🫚 Ginger", "🌱 Peppermint", "🌸 Lavender", "🌼 Chamomile", "🟡 Turmeric"];
+    const shuffled = [...herbs, ...herbs].sort(() => Math.random() - 0.5);
+    
+    alert("🧠 HERB MATCH GAME\n\nMatch the pairs!\n" + 
+          "1. 🌿 Tulsi\n2. 🫚 Ginger\n3. 🌱 Peppermint\n4. 🌸 Lavender\n5. 🌼 Chamomile\n6. 🟡 Turmeric\n\n" +
+          "Enter two numbers (e.g., 1,3)");
+    
+    let score = 0;
+    for (let i = 0; i < 3; i++) {
+        const guess = prompt(`Match pair ${i+1}/3 (Enter two numbers 1-12):`);
+        if (guess) {
+            const [a, b] = guess.split(',').map(n => parseInt(n) - 1);
+            if (shuffled[a] === shuffled[b]) {
+                score++;
+                alert("✅ Match found!");
+            } else {
+                alert(`❌ No match. It was ${shuffled[a]} and ${shuffled[b]}`);
+            }
+        }
+    }
+    alert(`🎯 Game Over! You found ${score}/3 matches!`);
+}
+
+// Exercise Challenge
+function startExerciseChallenge() {
+    const exercises = [
+        { name: "🏃 1000 Steps Walk", duration: "10 min", calories: 50 },
+        { name: "🧘 5 Min Breathing", duration: "5 min", calories: 10 },
+        { name: "🌳 Nature Walk", duration: "20 min", calories: 100 },
+        { name: "💪 Stretching", duration: "10 min", calories: 30 },
+        { name: "🚴 Cycling", duration: "15 min", calories: 120 }
+    ];
+    
+    let message = "🏆 DAILY CHALLENGE\n\nChoose exercise:\n";
+    exercises.forEach((ex, i) => {
+        message += `${i+1}. ${ex.name} (${ex.duration}) - ${ex.calories} cal\n`;
+    });
+    
+    const choice = prompt(message + "\nEnter number (1-5):");
+    if (choice && choice > 0 && choice <= 5) {
+        const ex = exercises[choice-1];
+        alert(`✅ Challenge accepted: ${ex.name}\nDuration: ${ex.duration}\nTarget: ${ex.calories} calories\n\nStart now! 🏁`);
+        
+        // Auto-fill exercise tracker
+        document.getElementById('activityType').value = 
+            ex.name.includes('Walk') ? 'walking' : 
+            ex.name.includes('Breathing') ? 'yoga' : 'hiking';
+        document.getElementById('activityDuration').value = 
+            ex.name.includes('1000') ? 10 : 
+            ex.name.includes('Breathing') ? 5 : 20;
+        updateCalories();
+    }
+}
+
+// ===== DIET PLANNER =====
+function showDietPlanner() {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+    
+    let message = "🍽️ DIET PLANNER\n\n";
+    message += "Quick Meal Ideas:\n";
+    message += "🌅 Breakfast: Oatmeal, Fruits, Herbal Tea\n";
+    message += "☀️ Lunch: Salad, Lentils, Seasonal Veggies\n";
+    message += "🌙 Dinner: Soup, Grilled Veggies, Quinoa\n";
+    message += "🍎 Snacks: Nuts, Fruits, Yogurt\n\n";
+    
+    const option = prompt(message + "Options:\n1️⃣ Today's Meal Plan\n2️⃣ Weekly Planner\n3️⃣ Seasonal Foods\n4️⃣ Calorie Calculator\n\nEnter choice (1-4):");
+    
+    if (option === "1") showTodaysMeal();
+    else if (option === "2") showWeeklyPlan();
+    else if (option === "3") scrollToSection('seasonalEating');
+    else if (option === "4") calorieCalculator();
+    else alert("Please enter 1-4");
+}
+
+function showTodaysMeal() {
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    const meals = {
+        Breakfast: "🌿 Herbal Tea + Oatmeal with Berries",
+        Lunch: "🥗 Quinoa Salad with Seasonal Veggies",
+        Dinner: "🍲 Lentil Soup + Roasted Vegetables",
+        Snacks: "🍎 Apple + Handful of Almonds"
+    };
+    
+    alert(`🍽️ TODAY'S MEAL PLAN (${today})\n\n` +
+          `🌅 Breakfast: ${meals.Breakfast}\n` +
+          `☀️ Lunch: ${meals.Lunch}\n` +
+          `🌙 Dinner: ${meals.Dinner}\n` +
+          `🍎 Snacks: ${meals.Snacks}\n\n` +
+          `💧 Don't forget to drink 8 glasses of water!`);
+}
+
+function showWeeklyPlan() {
+    alert(`📅 WEEKLY MEAL PREP\n\n` +
+          `Monday: 🥗 Green theme - Salads, Spinach, Herbs\n` +
+          `Tuesday: 🍠 Root veg - Sweet potato, Carrots, Beets\n` +
+          `Wednesday: 🍚 Grains - Quinoa, Brown rice, Millet\n` +
+          `Thursday: 🫘 Legumes - Lentils, Chickpeas, Beans\n` +
+          `Friday: 🐟 Light - Soups, Steamed veggies\n` +
+          `Saturday: 🍛 Spicy - Curries, Herbal teas\n` +
+          `Sunday: 🍎 Fruits - Fresh fruits, Smoothies\n\n` +
+          `🌱 Tip: Prep ingredients on Sunday!`);
+}
+
+function calorieCalculator() {
+    const age = prompt("Enter your age:");
+    const weight = prompt("Enter your weight (kg):");
+    const height = prompt("Enter your height (cm):");
+    const activity = prompt("Activity level (1-4):\n1=Sedentary\n2=Light\n3=Moderate\n4=Active");
+    
+    if (age && weight && height && activity) {
+        // Basic BMR calculation
+        const bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+        const multipliers = [1.2, 1.375, 1.55, 1.725];
+        const calories = Math.round(bmr * multipliers[activity-1]);
+        
+        alert(`📊 CALORIE CALCULATOR\n\n` +
+              `Your BMR: ${Math.round(bmr)} calories/day\n` +
+              `Daily calories: ${calories} calories\n\n` +
+              `🥗 Meal distribution:\n` +
+              `Breakfast: ${Math.round(calories*0.3)} cal\n` +
+              `Lunch: ${Math.round(calories*0.35)} cal\n` +
+              `Dinner: ${Math.round(calories*0.25)} cal\n` +
+              `Snacks: ${Math.round(calories*0.1)} cal`);
+    }
+}
+
+        function minimizeFloatingList() {
+            const list = document.getElementById('floatingList');
+            const dashboard = document.getElementById('dashboardContainer');
+            list.classList.add('minimized');
+            dashboard.classList.add('minimized');
+            isFloatingListMinimized = true;
+        }
+
+        function updateActiveListItem(sectionId) {
+            document.querySelectorAll('.list-item').forEach(item => {
+                item.style.background = 'transparent';
+            });
+            
+            // Highlight the clicked item
+            event.currentTarget.style.background = 'rgba(39, 174, 96, 0.2)';
+        }
+
+        function expandAllSections() {
+            document.querySelectorAll('.feature-section').forEach(section => {
+                section.style.display = 'block';
+            });
+            alert('✨ All sections expanded!');
+        }
+
+        function collapseAllSections() {
+            document.querySelectorAll('.feature-section').forEach((section, index) => {
+                if (index > 2) { // Keep first few sections visible
+                    section.style.display = 'none';
+                }
+            });
+            alert('📋 Sections collapsed. Use the corner list to navigate!');
+        }
+
+        function toggleAIAssistant() {
+            const assistant = document.querySelector('.ai-chat-body');
+            if (assistant.style.display === 'none') {
+                assistant.style.display = 'block';
+            } else {
+                assistant.style.display = 'none';
+            }
+        }
+
+        // ===== SCROLL NAVIGATION FUNCTIONS =====
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Update active nav button
+            document.querySelectorAll('.nav-feature-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+            
+            // Update floating list active item
+            updateActiveListItemFromSection(sectionId);
+        }
+
+        function updateActiveListItemFromSection(sectionId) {
+            document.querySelectorAll('.list-item').forEach(item => {
+                item.style.background = 'transparent';
+                if (item.innerHTML.includes(sectionId) || 
+                    (sectionId === 'hero' && item.innerHTML.includes('Home')) ||
+                    (sectionId === 'natureBenefits' && item.innerHTML.includes('Nature Benefits')) ||
+                    (sectionId === 'herbalRemedies' && item.innerHTML.includes('Herbal'))) {
+                    item.style.background = 'rgba(39, 174, 96, 0.2)';
+                }
+            });
+        }
+
         // ===== HERBAL MEDICINE DATABASE =====
         const herbs = [
-            // Digestive Herbs
             { id: 1, name: 'Ginger', scientific: 'Zingiber officinale', image: '🫚', category: 'digestive', uses: ['Nausea', 'Indigestion', 'Inflammation'], preparation: 'Tea, fresh juice, powder', dosage: '1-2g daily', precautions: ['May interact with blood thinners', 'Avoid before surgery'], benefits: ['Reduces nausea', 'Anti-inflammatory', 'Digestive aid'] },
             { id: 2, name: 'Peppermint', scientific: 'Mentha piperita', image: '🌱', category: 'digestive', uses: ['IBS', 'Bloating', 'Headaches'], preparation: 'Tea, oil, capsules', dosage: '1-2 cups tea daily', precautions: ['May worsen GERD', 'Avoid with gallstones'], benefits: ['Relieves gas', 'Calms stomach', 'Cooling effect'] },
             { id: 3, name: 'Fennel', scientific: 'Foeniculum vulgare', image: '🌿', category: 'digestive', uses: ['Bloating', 'Colic', 'Appetite'], preparation: 'Seeds, tea', dosage: '1 tsp seeds after meals', precautions: ['May interact with estrogen'], benefits: ['Freshens breath', 'Reduces bloating', 'Aids digestion'] },
-            
-            // Respiratory Herbs
             { id: 4, name: 'Tulsi', scientific: 'Ocimum sanctum', image: '🌿', category: 'respiratory', uses: ['Cough', 'Cold', 'Asthma'], preparation: 'Tea, fresh leaves', dosage: '2-3 leaves daily', precautions: ['May lower blood sugar', 'Avoid before surgery'], benefits: ['Immunity booster', 'Adaptogen', 'Antibacterial'] },
             { id: 5, name: 'Eucalyptus', scientific: 'Eucalyptus globulus', image: '🌳', category: 'respiratory', uses: ['Congestion', 'Cough', 'Sinusitis'], preparation: 'Steam inhalation, oil', dosage: '2-3 drops in steam', precautions: ['Toxic if ingested', 'Not for children'], benefits: ['Clears airways', 'Antimicrobial', 'Cooling'] },
             { id: 6, name: 'Licorice', scientific: 'Glycyrrhiza glabra', image: '🌱', category: 'respiratory', uses: ['Sore throat', 'Cough', 'Bronchitis'], preparation: 'Tea, root chewed', dosage: '1-2g daily', precautions: ['Avoid with high BP', 'Not during pregnancy'], benefits: ['Soothes throat', 'Expectorant', 'Anti-inflammatory'] },
-            
-            // Immune Herbs
             { id: 7, name: 'Turmeric', scientific: 'Curcuma longa', image: '🟡', category: 'immune', uses: ['Inflammation', 'Immunity', 'Joint pain'], preparation: 'Golden milk, capsules', dosage: '1-3g daily with black pepper', precautions: ['May thin blood', 'Avoid with gallstones'], benefits: ['Powerful antioxidant', 'Anti-inflammatory', 'Brain health'] },
             { id: 8, name: 'Ashwagandha', scientific: 'Withania somnifera', image: '🌿', category: 'immune', uses: ['Stress', 'Energy', 'Immunity'], preparation: 'Powder in milk, capsules', dosage: '300-500mg daily', precautions: ['Avoid with hyperthyroid', 'Not during pregnancy'], benefits: ['Adaptogen', 'Reduces cortisol', 'Boosts energy'] },
             { id: 9, name: 'Echinacea', scientific: 'Echinacea purpurea', image: '🌸', category: 'immune', uses: ['Cold prevention', 'Infection', 'Immunity'], preparation: 'Tea, tincture', dosage: '3x daily at first sign of cold', precautions: ['Autoimmune conditions', 'Not long-term'], benefits: ['Stimulates immune system', 'Reduces cold duration', 'Antiviral'] },
-            
-            // Stress & Sleep
             { id: 10, name: 'Chamomile', scientific: 'Matricaria chamomilla', image: '🌼', category: 'stress', uses: ['Insomnia', 'Anxiety', 'Digestion'], preparation: 'Tea, essential oil', dosage: '1-2 cups tea before bed', precautions: ['Ragweed allergy', 'May interact with sedatives'], benefits: ['Calming', 'Sleep aid', 'Anti-inflammatory'] },
             { id: 11, name: 'Lavender', scientific: 'Lavandula angustifolia', image: '🌸', category: 'stress', uses: ['Anxiety', 'Sleep', 'Headache'], preparation: 'Tea, oil, aromatherapy', dosage: '2-3 drops in diffuser', precautions: ['May irritate skin', 'Avoid during pregnancy'], benefits: ['Relaxing', 'Improves sleep', 'Mood booster'] },
             { id: 12, name: 'Brahmi', scientific: 'Bacopa monnieri', image: '🌿', category: 'stress', uses: ['Memory', 'Stress', 'Focus'], preparation: 'Powder, capsules', dosage: '300mg daily', precautions: ['May slow heart rate', 'Avoid with thyroid meds'], benefits: ['Improves memory', 'Reduces anxiety', 'Neuroprotective'] },
-            
-            // Skin Care
             { id: 13, name: 'Aloe Vera', scientific: 'Aloe barbadensis', image: '🌵', category: 'skin', uses: ['Burns', 'Wounds', 'Acne'], preparation: 'Fresh gel, juice', dosage: 'Apply topically as needed', precautions: ['Test for allergy first'], benefits: ['Heals burns', 'Moisturizes', 'Anti-inflammatory'] },
             { id: 14, name: 'Neem', scientific: 'Azadirachta indica', image: '🌳', category: 'skin', uses: ['Acne', 'Eczema', 'Fungal'], preparation: 'Oil, paste, soap', dosage: 'Apply diluted oil', precautions: ['Bitter taste', 'Avoid internally in large amounts'], benefits: ['Antibacterial', 'Antifungal', 'Blood purifier'] },
             { id: 15, name: 'Calendula', scientific: 'Calendula officinalis', image: '🌼', category: 'skin', uses: ['Wounds', 'Rashes', 'Dry skin'], preparation: 'Cream, oil, tea', dosage: 'Apply cream 2-3x daily', precautions: ['Ragweed allergy'], benefits: ['Heals wounds', 'Anti-inflammatory', 'Soothing'] },
-            
-            // Pain Relief
             { id: 16, name: 'Willow Bark', scientific: 'Salix alba', image: '🌳', category: 'pain', uses: ['Headache', 'Back pain', 'Arthritis'], preparation: 'Tea, capsules', dosage: '120-240mg salicin daily', precautions: ['Avoid with aspirin allergy', 'Not for children'], benefits: ['Natural aspirin', 'Pain relief', 'Anti-inflammatory'] },
             { id: 17, name: 'Arnica', scientific: 'Arnica montana', image: '🌸', category: 'pain', uses: ['Bruises', 'Muscle pain', 'Sprains'], preparation: 'Gel, cream, oil', dosage: 'Apply topically 3x daily', precautions: ['Never take internally', 'Avoid broken skin'], benefits: ['Reduces bruising', 'Relieves pain', 'Anti-inflammatory'] },
             { id: 18, name: 'Capsaicin', scientific: 'Capsicum annuum', image: '🌶️', category: 'pain', uses: ['Arthritis', 'Neuropathy', 'Muscle pain'], preparation: 'Cream, patch', dosage: 'Apply 3-4x daily', precautions: ['Wash hands after use', 'Avoid eyes'], benefits: ['Blocks pain signals', 'Increases circulation', 'Natural'] }
@@ -929,19 +1567,23 @@
             displayExerciseLogs();
             displaySeasonalCalendar();
             updateRespiratoryTips();
-            updateNatureBenefits();
             document.getElementById('totalHerbs').textContent = herbs.length;
             
             // Start daily health tip rotation
             rotateHealthTips();
-            setInterval(rotateHealthTips, 86400000); // Change daily
+            setInterval(rotateHealthTips, 86400000);
+            
+            // Check screen size
+            if (window.innerWidth < 1200) {
+                document.getElementById('quickActions').style.display = 'block';
+            }
         });
 
-        // ===== 1. HERBAL MEDICINE DATABASE =====
+        // ===== HERBAL FUNCTIONS =====
         function displayHerbs(herbsToShow) {
             const grid = document.getElementById('herbGrid');
-            grid.innerHTML = herbsToShow.map(herb => `
-                <div class="herb-card">
+            grid.innerHTML = herbsToShow.slice(0, 6).map(herb => `
+                <div class="herb-card" onclick="showHerbDetails(${herb.id})" style="cursor: pointer;">
                     <div class="herb-image">${herb.image}</div>
                     <div class="herb-content">
                         <div class="herb-name">${herb.name}</div>
@@ -949,14 +1591,17 @@
                         <div style="margin: 0.5rem 0;">
                             <span class="precaution-badge">${herb.category}</span>
                         </div>
-                        <p><strong>Uses:</strong> ${herb.uses.join(', ')}</p>
-                        <p><strong>Preparation:</strong> ${herb.preparation}</p>
-                        <p><strong>Dosage:</strong> ${herb.dosage}</p>
-                        <p><strong>Precautions:</strong> ${herb.precautions.join('; ')}</p>
-                        <p><strong>Benefits:</strong> ${herb.benefits.join(', ')}</p>
+                        <p><strong>Uses:</strong> ${herb.uses.slice(0, 2).join(', ')}...</p>
+                        <p><strong>Benefits:</strong> ${herb.benefits.slice(0, 2).join(', ')}</p>
+                        <small>Click for full details</small>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function showHerbDetails(herbId) {
+            const herb = herbs.find(h => h.id === herbId);
+            alert(`🌿 ${herb.name}\nScientific: ${herb.scientific}\nCategory: ${herb.category}\nUses: ${herb.uses.join(', ')}\nPreparation: ${herb.preparation}\nDosage: ${herb.dosage}\nPrecautions: ${herb.precautions.join('; ')}\nBenefits: ${herb.benefits.join(', ')}`);
         }
 
         function searchHerbs() {
@@ -965,11 +1610,9 @@
                 displayHerbs(herbs);
                 return;
             }
-            
             const filtered = herbs.filter(herb => 
                 herb.name.toLowerCase().includes(query) ||
-                herb.uses.some(u => u.toLowerCase().includes(query)) ||
-                herb.category.includes(query)
+                herb.uses.some(u => u.toLowerCase().includes(query))
             );
             displayHerbs(filtered);
         }
@@ -986,21 +1629,15 @@
             }
         }
 
-        // ===== 2. GREEN EXERCISE TRACKER =====
+        // ===== EXERCISE TRACKER FUNCTIONS =====
         function updateCalories() {
             const duration = parseInt(document.getElementById('activityDuration').value);
             const activity = document.getElementById('activityType').value;
             
             document.getElementById('durationValue').textContent = duration + ' minutes';
             
-            // Calories burned per minute for different activities
             const calorieRates = {
-                'walking': 4,
-                'hiking': 6,
-                'running': 10,
-                'cycling': 8,
-                'gardening': 3,
-                'yoga': 2.5
+                'walking': 4, 'hiking': 6, 'running': 10, 'cycling': 8, 'gardening': 3, 'yoga': 2.5
             };
             
             const calories = Math.round(duration * (calorieRates[activity] || 4));
@@ -1027,19 +1664,19 @@
             
             displayExerciseLogs();
             updateStats();
-            
-            // Clear form
             document.getElementById('activityLocation').value = '';
+            
+            alert(`✅ Activity logged! You burned ${calories} calories.`);
         }
 
         function displayExerciseLogs() {
             const container = document.getElementById('exerciseLog');
-            container.innerHTML = '<h4>Recent Activities</h4>' + exerciseLogs.slice(0, 5).map(log => `
-                <div class="log-entry">
+            container.innerHTML = '<h4>Recent Activities</h4>' + exerciseLogs.slice(0, 3).map(log => `
+                <div class="log-entry" onclick="showActivityDetails(${log.id})" style="cursor: pointer;">
                     <div>
                         <span class="log-date">${log.date}</span>
                         <span class="log-activity">${log.activity}</span>
-                        <small>${log.duration} min • ${log.location}</small>
+                        <small>${log.duration} min</small>
                     </div>
                     <div class="log-calories">${log.calories} cal</div>
                 </div>
@@ -1048,6 +1685,21 @@
             if (exerciseLogs.length === 0) {
                 container.innerHTML = '<p>No activities logged yet. Start your green exercise journey!</p>';
             }
+        }
+
+        function showActivityDetails(id) {
+            const log = exerciseLogs.find(l => l.id === id);
+            if (log) {
+                alert(`📝 Activity Details\nDate: ${log.date}\nActivity: ${log.activity}\nDuration: ${log.duration} minutes\nLocation: ${log.location}\nCalories: ${log.calories}`);
+            }
+        }
+
+        function viewAllActivities() {
+            let message = "📋 All Activities:\n\n";
+            exerciseLogs.forEach(log => {
+                message += `${log.date}: ${log.activity} - ${log.duration}min (${log.calories} cal)\n`;
+            });
+            alert(message || "No activities yet!");
         }
 
         function updateStats() {
@@ -1060,86 +1712,97 @@
             document.getElementById('natureHours').textContent = (totalMinutes / 60).toFixed(1) + 'K';
         }
 
-        // ===== 3. RESPIRATORY HEALTH =====
+        // ===== RESPIRATORY FUNCTIONS =====
         function updateRespiratoryTips() {
             const city = document.getElementById('respiratoryCity').value;
             const condition = document.getElementById('respiratoryCondition').value;
             
-            // Simulate AQI based on city
             const aqiData = {
-                'delhi': 187,
-                'mumbai': 124,
-                'bangalore': 76,
-                'chennai': 82,
-                'kolkata': 158
+                'delhi': 187, 'mumbai': 124, 'bangalore': 76, 'chennai': 82, 'kolkata': 158
             };
             
             const aqi = aqiData[city];
             const container = document.getElementById('respiratoryTips');
             
             let tips = '';
-            
             if (aqi <= 50) {
-                tips = `
-                    <div class="respiratory-card green">
-                        <strong><i class="fas fa-check-circle"></i> Good Air Quality (AQI: ${aqi})</strong>
-                        <p>Perfect for outdoor activities. Enjoy your time outside! ${condition !== 'none' ? 'Sensitive individuals should still monitor symptoms.' : ''}</p>
-                    </div>
-                `;
+                tips = `<div class="respiratory-card green"><strong><i class="fas fa-check-circle"></i> Good Air Quality (AQI: ${aqi})</strong><p>Perfect for outdoor activities. Enjoy your time outside!</p></div>`;
             } else if (aqi <= 100) {
-                tips = `
-                    <div class="respiratory-card green">
-                        <strong><i class="fas fa-check-circle"></i> Moderate Air Quality (AQI: ${aqi})</strong>
-                        <p>Good for most people. ${condition !== 'none' ? 'Sensitive individuals should limit prolonged exertion.' : 'Enjoy your outdoor time!'}</p>
-                    </div>
-                `;
+                tips = `<div class="respiratory-card green"><strong><i class="fas fa-check-circle"></i> Moderate Air Quality (AQI: ${aqi})</strong><p>Good for most people. Enjoy your outdoor time!</p></div>`;
             } else if (aqi <= 150) {
-                tips = `
-                    <div class="respiratory-card yellow">
-                        <strong><i class="fas fa-exclamation-triangle"></i> Unhealthy for Sensitive Groups (AQI: ${aqi})</strong>
-                        <p>${condition !== 'none' ? 'Limit outdoor activities. Wear mask if going out.' : 'Sensitive individuals should reduce outdoor time.'}</p>
-                    </div>
-                `;
+                tips = `<div class="respiratory-card yellow"><strong><i class="fas fa-exclamation-triangle"></i> Unhealthy for Sensitive Groups (AQI: ${aqi})</strong><p>Limit outdoor activities. Wear mask if going out.</p></div>`;
             } else if (aqi <= 200) {
-                tips = `
-                    <div class="respiratory-card red">
-                        <strong><i class="fas fa-exclamation-circle"></i> Unhealthy (AQI: ${aqi})</strong>
-                        <p>Everyone should limit outdoor activities. Wear N95 mask. Keep windows closed. ${condition !== 'none' ? 'Stay indoors as much as possible.' : ''}</p>
-                    </div>
-                `;
+                tips = `<div class="respiratory-card red"><strong><i class="fas fa-exclamation-circle"></i> Unhealthy (AQI: ${aqi})</strong><p>Everyone should limit outdoor activities. Wear N95 mask.</p></div>`;
             } else {
-                tips = `
-                    <div class="respiratory-card red">
-                        <strong><i class="fas fa-exclamation-circle"></i> Very Unhealthy (AQI: ${aqi})</strong>
-                        <p>HEALTH ALERT: Avoid all outdoor activities. Stay indoors with air purifier. Wear N95 mask if absolutely necessary.</p>
-                    </div>
-                `;
+                tips = `<div class="respiratory-card red"><strong><i class="fas fa-exclamation-circle"></i> Very Unhealthy (AQI: ${aqi})</strong><p>HEALTH ALERT: Avoid all outdoor activities.</p></div>`;
             }
             
             container.innerHTML = tips;
         }
 
-        // ===== 4. NATURE THERAPY =====
-        function updateNatureBenefits() {
-            // Already displayed in static HTML with the benefits grid
+        function showBreathingExercises() {
+            alert(`😮‍💨 Breathing Exercises:\n\n1. 4-7-8 Breathing: Inhale 4 sec, Hold 7 sec, Exhale 8 sec\n2. Box Breathing: Inhale 4, Hold 4, Exhale 4, Hold 4\n3. Alternate Nostril: Close right, inhale left, switch\n4. Belly Breathing: Place hand on belly, breathe deep\n5. Pursed Lip: Inhale nose, exhale pursed lips`);
         }
 
-        // ===== 5. SEASONAL EATING GUIDE =====
+        // ===== NATURE THERAPY FUNCTIONS =====
+        function showForestBathingDetails() {
+            alert(`🌳 Forest Bathing (Shinrin-yoku):\n\nHow to do it:\n1. Find a quiet forest or park\n2. Leave phone behind\n3. Walk slowly (no destination)\n4. Engage all 5 senses\n5. Listen to birds, feel breeze, smell trees\n6. Stay for at least 2 hours\n\nBenefits: Reduces stress, boosts immunity, improves mood`);
+        }
+
+        function showGroundingDetails() {
+            alert(`🌱 Grounding (Earthing):\n\nHow to do it:\n1. Find grass, sand, or soil\n2. Remove shoes and socks\n3. Walk or stand barefoot\n4. Do for 30 minutes daily\n5. Feel the earth beneath you\n\nBenefits: Reduces inflammation, improves sleep, reduces pain`);
+        }
+
+        function showSunGazingDetails() {
+            alert(`☀️ Sun Gazing:\n\nIMPORTANT SAFETY:\n- Only at sunrise or sunset\n- Never look at midday sun\n- Start with 10 seconds, add 10 sec daily\n- Max 44 minutes per session\n\nBenefits: Vitamin D, circadian rhythm, mood boost`);
+        }
+
+        function selectDay(day) {
+            const practices = {
+                mon: 'Forest Bathing - Find a quiet forest for 2 hours',
+                tue: 'Grounding - Walk barefoot on grass for 30 minutes',
+                wed: 'Sun Gazing - 10 minutes at sunrise/sunset',
+                thu: 'Forest Bathing - Mindful walk in nature',
+                fri: 'Grounding - Connect with earth',
+                sat: 'Full Practice - Combine all techniques',
+                sun: 'Rest Day - Gentle stretching in nature'
+            };
+            alert(`📅 ${day.toUpperCase()} Practice:\n${practices[day]}`);
+        }
+
+        function startNatureTherapy() {
+            alert(`🧘 Starting Nature Therapy:\n\nToday's practice: ${new Date().toLocaleDateString()}\n1. Find a quiet spot in nature\n2. Take 5 deep breaths\n3. Walk mindfully for 20 minutes\n4. Notice 3 things you see, hear, feel\n5. End with gratitude\n\nRemember: No phone, be present!`);
+        }
+
+        // ===== SEASONAL EATING FUNCTIONS =====
         function displaySeasonalCalendar() {
             const calendar = document.getElementById('seasonalCalendar');
             calendar.innerHTML = monthNames.map((month, index) => `
-                <div class="month-card ${index === currentMonth ? 'current' : ''}">
+                <div class="month-card ${index === currentMonth ? 'current' : ''}" onclick="showMonthDetails('${month}')" style="cursor: pointer;">
                     <div class="month-name">${month}</div>
                     <div style="font-size: 0.9rem;">
-                        ${seasonalFoods[month.toLowerCase()]?.map(food => 
+                        ${seasonalFoods[month.toLowerCase()]?.slice(0, 3).map(food => 
                             `<span class="food-item">${food}</span>`
                         ).join('')}
+                        ${seasonalFoods[month.toLowerCase()]?.length > 3 ? '...' : ''}
                     </div>
+                    <small>Click for more</small>
                 </div>
             `).join('');
         }
 
-        // ===== HEALTH TIPS ROTATION =====
+        function showMonthDetails(month) {
+            const foods = seasonalFoods[month.toLowerCase()];
+            alert(`🍎 ${month} Seasonal Foods:\n\n${foods.join('\n')}\n\n🌱 Why eat seasonal?\n- Fresher and tastier\n- More nutrients\n- Lower carbon footprint\n- Supports local farmers`);
+        }
+
+        function showSeasonalRecipes() {
+            const currentMonthName = monthNames[currentMonth].toLowerCase();
+            const foods = seasonalFoods[currentMonthName].slice(0, 3);
+            alert(`🍳 Recipes for ${monthNames[currentMonth]}:\n\n1. ${foods[0]} Salad\n2. Roasted ${foods[1]}\n3. ${foods[2]} Soup\n\nCheck Pinterest for more recipes!`);
+        }
+
+        // ===== HEALTH TIPS FUNCTIONS =====
         const healthTips = [
             "Start your day with a glass of warm water and lemon to boost immunity.",
             "Take 5 deep breaths every hour to reduce stress.",
@@ -1158,20 +1821,121 @@
             document.getElementById('dailyHealthTip').textContent = tip;
         }
 
-        // ===== AI ASSISTANT TOGGLE =====
-        document.querySelector('.ai-header').addEventListener('click', function() {
+        function getNewTip() {
+            rotateHealthTips();
+        }
+
+        // ===== WALK TO EARN FUNCTIONS =====
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+
+        function loginUser() {
+            const username = document.getElementById('loginUsername').value;
+            if (username) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('userProfile').style.display = 'block';
+                document.getElementById('displayName').textContent = username;
+                startLocationTracking();
+            } else {
+                alert('Please enter username');
+            }
+        }
+
+        function registerUser() {
+            const username = document.getElementById('regUsername').value;
+            if (username) {
+                alert(`✅ Registered successfully! Welcome ${username}`);
+                showLogin();
+            } else {
+                alert('Please fill all fields');
+            }
+        }
+
+        function logoutUser() {
+            document.getElementById('userProfile').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            stopLocationTracking();
+        }
+
+        function startWalking() {
+            document.getElementById('startWalkBtn').style.display = 'none';
+            document.getElementById('stopWalkBtn').style.display = 'inline-block';
+            document.getElementById('locationStatus').innerHTML = '<span class="live-indicator" style="color: #4CAF50;">●</span> Walking... Tracking location';
+            
+            // Simulate walking
+            let distance = 0;
+            const interval = setInterval(() => {
+                distance += 0.1;
+                document.getElementById('walkDistance').textContent = distance.toFixed(1);
+                document.getElementById('walkSteps').textContent = Math.round(distance * 1300);
+                document.getElementById('walkCalories').textContent = Math.round(distance * 50);
+                document.getElementById('territoryEarned').textContent = Math.floor(distance * 10);
+            }, 3000);
+            
+            window.walkInterval = interval;
+        }
+
+        function stopWalking() {
+            document.getElementById('startWalkBtn').style.display = 'inline-block';
+            document.getElementById('stopWalkBtn').style.display = 'none';
+            document.getElementById('locationStatus').innerHTML = '<span class="live-indicator">●</span> Walking paused';
+            clearInterval(window.walkInterval);
+            
+            alert(`🏁 Walk Complete!\nDistance: ${document.getElementById('walkDistance').textContent} km\nSteps: ${document.getElementById('walkSteps').textContent}\nCalories: ${document.getElementById('walkCalories').textContent}\nTerritories: ${document.getElementById('territoryEarned').textContent}`);
+        }
+
+        function startLocationTracking() {
+            document.getElementById('locationStatus').innerHTML = '<span class="live-indicator" style="color: #4CAF50;">●</span> Location active';
+        }
+
+        function stopLocationTracking() {
+            document.getElementById('locationStatus').innerHTML = '<span class="live-indicator">●</span> Location off';
+        }
+
+        function showWalkDetails() {
+            alert(`🚶 Walking Stats:\nDistance: ${document.getElementById('walkDistance').textContent} km\nSteps: ${document.getElementById('walkSteps').textContent}\nPace: ${(document.getElementById('walkDistance').textContent / 0.5).toFixed(1)} km/h`);
+        }
+
+        function showStepDetails() {
+            alert(`👣 Step Details:\nTotal: ${document.getElementById('walkSteps').textContent} steps\nToday's Goal: 10,000 steps\nProgress: ${Math.round(document.getElementById('walkSteps').textContent / 100)}%`);
+        }
+
+        function showCalorieDetails() {
+            alert(`🔥 Calorie Burn:\nTotal: ${document.getElementById('walkCalories').textContent} calories\nEquivalent to: ${Math.round(document.getElementById('walkCalories').textContent / 100)} apples`);
+        }
+
+        function showTerritoryDetails() {
+            alert(`🏁 Territory Stats:\nClaimed: ${document.getElementById('territoryEarned').textContent} cells\nDefended: 3 territories\nAt Risk: 2 territories\nWalk more to defend!`);
+        }
+
+        function showGameRules() {
+            alert(`📋 Walk to Earn - Complete Rules:\n\n1. Register/Login to start\n2. Turn on GPS location\n3. Click 'Start Walking' to begin\n4. Each 100m = 1 territory cell\n5. Green = Your territory\n6. Red = Others' territory\n7. Walk through red to capture\n8. Defend by walking daily\n9. Top walkers get badges\n10. Compete on leaderboard`);
+        }
+
+        // ===== AI ASSISTANT FUNCTIONS =====
+        function toggleAssistant() {
             const body = document.querySelector('.ai-chat-body');
-            const icon = this.querySelector('i');
             if (body.style.display === 'none') {
                 body.style.display = 'block';
-                icon.style.transform = 'rotate(180deg)';
             } else {
                 body.style.display = 'none';
-                icon.style.transform = 'rotate(0)';
             }
-        });
+        }
 
-        
+        function askAI() {
+            const question = document.getElementById('aiQuestion').value;
+            if (question) {
+                alert(`🤖 AI Assistant:\n\nYou asked: "${question}"\n\nI recommend consulting with a healthcare professional for personalized advice. For general wellness, try drinking more water and spending time in nature! 🌿`);
+                document.getElementById('aiQuestion').value = '';
+            }
+        }
     </script>
 
     <script src="js/theme.js"></script>

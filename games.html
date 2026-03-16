@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Exercise Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Games Page Specific Styles */
+        .games-hero {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .games-hero::before {
+            content: '🎮';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: #f39c12;
+            box-shadow: 0 20px 40px rgba(243, 156, 18, 0.3);
+        }
+
+        .game-header {
+            height: 150px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-content {
+            padding: 2rem;
+        }
+
+        .game-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #f39c12;
+        }
+
+        .game-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .game-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .game-tag {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .play-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .play-btn:hover {
+            background: #e67e22;
+            transform: scale(1.02);
+        }
+
+        .game-area {
+            background: var(--bg-primary);
+            border-radius: 24px;
+            padding: 2rem;
+            margin: 2rem 0;
+            display: none;
+            border: 2px solid #f39c12;
+        }
+
+        .game-area.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .game-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f39c12;
+        }
+
+        .score-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .game-button {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 1.5rem 3rem;
+            border-radius: 100px;
+            font-size: 2rem;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .game-button:hover {
+            transform: scale(1.1);
+            background: #e67e22;
+        }
+
+        .game-button:active {
+            transform: scale(0.95);
+        }
+
+        .game-button.small {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .timer {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #f39c12;
+            font-family: monospace;
+            margin: 1rem 0;
+        }
+
+        .target-display {
+            font-size: 3rem;
+            margin: 1rem 0;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .message-box {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            font-size: 1.2rem;
+            color: #f39c12;
+        }
+
+        .back-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.3);
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .achievement-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            display: none;
+            animation: slideInRight 0.5s ease;
+            z-index: 2000;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .high-score {
+            color: #f39c12;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+            <a href="games.html" class="active"><i class="fas fa-gamepad"></i> Games</a>
+             <a href="diet-planner.html"><i class="fas fa-home"></i> diet planner</a>
+            <a href="exercise.html"><i class="fas fa-home"></i> exercise</a>
+           
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Games Hero -->
+        <div class="games-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-gamepad"></i> 
+                Exercise Games Hub
+            </h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px;">
+                Play fully working exercise games! Click, tap, and compete to stay fit.
+            </p>
+        </div>
+
+        <!-- Games Grid -->
+        <div class="games-grid" id="gamesGrid">
+            <!-- Game 1: Step Counter Challenge -->
+           <!--  <div class="game-card" onclick="showGame(1)">
+                <div class="game-header">👣</div>
+                <div class="game-content">
+                    <div class="game-title">Step Counter Challenge</div>
+                    <div class="game-description">Click to count steps. Reach 100 steps to win!</div>
+                    <div class="game-meta">
+                        <span class="game-tag">Click Game</span>
+                        <span class="game-tag">Daily Goal</span>
+                    </div>
+                    <button class="play-btn" onclick="event.stopPropagation(); showGame(1)">▶ Play Now</button>
+                </div>
+            </div>-->
+
+            <!-- Game 2: Jump Rope Mania -->
+            <div class="game-card" onclick="showGame(2)">
+                <div class="game-header">🪢</div>
+                <div class="game-content">
+                    <div class="game-title">Jump Rope Mania</div>
+                    <div class="game-description">Jump as fast as you can! 30 second challenge.</div>
+                    <div class="game-meta">
+                        <span class="game-tag">Timed</span>
+                        <span class="game-tag">Speed</span>
+                    </div>
+                    <button class="play-btn" onclick="event.stopPropagation(); showGame(2)">▶ Play Now</button>
+                </div>
+            </div>
+
+            <!-- Game 3: Squat Battle Arena
+            <div class="game-card" onclick="showGame(3)">
+                <div class="game-header">🏋️</div>
+                <div class="game-content">
+                    <div class="game-title">Squat Battle Arena</div>
+                    <div class="game-description">Battle against AI! First to 50 squats wins.</div>
+                    <div class="game-meta">
+                        <span class="game-tag">1v1 Battle</span>
+                        <span class="game-tag">AI Opponent</span>
+                    </div>
+                    <button class="play-btn" onclick="event.stopPropagation(); showGame(3)">▶ Play Now</button>
+                </div>
+            </div> -->
+
+            <!-- Game 4: Plank Hold Challenge -->
+            <div class="game-card" onclick="showGame(4)">
+                <div class="game-header">⏱️</div>
+                <div class="game-content">
+                    <div class="game-title">Plank Hold Challenge</div>
+                    <div class="game-description">Hold the plank! Click and hold to beat the timer.</div>
+                    <div class="game-meta">
+                        <span class="game-tag">Hold Game</span>
+                        <span class="game-tag">Endurance</span>
+                    </div>
+                    <button class="play-btn" onclick="event.stopPropagation(); showGame(4)">▶ Play Now</button>
+                </div>
+            </div>
+
+            <!-- Game 5: Yoga Pose Master -->
+            <div class="game-card" onclick="showGame(5)">
+                <div class="game-header">🧘</div>
+                <div class="game-content">
+                    <div class="game-title">Yoga Pose Master</div>
+                    <div class="game-description">Match the poses! Memory game with yoga poses.</div>
+                    <div class="game-meta">
+                        <span class="game-tag">Memory</span>
+                        <span class="game-tag">Matching</span>
+                    </div>
+                    <button class="play-btn" onclick="event.stopPropagation(); showGame(5)">▶ Play Now</button>
+                </div>
+            </div>
+
+            <!-- Game 6: Cycling Sprint Race 
+            <div class="game-card" onclick="showGame(6)">
+                <div class="game-header">🚴</div>
+                <div class="game-content">
+                    <div class="game-title">Cycling Sprint Race</div>
+                    <div class="game-description">Race to the finish! Click to pedal faster.</div>
+                    <div class="game-meta">
+                        <span class="game-tag">Racing</span>
+                        <span class="game-tag">Multiplayer</span>
+                    </div>
+                    <button class="play-btn" onclick="event.stopPropagation(); showGame(6)">▶ Play Now</button>
+                </div>
+            </div>
+        </div>-->
+
+        <!-- Game Area (Dynamic Loading) -->
+        <div id="gameArea" class="game-area"></div>
+
+        <!-- Achievement Popup -->
+        <div id="achievementPopup" class="achievement-popup">
+            <i class="fas fa-trophy"></i> <span id="achievementText"></span>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-btn" id="backBtn" onclick="backToGames()" style="display: none;">
+        <i class="fas fa-arrow-left"></i> Back to Games
+    </button>
+
+    <!-- Add this in the head section of games.html -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Update the Plank Game section with this complete code -->
+
+
+    <script>
+        // Game States
+        let currentGame = null;
+        let gameInterval = null;
+        let score = 0;
+        let highScores = JSON.parse(localStorage.getItem('gameHighScores')) || {
+            step: 0,
+            jump: 0,
+            squat: 0,
+            plank: 0,
+            yoga: 0,
+            cycle: 0
+        };
+
+        // ===== NAVIGATION =====
+        function showGame(gameId) {
+            currentGame = gameId;
+            document.getElementById('gameArea').classList.add('active');
+            document.getElementById('backBtn').style.display = 'block';
+            
+            // Load appropriate game
+            switch(gameId) {
+                case 1: loadStepGame(); break;
+                case 2: loadJumpRopeGame(); break;
+                case 3: loadSquatGame(); break;
+                case 4: loadPlankGame(); break;
+                case 5: loadYogaGame(); break;
+                case 6: loadCycleGame(); break;
+            }
+            
+            document.getElementById('gameArea').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function backToGames() {
+            document.getElementById('gameArea').classList.remove('active');
+            document.getElementById('backBtn').style.display = 'none';
+            if (gameInterval) {
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+        }
+
+        function showAchievement(message) {
+            document.getElementById('achievementText').textContent = message;
+            document.getElementById('achievementPopup').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('achievementPopup').style.display = 'none';
+            }, 3000);
+        }
+
+        // ===== GAME 1: STEP COUNTER CHALLENGE (FULLY WORKING) =====
+        function loadStepGame() {
+            let steps = 0;
+            let goal = 100;
+            
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = `
+                <div class="game-container">
+                    <h2 style="color: #f39c12;">👣 Step Counter Challenge</h2>
+                    
+                    <div class="score-board">
+                        <div class="score-item">
+                            <div class="score-value" id="stepCount">0</div>
+                            <div class="score-label">Your Steps</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="stepGoal">100</div>
+                            <div class="score-label">Goal</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="stepHighScore">${highScores.step}</div>
+                            <div class="score-label">Best</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="stepProgress" style="width: 0%"></div>
+                    </div>
+                    
+                    <button class="game-button" id="stepBtn" onclick="addStep()">
+                        👟 TAKE A STEP
+                    </button>
+                    
+                    <div class="message-box" id="stepMessage">
+                        Click the button to take steps!
+                    </div>
+                    
+                    <div class="game-stats">
+                        <div class="stat-box">
+                            <div>Calories</div>
+                            <div class="high-score" id="stepCalories">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Distance</div>
+                            <div class="high-score" id="stepDistance">0m</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Time</div>
+                            <div class="high-score" id="stepTime">0s</div>
+                        </div>
+                    </div>
+                    
+                    <button class="play-btn" onclick="resetStepGame()" style="background: #e74c3c;">
+                        🔄 Reset Game
+                    </button>
+                </div>
+            `;
+
+            let timeElapsed = 0;
+            const timer = setInterval(() => {
+                timeElapsed++;
+                document.getElementById('stepTime').textContent = timeElapsed + 's';
+            }, 1000);
+
+            window.addStep = function() {
+                steps++;
+                document.getElementById('stepCount').textContent = steps;
+                
+                // Update progress
+                const progress = (steps / goal) * 100;
+                document.getElementById('stepProgress').style.width = Math.min(progress, 100) + '%';
+                
+                // Update stats
+                document.getElementById('stepCalories').textContent = steps * 0.5;
+                document.getElementById('stepDistance').textContent = (steps * 0.8).toFixed(1) + 'm';
+                
+                // Button animation
+                const btn = document.getElementById('stepBtn');
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => btn.style.transform = 'scale(1)', 100);
+                
+                // Check win condition
+                if (steps >= goal) {
+                    document.getElementById('stepMessage').innerHTML = '🎉 YOU WIN! 🎉 <br> Great job! Keep moving!';
+                    document.getElementById('stepBtn').disabled = true;
+                    
+                    if (steps > highScores.step) {
+                        highScores.step = steps;
+                        localStorage.setItem('gameHighScores', JSON.stringify(highScores));
+                        document.getElementById('stepHighScore').textContent = steps;
+                        showAchievement('New High Score! 🏆');
+                    }
+                    
+                    clearInterval(timer);
+                } else {
+                    document.getElementById('stepMessage').innerHTML = `${goal - steps} more steps to go!`;
+                }
+            };
+
+            window.resetStepGame = function() {
+                steps = 0;
+                timeElapsed = 0;
+                document.getElementById('stepCount').textContent = '0';
+                document.getElementById('stepProgress').style.width = '0%';
+                document.getElementById('stepCalories').textContent = '0';
+                document.getElementById('stepDistance').textContent = '0m';
+                document.getElementById('stepTime').textContent = '0s';
+                document.getElementById('stepMessage').innerHTML = 'Click the button to take steps!';
+                document.getElementById('stepBtn').disabled = false;
+                clearInterval(timer);
+                
+                // Restart timer
+                const newTimer = setInterval(() => {
+                    timeElapsed++;
+                    document.getElementById('stepTime').textContent = timeElapsed + 's';
+                }, 1000);
+            };
+        }
+
+        // ===== GAME 2: JUMP ROPE MANIA (FULLY WORKING) =====
+        function loadJumpRopeGame() {
+            let jumps = 0;
+            let timeLeft = 30;
+            let gameActive = true;
+            
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = `
+                <div class="game-container">
+                    <h2 style="color: #f39c12;">🪢 Jump Rope Mania</h2>
+                    
+                    <div class="score-board">
+                        <div class="score-item">
+                            <div class="score-value" id="jumpCount">0</div>
+                            <div class="score-label">Jumps</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="timeLeft">30</div>
+                            <div class="score-label">Seconds</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="jumpHighScore">${highScores.jump}</div>
+                            <div class="score-label">Best</div>
+                        </div>
+                    </div>
+                    
+                    <div class="target-display" id="jumpRope">🪢</div>
+                    
+                    <button class="game-button" id="jumpBtn" onclick="doJump()">
+                        🦵 JUMP!
+                    </button>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="jumpProgress" style="width: 100%"></div>
+                    </div>
+                    
+                    <div class="message-box" id="jumpMessage">
+                        Jump as fast as you can! 30 seconds!
+                    </div>
+                    
+                    <button class="play-btn" onclick="resetJumpGame()" style="background: #e74c3c;">
+                        🔄 New Game
+                    </button>
+                </div>
+            `;
+
+            // Timer
+            const timer = setInterval(() => {
+                if (gameActive && timeLeft > 0) {
+                    timeLeft--;
+                    document.getElementById('timeLeft').textContent = timeLeft;
+                    
+                    const progress = (timeLeft / 30) * 100;
+                    document.getElementById('jumpProgress').style.width = progress + '%';
+                    
+                    if (timeLeft === 0) {
+                        gameActive = false;
+                        document.getElementById('jumpBtn').disabled = true;
+                        document.getElementById('jumpMessage').innerHTML = `⏰ Time\'s up! You did ${jumps} jumps!`;
+                        
+                        if (jumps > highScores.jump) {
+                            highScores.jump = jumps;
+                            localStorage.setItem('gameHighScores', JSON.stringify(highScores));
+                            document.getElementById('jumpHighScore').textContent = jumps;
+                            showAchievement('New Jump Record! 🏆');
+                        }
+                        
+                        clearInterval(timer);
+                    }
+                }
+            }, 1000);
+
+            window.doJump = function() {
+                if (gameActive) {
+                    jumps++;
+                    document.getElementById('jumpCount').textContent = jumps;
+                    
+                    // Animation
+                    const rope = document.getElementById('jumpRope');
+                    rope.style.transform = 'rotate(360deg)';
+                    rope.style.transition = 'transform 0.2s';
+                    setTimeout(() => {
+                        rope.style.transform = 'rotate(0deg)';
+                    }, 100);
+                    
+                    // Button animation
+                    const btn = document.getElementById('jumpBtn');
+                    btn.style.transform = 'scale(0.9)';
+                    setTimeout(() => btn.style.transform = 'scale(1)', 100);
+                    
+                    document.getElementById('jumpMessage').innerHTML = `Great! ${30 - timeLeft}s remaining`;
+                }
+            };
+
+            window.resetJumpGame = function() {
+                jumps = 0;
+                timeLeft = 30;
+                gameActive = true;
+                document.getElementById('jumpCount').textContent = '0';
+                document.getElementById('timeLeft').textContent = '30';
+                document.getElementById('jumpProgress').style.width = '100%';
+                document.getElementById('jumpBtn').disabled = false;
+                document.getElementById('jumpMessage').innerHTML = 'Jump as fast as you can! 30 seconds!';
+                clearInterval(timer);
+                
+                // Restart timer
+                const newTimer = setInterval(() => {
+                    if (gameActive && timeLeft > 0) {
+                        timeLeft--;
+                        document.getElementById('timeLeft').textContent = timeLeft;
+                        
+                        const progress = (timeLeft / 30) * 100;
+                        document.getElementById('jumpProgress').style.width = progress + '%';
+                        
+                        if (timeLeft === 0) {
+                            gameActive = false;
+                            document.getElementById('jumpBtn').disabled = true;
+                            document.getElementById('jumpMessage').innerHTML = `⏰ Time\'s up! You did ${jumps} jumps!`;
+                            
+                            if (jumps > highScores.jump) {
+                                highScores.jump = jumps;
+                                localStorage.setItem('gameHighScores', JSON.stringify(highScores));
+                                document.getElementById('jumpHighScore').textContent = jumps;
+                                showAchievement('New Jump Record! 🏆');
+                            }
+                            
+                            clearInterval(newTimer);
+                        }
+                    }
+                }, 1000);
+            };
+        }
+
+        // ===== GAME 3: SQUAT BATTLE ARENA (FULLY WORKING) =====
+        // ===== GAME 4: PLANK HOLD CHALLENGE WITH SUPABASE (FULLY WORKING) =====
+function loadPlankGame() {
+    // Initialize Supabase (replace with your credentials)
+    const supabaseUrl = 'https://ibfeegtzehgspswvlyna.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliZmVlZ3R6ZWhnc3Bzd3ZseW5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTY5ODAsImV4cCI6MjA4NzU5Mjk4MH0.I5CPOxe69SQ3O0qqb5A6Zx-pAWzLmZpXyu97mt9ZvagYOUR_SUPABASE_ANON_KEY';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    
+    let holdTime = 0;
+    let gameActive = false;
+    let playerName = localStorage.getItem('plankPlayerName') || '';
+    let globalLeaderboard = [];
+    
+    const gameArea = document.getElementById('gameArea');
+    gameArea.innerHTML = `
+        <div class="game-container">
+            <h2 style="color: #f39c12;">⏱️ Plank Hold Challenge</h2>
+            
+            <!-- Player Name Input -->
+            <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 16px; margin-bottom: 2rem;">
+                <h3><i class="fas fa-user"></i> Player Profile</h3>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <input type="text" id="playerNameInput" class="form-control" 
+                           placeholder="Enter your name" value="${playerName}" 
+                           style="flex: 1; padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                    <button class="play-btn" onclick="savePlayerName()" style="width: auto; padding: 1rem 2rem;">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Game Stats -->
+            <div class="score-board">
+                <div class="score-item">
+                    <div class="score-value" id="holdTime">0.0</div>
+                    <div class="score-label">Seconds</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="plankGoal">60</div>
+                    <div class="score-label">Goal</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="plankHighScore">${highScores.plank.toFixed(1)}</div>
+                    <div class="score-label">Your Best</div>
+                </div>
+            </div>
+            
+            <!-- Game Icon -->
+            <div class="target-display" id="plankIcon">⏱️</div>
+            
+            <!-- Plank Button -->
+            <button class="game-button" id="plankBtn" 
+                    onmousedown="startPlank()" 
+                    onmouseup="stopPlank()"
+                    onmouseleave="stopPlank()"
+                    ontouchstart="startPlank()"
+                    ontouchend="stopPlank()">
+                👆 HOLD FOR PLANK
+            </button>
+            
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="plankProgress" style="width: 0%"></div>
+            </div>
+            
+            <!-- Game Message -->
+            <div class="message-box" id="plankMessage">
+                Enter your name and hold the button to do plank!
+            </div>
+            
+            <!-- Control Buttons -->
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="play-btn" onclick="resetPlankGame()" style="background: #e74c3c; flex: 1;">
+                    🔄 Reset
+                </button>
+                <button class="play-btn" onclick="submitToLeaderboard()" style="background: #3498db; flex: 1;" id="submitBtn">
+                    📤 Submit Score
+                </button>
+            </div>
+            
+            <!-- Global Leaderboard -->
+            <div style="margin-top: 3rem; background: var(--bg-card); padding: 1.5rem; border-radius: 16px;">
+                <h3><i class="fas fa-globe"></i> Global Leaderboard</h3>
+                <div id="globalLeaderboard" style="max-height: 300px; overflow-y: auto;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading leaderboard...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Personal Records -->
+            <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div class="stat-box">
+                    <div>Today's Best</div>
+                    <div class="high-score" id="todayBest">0.0s</div>
+                </div>
+                <div class="stat-box">
+                    <div>Weekly Avg</div>
+                    <div class="high-score" id="weeklyAvg">0.0s</div>
+                </div>
+                <div class="stat-box">
+                    <div>Total Holds</div>
+                    <div class="high-score" id="totalHolds">0</div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Load leaderboard on start
+    loadLeaderboard();
+
+    // Save player name function
+    window.savePlayerName = function() {
+        const name = document.getElementById('playerNameInput').value.trim();
+        if (name) {
+            playerName = name;
+            localStorage.setItem('plankPlayerName', name);
+            document.getElementById('plankMessage').innerHTML = `Welcome, ${name}! Hold the button to start plank.`;
+            loadUserStats(name);
+        } else {
+            alert('Please enter your name!');
+        }
+    };
+
+    // Load user stats from Supabase
+    async function loadUserStats(name) {
+        try {
+            const { data, error } = await supabase
+                .from('plank_scores')
+                .select('hold_time, created_at')
+                .eq('player_name', name)
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            
+            if (data && data.length > 0) {
+                // Today's best
+                const today = new Date().toDateString();
+                const todayScores = data.filter(score => 
+                    new Date(score.created_at).toDateString() === today
+                );
+                const todayBest = Math.max(...todayScores.map(s => s.hold_time));
+                document.getElementById('todayBest').textContent = todayBest ? todayBest.toFixed(1) + 's' : '0.0s';
+                
+                // Weekly average
+                const weekAgo = new Date();
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                const weekScores = data.filter(score => 
+                    new Date(score.created_at) >= weekAgo
+                );
+                const weekAvg = weekScores.reduce((sum, s) => sum + s.hold_time, 0) / weekScores.length;
+                document.getElementById('weeklyAvg').textContent = weekAvg ? weekAvg.toFixed(1) + 's' : '0.0s';
+                
+                // Total holds
+                document.getElementById('totalHolds').textContent = data.length;
+            }
+        } catch (error) {
+            console.error('Error loading user stats:', error);
+        }
+    }
+
+    // Load global leaderboard
+    async function loadLeaderboard() {
+        try {
+            const { data, error } = await supabase
+                .from('plank_scores')
+                .select('player_name, hold_time, created_at')
+                .order('hold_time', { ascending: false })
+                .limit(20);
+            
+            if (error) throw error;
+            
+            const leaderboardEl = document.getElementById('globalLeaderboard');
+            if (data && data.length > 0) {
+                leaderboardEl.innerHTML = data.map((score, index) => `
+                    <div style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border-color);">
+                        <div style="width: 40px; height: 40px; background: ${index < 3 ? '#f39c12' : 'var(--bg-card)'}; 
+                                border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+                                font-weight: 700; margin-right: 1rem; color: ${index < 3 ? 'white' : 'var(--text-primary)'};">
+                            ${index + 1}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">${score.player_name}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                                ${new Date(score.created_at).toLocaleDateString()}
+                            </div>
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #f39c12;">
+                            ${score.hold_time.toFixed(1)}s
+                        </div>
+                        ${index < 3 ? '<div style="margin-left: 1rem; font-size: 1.5rem;">' + 
+                            (index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉') + '</div>' : ''}
+                    </div>
+                `).join('');
+            } else {
+                leaderboardEl.innerHTML = '<div style="text-align: center; padding: 2rem;">No scores yet. Be the first!</div>';
+            }
+        } catch (error) {
+            console.error('Error loading leaderboard:', error);
+            document.getElementById('globalLeaderboard').innerHTML = 
+                '<div style="text-align: center; padding: 2rem; color: #e74c3c;">Error loading leaderboard</div>';
+        }
+    }
+
+    // Submit score to leaderboard
+    window.submitToLeaderboard = async function() {
+        if (!playerName) {
+            alert('Please enter and save your name first!');
+            return;
+        }
+        
+        if (holdTime === 0) {
+            alert('Do a plank first!');
+            return;
+        }
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+        
+        try {
+            const { data, error } = await supabase
+                .from('plank_scores')
+                .insert([
+                    { 
+                        player_name: playerName, 
+                        hold_time: holdTime,
+                        created_at: new Date().toISOString()
+                    }
+                ]);
+            
+            if (error) throw error;
+            
+            showAchievement('Score submitted to leaderboard! 📤');
+            
+            // Update high score if needed
+            if (holdTime > highScores.plank) {
+                highScores.plank = holdTime;
+                localStorage.setItem('gameHighScores', JSON.stringify(highScores));
+                document.getElementById('plankHighScore').textContent = holdTime.toFixed(1);
+            }
+            
+            // Reload leaderboard
+            await loadLeaderboard();
+            await loadUserStats(playerName);
+            
+        } catch (error) {
+            console.error('Error submitting score:', error);
+            alert('Error submitting score. Please try again.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '📤 Submit Score';
+        }
+    };
+
+    // Plank game functions
+    window.startPlank = function() {
+        if (!playerName) {
+            alert('Please enter and save your name first!');
+            return;
+        }
+        
+        if (!gameActive) {
+            gameActive = true;
+            document.getElementById('plankBtn').style.background = '#e67e22';
+            document.getElementById('plankMessage').innerHTML = 'HOLDING PLANK! Great form! 💪';
+            
+            const timer = setInterval(() => {
+                if (gameActive) {
+                    holdTime += 0.1;
+                    document.getElementById('holdTime').textContent = holdTime.toFixed(1);
+                    
+                    const progress = (holdTime / 60) * 100;
+                    document.getElementById('plankProgress').style.width = Math.min(progress, 100) + '%';
+                    
+                    // Shake icon for effect
+                    const icon = document.getElementById('plankIcon');
+                    icon.style.transform = `translateX(${Math.random() * 5}px)`;
+                    
+                    // Milestone messages
+                    if (Math.abs(holdTime - 30) < 0.1) {
+                        showAchievement('Halfway there! 30 seconds! ⏱️');
+                    } else if (Math.abs(holdTime - 60) < 0.1) {
+                        showAchievement('AMAZING! 60 seconds! 🎉');
+                    }
+                    
+                    if (holdTime >= 60) {
+                        stopPlank();
+                        document.getElementById('plankMessage').innerHTML = '🎉 INCREDIBLE! You held for 60 seconds! 🎉';
+                    }
+                }
+            }, 100);
+            
+            window.plankTimer = timer;
+        }
+    };
+
+    window.stopPlank = function() {
+        if (gameActive) {
+            gameActive = false;
+            clearInterval(window.plankTimer);
+            document.getElementById('plankBtn').style.background = '#f39c12';
+            document.getElementById('plankMessage').innerHTML = `You held for ${holdTime.toFixed(1)} seconds! Click submit to save your score.`;
+            document.getElementById('plankIcon').style.transform = 'translateX(0)';
+        }
+    };
+
+    window.resetPlankGame = function() {
+        stopPlank();
+        holdTime = 0;
+        document.getElementById('holdTime').textContent = '0.0';
+        document.getElementById('plankProgress').style.width = '0%';
+        document.getElementById('plankMessage').innerHTML = playerName ? 
+            `Ready, ${playerName}! Hold the button to start plank.` : 
+            'Enter your name and hold the button to do plank!';
+    };
+
+    // Auto-load if name exists
+    if (playerName) {
+        document.getElementById('playerNameInput').value = playerName;
+        loadUserStats(playerName);
+    }
+}
+
+        // ===== GAME 4: PLANK HOLD CHALLENGE (FULLY WORKING) =====
+        function loadPlankGame() {
+            let holdTime = 0;
+            let gameActive = false;
+            
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = `
+                <div class="game-container">
+                    <h2 style="color: #f39c12;">⏱️ Plank Hold Challenge</h2>
+                    
+                    <div class="score-board">
+                        <div class="score-item">
+                            <div class="score-value" id="holdTime">0.0</div>
+                            <div class="score-label">Seconds</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="plankGoal">60</div>
+                            <div class="score-label">Goal</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="plankHighScore">${highScores.plank}</div>
+                            <div class="score-label">Best</div>
+                        </div>
+                    </div>
+                    
+                    <div class="target-display" id="plankIcon">⏱️</div>
+                    
+                    <button class="game-button" id="plankBtn" 
+                            onmousedown="startPlank()" 
+                            onmouseup="stopPlank()"
+                            onmouseleave="stopPlank()"
+                            ontouchstart="startPlank()"
+                            ontouchend="stopPlank()">
+                        👆 HOLD FOR PLANK
+                    </button>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="plankProgress" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="message-box" id="plankMessage">
+                        Press and hold the button to do plank!
+                    </div>
+                    
+                    <button class="play-btn" onclick="resetPlankGame()" style="background: #e74c3c;">
+                        🔄 Reset
+                    </button>
+                </div>
+            `;
+
+            window.startPlank = function() {
+                if (!gameActive) {
+                    gameActive = true;
+                    document.getElementById('plankBtn').style.background = '#e67e22';
+                    document.getElementById('plankMessage').innerHTML = 'HOLDING PLANK! Great form! 💪';
+                    
+                    const timer = setInterval(() => {
+                        if (gameActive) {
+                            holdTime += 0.1;
+                            document.getElementById('holdTime').textContent = holdTime.toFixed(1);
+                            
+                            const progress = (holdTime / 60) * 100;
+                            document.getElementById('plankProgress').style.width = Math.min(progress, 100) + '%';
+                            
+                            // Shake icon for effect
+                            const icon = document.getElementById('plankIcon');
+                            icon.style.transform = `translateX(${Math.random() * 5}px)`;
+                            
+                            if (holdTime >= 60) {
+                                stopPlank();
+                                document.getElementById('plankMessage').innerHTML = '🎉 AMAZING! You held for 60 seconds! 🎉';
+                                
+                                if (holdTime > highScores.plank) {
+                                    highScores.plank = holdTime;
+                                    localStorage.setItem('gameHighScores', JSON.stringify(highScores));
+                                    document.getElementById('plankHighScore').textContent = holdTime.toFixed(1);
+                                    showAchievement('Plank Master! 🏆');
+                                }
+                            }
+                        }
+                    }, 100);
+                    
+                    window.plankTimer = timer;
+                }
+            };
+
+            window.stopPlank = function() {
+                if (gameActive) {
+                    gameActive = false;
+                    clearInterval(window.plankTimer);
+                    document.getElementById('plankBtn').style.background = '#f39c12';
+                    document.getElementById('plankMessage').innerHTML = `You held for ${holdTime.toFixed(1)} seconds! Try again!`;
+                    document.getElementById('plankIcon').style.transform = 'translateX(0)';
+                }
+            };
+
+            window.resetPlankGame = function() {
+                stopPlank();
+                holdTime = 0;
+                document.getElementById('holdTime').textContent = '0.0';
+                document.getElementById('plankProgress').style.width = '0%';
+                document.getElementById('plankMessage').innerHTML = 'Press and hold the button to do plank!';
+            };
+        }
+
+        // ===== GAME 5: YOGA POSE MASTER (FULLY WORKING) =====
+        function loadYogaGame() {
+            const poses = [
+                { name: "Downward Dog", icon: "🐕", points: 10 },
+                { name: "Tree Pose", icon: "🌳", points: 15 },
+                { name: "Warrior", icon: "⚔️", points: 20 },
+                { name: "Cobra", icon: "🐍", points: 15 },
+                { name: "Child's Pose", icon: "🧘", points: 10 }
+            ];
+            
+            let currentPose = 0;
+            let score = 0;
+            let matches = 0;
+            
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = `
+                <div class="game-container">
+                    <h2 style="color: #f39c12;">🧘 Yoga Pose Master</h2>
+                    
+                    <div class="score-board">
+                        <div class="score-item">
+                            <div class="score-value" id="yogaScore">0</div>
+                            <div class="score-label">Score</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="yogaMatches">0/5</div>
+                            <div class="score-label">Matches</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="yogaHighScore">${highScores.yoga}</div>
+                            <div class="score-label">Best</div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 5rem; margin: 2rem;" id="poseIcon">🐕</div>
+                    <h3 id="poseName">Downward Dog</h3>
+                    
+                    <div class="game-stats" id="poseOptions">
+                        <button class="play-btn" onclick="selectPose(0)">🐕 Downward Dog</button>
+                        <button class="play-btn" onclick="selectPose(1)">🌳 Tree Pose</button>
+                        <button class="play-btn" onclick="selectPose(2)">⚔️ Warrior</button>
+                        <button class="play-btn" onclick="selectPose(3)">🐍 Cobra</button>
+                        <button class="play-btn" onclick="selectPose(4)">🧘 Child's Pose</button>
+                    </div>
+                    
+                    <div class="message-box" id="yogaMessage">
+                        Match the pose shown above!
+                    </div>
+                    
+                    <button class="play-btn" onclick="resetYogaGame()" style="background: #e74c3c;">
+                        🔄 New Game
+                    </button>
+                </div>
+            `;
+
+            window.selectPose = function(selectedIndex) {
+                if (selectedIndex === currentPose) {
+                    // Correct match
+                    score += poses[currentPose].points;
+                    matches++;
+                    
+                    document.getElementById('yogaScore').textContent = score;
+                    document.getElementById('yogaMatches').textContent = matches + '/5';
+                    
+                    // Show success message
+                    document.getElementById('yogaMessage').innerHTML = '✅ Perfect! Great form!';
+                    
+                    // Move to next pose
+                    if (matches < 5) {
+                        currentPose = Math.floor(Math.random() * poses.length);
+                        document.getElementById('poseIcon').textContent = poses[currentPose].icon;
+                        document.getElementById('poseName').textContent = poses[currentPose].name;
+                    } else {
+                        document.getElementById('yogaMessage').innerHTML = '🎉 YOU DID IT! All poses mastered! 🎉';
+                        
+                        if (score > highScores.yoga) {
+                            highScores.yoga = score;
+                            localStorage.setItem('gameHighScores', JSON.stringify(highScores));
+                            document.getElementById('yogaHighScore').textContent = score;
+                            showAchievement('Yoga Master! 🏆');
+                        }
+                    }
+                } else {
+                    document.getElementById('yogaMessage').innerHTML = '❌ Try again! That\'s not the pose.';
+                }
+            };
+
+            window.resetYogaGame = function() {
+                currentPose = 0;
+                score = 0;
+                matches = 0;
+                document.getElementById('yogaScore').textContent = '0';
+                document.getElementById('yogaMatches').textContent = '0/5';
+                document.getElementById('poseIcon').textContent = poses[0].icon;
+                document.getElementById('poseName').textContent = poses[0].name;
+                document.getElementById('yogaMessage').innerHTML = 'Match the pose shown above!';
+            };
+        }
+
+        // ===== GAME 6: CYCLING SPRINT RACE (FULLY WORKING) =====
+        function loadCycleGame() {
+            let distance = 0;
+            let raceDistance = 5; // km
+            let speed = 0;
+            let gameActive = true;
+            
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = `
+                <div class="game-container">
+                    <h2 style="color: #f39c12;">🚴 Cycling Sprint Race</h2>
+                    
+                    <div class="score-board">
+                        <div class="score-item">
+                            <div class="score-value" id="raceDistance">0.0</div>
+                            <div class="score-label">km</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="raceSpeed">0</div>
+                            <div class="score-label">km/h</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="racePosition">4th</div>
+                            <div class="score-label">Position</div>
+                        </div>
+                    </div>
+                    
+                    <div class="target-display" id="cyclist">🚴</div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="raceProgress" style="width: 0%"></div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button class="game-button small" id="pedalBtn" onclick="pedal()">
+                            🚴 PEDAL
+                        </button>
+                        <button class="game-button small" id="sprintBtn" onclick="sprint()">
+                            ⚡ SPRINT
+                        </button>
+                    </div>
+                    
+                    <div class="game-stats">
+                        <div class="stat-box">
+                            <div>Rivals</div>
+                            <div class="high-score" id="rival1">2.1 km</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Distance</div>
+                            <div class="high-score" id="rival2">1.8 km</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Behind</div>
+                            <div class="high-score" id="rival3">1.2 km</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message-box" id="raceMessage">
+                        Click PEDAL to start racing!
+                    </div>
+                    
+                    <button class="play-btn" onclick="resetRace()" style="background: #e74c3c;">
+                        🔄 New Race
+                    </button>
+                </div>
+            `;
+
+            let rivals = [2.1, 1.8, 1.2]; // Rival distances
+
+            window.pedal = function() {
+                if (gameActive) {
+                    distance += 0.1;
+                    speed = 20 + Math.random() * 5;
+                    
+                    updateRace();
+                    
+                    // Animation
+                    const cyclist = document.getElementById('cyclist');
+                    cyclist.style.transform = 'translateX(10px)';
+                    setTimeout(() => cyclist.style.transform = 'translateX(0)', 100);
+                }
+            };
+
+            window.sprint = function() {
+                if (gameActive) {
+                    distance += 0.3;
+                    speed = 35 + Math.random() * 10;
+                    
+                    updateRace();
+                    
+                    // Sprint animation
+                    const cyclist = document.getElementById('cyclist');
+                    cyclist.style.transform = 'scale(1.2) translateX(20px)';
+                    setTimeout(() => cyclist.style.transform = 'scale(1) translateX(0)', 200);
+                }
+            };
+
+            function updateRace() {
+                if (distance >= raceDistance) {
+                    distance = raceDistance;
+                    gameActive = false;
+                    document.getElementById('raceMessage').innerHTML = '🎉 YOU WIN THE RACE! 🎉';
+                    document.getElementById('pedalBtn').disabled = true;
+                    document.getElementById('sprintBtn').disabled = true;
+                    
+                    if (distance > highScores.cycle) {
+                        highScores.cycle = distance;
+                        localStorage.setItem('gameHighScores', JSON.stringify(highScores));
+                        showAchievement('Race Champion! 🏆');
+                    }
+                }
+                
+                // Update rivals (they move too)
+                rivals = rivals.map(r => r + 0.05 + Math.random() * 0.1);
+                
+                // Calculate position
+                const allRacers = [distance, ...rivals];
+                allRacers.sort((a, b) => b - a);
+                const position = allRacers.indexOf(distance) + 1;
+                
+                // Update display
+                document.getElementById('raceDistance').textContent = distance.toFixed(1);
+                document.getElementById('raceSpeed').textContent = Math.floor(speed);
+                document.getElementById('raceProgress').style.width = (distance / raceDistance) * 100 + '%';
+                document.getElementById('rival1').textContent = rivals[0].toFixed(1) + ' km';
+                document.getElementById('rival2').textContent = rivals[1].toFixed(1) + ' km';
+                document.getElementById('rival3').textContent = rivals[2].toFixed(1) + ' km';
+                
+                // Update position with medal
+                const positions = ['1st 🥇', '2nd 🥈', '3rd 🥉', '4th'];
+                document.getElementById('racePosition').textContent = positions[position - 1];
+                
+                // Update message
+                if (position === 1) {
+                    document.getElementById('raceMessage').innerHTML = 'You\'re in the lead! Keep pushing! 🥇';
+                } else if (position === 2) {
+                    document.getElementById('raceMessage').innerHTML = `Second place! ${(rivals[0] - distance).toFixed(1)} km to catch!`;
+                } else {
+                    document.getElementById('raceMessage').innerHTML = `${position}th place. Pedal faster! 💪`;
+                }
+            }
+
+            window.resetRace = function() {
+                distance = 0;
+                rivals = [2.1, 1.8, 1.2];
+                gameActive = true;
+                document.getElementById('raceDistance').textContent = '0.0';
+                document.getElementById('raceSpeed').textContent = '0';
+                document.getElementById('raceProgress').style.width = '0%';
+                document.getElementById('racePosition').textContent = '4th';
+                document.getElementById('pedalBtn').disabled = false;
+                document.getElementById('sprintBtn').disabled = false;
+                document.getElementById('raceMessage').innerHTML = 'New race! Click PEDAL to start!';
+            };
+        }
+
+        // Theme Toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            this.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-sun"></i> Light Mode';
+        });
+    </script>
+    <script src="js/theme.js"></script>
+</body>
+</html>

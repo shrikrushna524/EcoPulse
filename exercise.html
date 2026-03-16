@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse 360 - Exercise Library</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Exercise Page Specific Styles */
+        .exercise-hero {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .exercise-hero::before {
+            content: '💪';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 60px;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-tab {
+            padding: 1rem 2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .category-tab:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .category-tab.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .exercise-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-10px);
+            border-color: #3498db;
+            box-shadow: 0 20px 40px rgba(52, 152, 219, 0.3);
+        }
+
+        .exercise-image {
+            height: 200px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-difficulty {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(0,0,0,0.5);
+            color: white;
+        }
+
+        .exercise-content {
+            padding: 2rem;
+        }
+
+        .exercise-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #3498db;
+        }
+
+        .exercise-meta {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .exercise-tag {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .exercise-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .exercise-stat {
+            text-align: center;
+        }
+
+        .exercise-stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .exercise-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .exercise-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+
+        .exercise-instructions {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .exercise-instructions.show {
+            max-height: 500px;
+        }
+
+        .view-instructions-btn {
+            background: transparent;
+            border: 1px solid #3498db;
+            color: #3498db;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .view-instructions-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .start-exercise-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .start-exercise-btn:hover {
+            background: #2980b9;
+            transform: scale(1.02);
+        }
+
+        /* Workout Planner Section */
+        .planner-section {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 2px solid #3498db;
+        }
+
+        .planner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .planner-title {
+            font-size: 2rem;
+            color: #3498db;
+        }
+
+        .download-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #2ecc71;
+            transform: scale(1.05);
+        }
+
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .day-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .day-name {
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-workout {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .day-workout.selected {
+            background: rgba(52, 152, 219, 0.2);
+            padding: 0.3rem;
+            border-radius: 8px;
+        }
+
+        /* Timer Modal */
+        .timer-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 30px;
+            z-index: 2000;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 2px solid #3498db;
+            text-align: center;
+        }
+
+        .timer-modal.active {
+            display: block;
+            animation: popIn 0.5s ease;
+        }
+
+        .timer-display {
+            font-size: 6rem;
+            font-weight: 700;
+            color: #3498db;
+            font-family: monospace;
+            margin: 2rem 0;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .timer-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .timer-btn.start {
+            background: #27ae60;
+            color: white;
+        }
+
+        .timer-btn.pause {
+            background: #f39c12;
+            color: white;
+        }
+
+        .timer-btn.reset {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @keyframes popIn {
+            from { transform: translate(-50%, -50%) scale(0); }
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .difficulty-filter {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .week-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>EcoPulse 360</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+            <a href="games.html"><i class="fas fa-gamepad"></i> Games</a>
+            <a href="exercise.html" class="active"><i class="fas fa-dumbbell"></i> Exercise</a>
+             <a href="diet-planner.html"><i class="fas fa-home"></i> diet planner</a>
+          
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Exercise Hero -->
+        <div class="exercise-hero">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-dumbbell"></i> 
+                Exercise Library & Planner
+            </h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px;">
+                100+ exercises categorized by muscle group. Create your perfect workout plan!
+            </p>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="stats-summary">
+            <div class="stat-card">
+                <div class="stat-number" id="totalExercises">124</div>
+                <div>Total Exercises</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCategories">8</div>
+                <div>Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="weeklyPlans">12</div>
+                <div>Weekly Plans</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeUsers">2.5K</div>
+                <div>Active Users</div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <input type="text" class="search-input" id="searchExercise" placeholder="🔍 Search exercises..." onkeyup="filterExercises()">
+            <select class="difficulty-filter" id="difficultyFilter" onchange="filterExercises()">
+                <option value="all">All Difficulties</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+            </select>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs" id="categoryTabs">
+            <button class="category-tab active" onclick="filterByCategory('all')">All Exercises</button>
+            <button class="category-tab" onclick="filterByCategory('chest')">🏋️ Chest</button>
+            <button class="category-tab" onclick="filterByCategory('back')">🔙 Back</button>
+            <button class="category-tab" onclick="filterByCategory('shoulders')">🏔️ Shoulders</button>
+            <button class="category-tab" onclick="filterByCategory('arms')">💪 Arms</button>
+            <button class="category-tab" onclick="filterByCategory('legs')">🦵 Legs</button>
+            <button class="category-tab" onclick="filterByCategory('core')">🧘 Core</button>
+            <button class="category-tab" onclick="filterByCategory('cardio')">❤️ Cardio</button>
+            <button class="category-tab" onclick="filterByCategory('fullbody')">🌟 Full Body</button>
+        </div>
+
+        <!-- Exercise Grid -->
+        <div class="exercise-grid" id="exerciseGrid">
+            <!-- Exercises will be populated by JavaScript -->
+        </div>
+
+        <!-- Workout Planner Section -->
+        <div class="planner-section">
+            <div class="planner-header">
+                <h2 class="planner-title"><i class="fas fa-calendar-alt"></i> Your Weekly Workout Planner</h2>
+                <div>
+                    <button class="download-btn" onclick="downloadPlanAsPNG()">
+                        <i class="fas fa-download"></i> Download Plan
+                    </button>
+                    <button class="download-btn" style="background: #3498db; margin-left: 1rem;" onclick="downloadPlanAsPDF()">
+                        <i class="fas fa-file-pdf"></i> Save as PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Week Selection -->
+            <div style="margin-bottom: 2rem;">
+                <label>Select Week:</label>
+                <select id="weekSelect" onchange="loadWeekPlan()" style="margin-left: 1rem; padding: 0.5rem; border-radius: 8px;">
+                    <option value="1">Week 1 - Beginner</option>
+                    <option value="2">Week 2 - Foundation</option>
+                    <option value="3">Week 3 - Building</option>
+                    <option value="4">Week 4 - Strength</option>
+                    <option value="5">Week 5 - Advanced</option>
+                </select>
+            </div>
+
+            <!-- Weekly Grid -->
+            <div class="week-grid" id="weekGrid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <!-- Customize Plan -->
+            <div style="margin-top: 2rem; padding: 2rem; background: var(--bg-primary); border-radius: 16px;">
+                <h3><i class="fas fa-pencil-alt"></i> Customize Your Plan</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <label>Monday:</label>
+                        <select class="form-control" id="monExercise" onchange="updatePlan('mon', this.value)">
+                            <option value="Rest">Rest</option>
+                            <option value="Chest Day">Chest Day</option>
+                            <option value="Back Day">Back Day</option>
+                            <option value="Leg Day">Leg Day</option>
+                            <option value="Arm Day">Arm Day</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Tuesday:</label>
+                        <select class="form-control" id="tueExercise" onchange="updatePlan('tue', this.value)">
+                            <option value="Rest">Rest</option>
+                            <option value="Chest Day">Chest Day</option>
+                            <option value="Back Day">Back Day</option>
+                            <option value="Leg Day">Leg Day</option>
+                            <option value="Arm Day">Arm Day</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Wednesday:</label>
+                        <select class="form-control" id="wedExercise" onchange="updatePlan('wed', this.value)">
+                            <option value="Rest">Rest</option>
+                            <option value="Chest Day">Chest Day</option>
+                            <option value="Back Day">Back Day</option>
+                            <option value="Leg Day">Leg Day</option>
+                            <option value="Arm Day">Arm Day</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Thursday:</label>
+                        <select class="form-control" id="thuExercise" onchange="updatePlan('thu', this.value)">
+                            <option value="Rest">Rest</option>
+                            <option value="Chest Day">Chest Day</option>
+                            <option value="Back Day">Back Day</option>
+                            <option value="Leg Day">Leg Day</option>
+                            <option value="Arm Day">Arm Day</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Friday:</label>
+                        <select class="form-control" id="friExercise" onchange="updatePlan('fri', this.value)">
+                            <option value="Rest">Rest</option>
+                            <option value="Chest Day">Chest Day</option>
+                            <option value="Back Day">Back Day</option>
+                            <option value="Leg Day">Leg Day</option>
+                            <option value="Arm Day">Arm Day</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Saturday:</label>
+                        <select class="form-control" id="satExercise" onchange="updatePlan('sat', this.value)">
+                            <option value="Rest">Rest</option>
+                            <option value="Chest Day">Chest Day</option>
+                            <option value="Back Day">Back Day</option>
+                            <option value="Leg Day">Leg Day</option>
+                            <option value="Arm Day">Arm Day</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Sunday:</label>
+                        <select class="form-control" id="sunExercise" onchange="updatePlan('sun', this.value)">
+                            <option value="Rest">Rest</option>
+                            <option value="Chest Day">Chest Day</option>
+                            <option value="Back Day">Back Day</option>
+                            <option value="Leg Day">Leg Day</option>
+                            <option value="Arm Day">Arm Day</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Tracker -->
+            <div style="margin-top: 2rem;">
+                <h3><i class="fas fa-chart-line"></i> Weekly Progress</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem;">
+                    <div class="stat-box">
+                        <div>Workouts Done</div>
+                        <div class="high-score" id="workoutsDone">0/7</div>
+                    </div>
+                    <div class="stat-box">
+                        <div>Total Time</div>
+                        <div class="high-score" id="totalTime">0 min</div>
+                    </div>
+                    <div class="stat-box">
+                        <div>Calories Burned</div>
+                        <div class="high-score" id="totalCalories">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div>Streak</div>
+                        <div class="high-score" id="streak">0 days</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timer Modal -->
+    <div class="overlay" id="overlay" onclick="closeTimer()"></div>
+    <div class="timer-modal" id="timerModal">
+        <h2 id="currentExercise">Exercise Timer</h2>
+        <div class="timer-display" id="timer">00:00</div>
+        <div class="timer-controls">
+            <button class="timer-btn start" onclick="startTimer()">▶ Start</button>
+            <button class="timer-btn pause" onclick="pauseTimer()">⏸ Pause</button>
+            <button class="timer-btn reset" onclick="resetTimer()">🔄 Reset</button>
+            <button class="timer-btn" style="background: #e74c3c;" onclick="closeTimer()">✖ Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Exercise Database
+        const exercises = [
+            // Chest Exercises
+            { id: 1, name: 'Push-ups', category: 'chest', difficulty: 'beginner', icon: '🏋️', sets: 3, reps: '10-15', time: '5 min', calories: '30', equipment: 'None', description: 'Classic bodyweight exercise for chest, shoulders, and triceps.', instructions: ['Start in plank position', 'Lower chest to ground', 'Push back up', 'Keep core tight'] },
+            { id: 2, name: 'Bench Press', category: 'chest', difficulty: 'intermediate', icon: '🏋️', sets: 4, reps: '8-12', time: '10 min', calories: '50', equipment: 'Barbell, Bench', description: 'Compound exercise for overall chest development.', instructions: ['Lie on bench', 'Grip bar shoulder-width', 'Lower to chest', 'Press up'] },
+            { id: 3, name: 'Dumbbell Flyes', category: 'chest', difficulty: 'intermediate', icon: '🏋️', sets: 3, reps: '10-12', time: '8 min', calories: '40', equipment: 'Dumbbells', description: 'Isolation exercise for chest stretch and contraction.', instructions: ['Lie on bench', 'Arms extended with slight bend', 'Lower arms wide', 'Squeeze chest up'] },
+            
+            // Back Exercises
+            { id: 4, name: 'Pull-ups', category: 'back', difficulty: 'advanced', icon: '🔙', sets: 3, reps: '5-10', time: '6 min', calories: '45', equipment: 'Pull-up bar', description: 'Ultimate back width builder.', instructions: ['Hang from bar', 'Pull up until chin over bar', 'Lower controlled', 'Use full range'] },
+            { id: 5, name: 'Rows', category: 'back', difficulty: 'intermediate', icon: '🔙', sets: 4, reps: '10-12', time: '8 min', calories: '40', equipment: 'Dumbbells/Cable', description: 'Build back thickness and posture.', instructions: ['Bend at hips', 'Pull weight to chest', 'Squeeze shoulder blades', 'Lower controlled'] },
+            
+            // Shoulder Exercises
+            { id: 6, name: 'Shoulder Press', category: 'shoulders', difficulty: 'intermediate', icon: '🏔️', sets: 4, reps: '8-12', time: '8 min', calories: '35', equipment: 'Dumbbells', description: 'Build deltoid strength and size.', instructions: ['Sit with back support', 'Press weights overhead', 'Keep core tight', 'Control descent'] },
+            { id: 7, name: 'Lateral Raises', category: 'shoulders', difficulty: 'beginner', icon: '🏔️', sets: 3, reps: '12-15', time: '5 min', calories: '25', equipment: 'Light dumbbells', description: 'Target side delts for width.', instructions: ['Stand with dumbbells', 'Raise arms to side', 'Lead with elbows', 'Lower slowly'] },
+            
+            // Arm Exercises
+            { id: 8, name: 'Bicep Curls', category: 'arms', difficulty: 'beginner', icon: '💪', sets: 3, reps: '10-15', time: '5 min', calories: '20', equipment: 'Dumbbells', description: 'Build bicep peaks.', instructions: ['Stand with dumbbells', 'Curl weights up', 'Squeeze at top', 'Lower controlled'] },
+            { id: 9, name: 'Tricep Dips', category: 'arms', difficulty: 'intermediate', icon: '💪', sets: 3, reps: '10-12', time: '5 min', calories: '25', equipment: 'Bench/Chair', description: 'Target triceps and lower chest.', instructions: ['Grip bench behind', 'Lower body down', 'Push back up', 'Keep elbows back'] },
+            
+            // Leg Exercises
+            { id: 10, name: 'Squats', category: 'legs', difficulty: 'beginner', icon: '🦵', sets: 4, reps: '10-15', time: '8 min', calories: '50', equipment: 'None/Barbell', description: 'King of lower body exercises.', instructions: ['Stand feet shoulder-width', 'Lower like sitting', 'Keep chest up', 'Drive through heels'] },
+            { id: 11, name: 'Lunges', category: 'legs', difficulty: 'beginner', icon: '🦵', sets: 3, reps: '10 each', time: '6 min', calories: '35', equipment: 'None', description: 'Build leg balance and strength.', instructions: ['Step forward', 'Lower back knee', 'Keep front knee aligned', 'Push back up'] },
+            
+            // Core Exercises
+            { id: 12, name: 'Planks', category: 'core', difficulty: 'beginner', icon: '🧘', sets: 3, reps: '30-60 sec', time: '5 min', calories: '15', equipment: 'None', description: 'Build core stability.', instructions: ['Hold push-up position', 'Keep body straight', 'Squeeze glutes', 'Breathe steadily'] },
+            { id: 13, name: 'Crunches', category: 'core', difficulty: 'beginner', icon: '🧘', sets: 3, reps: '15-20', time: '4 min', calories: '10', equipment: 'None', description: 'Target upper abs.', instructions: ['Lie on back', 'Curl shoulders up', 'Keep lower back down', 'Squeeze abs'] },
+            
+            // Cardio Exercises
+            { id: 14, name: 'Jumping Jacks', category: 'cardio', difficulty: 'beginner', icon: '❤️', sets: 3, reps: '30 sec', time: '5 min', calories: '40', equipment: 'None', description: 'Full body cardio.', instructions: ['Jump feet out', 'Arms overhead', 'Jump back', 'Keep rhythm'] },
+            { id: 15, name: 'Burpees', category: 'cardio', difficulty: 'advanced', icon: '❤️', sets: 3, reps: '10-15', time: '6 min', calories: '60', equipment: 'None', description: 'Total body conditioner.', instructions: ['Drop to squat', 'Kick feet back', 'Do push-up', 'Jump up'] },
+            
+            // Full Body
+            { id: 16, name: 'Deadlifts', category: 'fullbody', difficulty: 'advanced', icon: '🌟', sets: 4, reps: '5-8', time: '10 min', calories: '70', equipment: 'Barbell', description: 'Ultimate full body strength builder.', instructions: ['Hinge at hips', 'Grip bar', 'Drive through heels', 'Stand tall'] },
+        ];
+
+        // Weekly Plans
+        const weeklyPlans = {
+            1: { mon: 'Push-ups', tue: 'Rest', wed: 'Squats', thu: 'Rest', fri: 'Planks', sat: 'Jumping Jacks', sun: 'Rest' },
+            2: { mon: 'Bench Press', tue: 'Rows', wed: 'Lunges', thu: 'Rest', fri: 'Shoulder Press', sat: 'Burpees', sun: 'Rest' },
+            3: { mon: 'Pull-ups', tue: 'Dumbbell Flyes', wed: 'Deadlifts', thu: 'Rest', fri: 'Bicep Curls', sat: 'Tricep Dips', sun: 'Rest' },
+            4: { mon: 'Chest Day', tue: 'Back Day', wed: 'Leg Day', thu: 'Rest', fri: 'Arm Day', sat: 'Cardio', sun: 'Rest' },
+            5: { mon: 'Full Body', tue: 'HIIT', wed: 'Strength', thu: 'Rest', fri: 'Power', sat: 'Endurance', sun: 'Rest' }
+        };
+
+        let currentCategory = 'all';
+        let timerInterval = null;
+        let timerSeconds = 0;
+        let timerRunning = false;
+        let currentExercise = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayExercises(exercises);
+            loadWeekPlan();
+            updateStats();
+            loadCustomPlan();
+        });
+
+        // Display Exercises
+        function displayExercises(exercisesToShow) {
+            const grid = document.getElementById('exerciseGrid');
+            grid.innerHTML = exercisesToShow.map(exercise => `
+                <div class="exercise-card">
+                    <div class="exercise-image">
+                        ${exercise.icon}
+                        <span class="exercise-difficulty">${exercise.difficulty}</span>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-title">${exercise.name}</div>
+                        <div class="exercise-meta">
+                            <span class="exercise-tag">${exercise.category}</span>
+                            <span class="exercise-tag">${exercise.equipment}</span>
+                        </div>
+                        <div class="exercise-stats">
+                            <div class="exercise-stat">
+                                <div class="exercise-stat-value">${exercise.sets}</div>
+                                <div class="exercise-stat-label">Sets</div>
+                            </div>
+                            <div class="exercise-stat">
+                                <div class="exercise-stat-value">${exercise.reps}</div>
+                                <div class="exercise-stat-label">Reps</div>
+                            </div>
+                            <div class="exercise-stat">
+                                <div class="exercise-stat-value">${exercise.calories}</div>
+                                <div class="exercise-stat-label">Cal</div>
+                            </div>
+                        </div>
+                        <p class="exercise-description">${exercise.description}</p>
+                        
+                        <div class="exercise-instructions" id="instructions-${exercise.id}">
+                            <h4>Instructions:</h4>
+                            <ol>
+                                ${exercise.instructions.map(inst => `<li>${inst}</li>`).join('')}
+                            </ol>
+                        </div>
+                        
+                        <button class="view-instructions-btn" onclick="toggleInstructions(${exercise.id})">
+                            📖 View Instructions
+                        </button>
+                        
+                        <button class="start-exercise-btn" onclick="startExercise('${exercise.name}', ${exercise.time.split(' ')[0]})">
+                            ⏱️ Start Timer
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Functions
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            filterExercises();
+        }
+
+        function filterExercises() {
+            const searchTerm = document.getElementById('searchExercise').value.toLowerCase();
+            const difficulty = document.getElementById('difficultyFilter').value;
+            
+            let filtered = exercises;
+            
+            // Filter by category
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(ex => ex.category === currentCategory);
+            }
+            
+            // Filter by search
+            if (searchTerm) {
+                filtered = filtered.filter(ex => 
+                    ex.name.toLowerCase().includes(searchTerm) ||
+                    ex.category.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Filter by difficulty
+            if (difficulty !== 'all') {
+                filtered = filtered.filter(ex => ex.difficulty === difficulty);
+            }
+            
+            displayExercises(filtered);
+        }
+
+        // Toggle Instructions
+        function toggleInstructions(id) {
+            const instructions = document.getElementById(`instructions-${id}`);
+            instructions.classList.toggle('show');
+        }
+
+        // Timer Functions
+        function startExercise(name, minutes) {
+            currentExercise = name;
+            timerSeconds = minutes * 60;
+            document.getElementById('currentExercise').textContent = name;
+            document.getElementById('timer').textContent = formatTime(timerSeconds);
+            document.getElementById('timerModal').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (timerRunning) return;
+            timerRunning = true;
+            
+            timerInterval = setInterval(() => {
+                if (timerSeconds > 0) {
+                    timerSeconds--;
+                    document.getElementById('timer').textContent = formatTime(timerSeconds);
+                } else {
+                    stopTimer();
+                    alert('🎉 Great job! Exercise complete!');
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 60; // Reset to 1 minute
+            document.getElementById('timer').textContent = formatTime(timerSeconds);
+        }
+
+        function stopTimer() {
+            pauseTimer();
+            timerRunning = false;
+        }
+
+        function closeTimer() {
+            pauseTimer();
+            document.getElementById('timerModal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Weekly Planner Functions
+        function loadWeekPlan() {
+            const week = document.getElementById('weekSelect').value;
+            const plan = weeklyPlans[week];
+            
+            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+            const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            
+            let gridHtml = '';
+            days.forEach((day, index) => {
+                gridHtml += `
+                    <div class="day-card">
+                        <div class="day-name">${dayNames[index]}</div>
+                        <div class="day-workout" id="day-${day}">${plan[day]}</div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('weekGrid').innerHTML = gridHtml;
+            
+            // Update dropdowns
+            document.getElementById('monExercise').value = plan.mon;
+            document.getElementById('tueExercise').value = plan.tue;
+            document.getElementById('wedExercise').value = plan.wed;
+            document.getElementById('thuExercise').value = plan.thu;
+            document.getElementById('friExercise').value = plan.fri;
+            document.getElementById('satExercise').value = plan.sat;
+            document.getElementById('sunExercise').value = plan.sun;
+            
+            updateProgress(plan);
+        }
+
+        function updatePlan(day, value) {
+            document.getElementById(`day-${day}`).textContent = value;
+            saveCustomPlan();
+            updateProgress();
+        }
+
+        function saveCustomPlan() {
+            const plan = {
+                mon: document.getElementById('monExercise').value,
+                tue: document.getElementById('tueExercise').value,
+                wed: document.getElementById('wedExercise').value,
+                thu: document.getElementById('thuExercise').value,
+                fri: document.getElementById('friExercise').value,
+                sat: document.getElementById('satExercise').value,
+                sun: document.getElementById('sunExercise').value
+            };
+            localStorage.setItem('customWorkoutPlan', JSON.stringify(plan));
+            updateProgress(plan);
+        }
+
+        function loadCustomPlan() {
+            const saved = localStorage.getItem('customWorkoutPlan');
+            if (saved) {
+                const plan = JSON.parse(saved);
+                document.getElementById('monExercise').value = plan.mon;
+                document.getElementById('tueExercise').value = plan.tue;
+                document.getElementById('wedExercise').value = plan.wed;
+                document.getElementById('thuExercise').value = plan.thu;
+                document.getElementById('friExercise').value = plan.fri;
+                document.getElementById('satExercise').value = plan.sat;
+                document.getElementById('sunExercise').value = plan.sun;
+                
+                document.getElementById('day-mon').textContent = plan.mon;
+                document.getElementById('day-tue').textContent = plan.tue;
+                document.getElementById('day-wed').textContent = plan.wed;
+                document.getElementById('day-thu').textContent = plan.thu;
+                document.getElementById('day-fri').textContent = plan.fri;
+                document.getElementById('day-sat').textContent = plan.sat;
+                document.getElementById('day-sun').textContent = plan.sun;
+            }
+        }
+
+        function updateProgress(plan) {
+            const workouts = Object.values(plan || {
+                mon: document.getElementById('monExercise').value,
+                tue: document.getElementById('tueExercise').value,
+                wed: document.getElementById('wedExercise').value,
+                thu: document.getElementById('thuExercise').value,
+                fri: document.getElementById('friExercise').value,
+                sat: document.getElementById('satExercise').value,
+                sun: document.getElementById('sunExercise').value
+            });
+            
+            const workoutCount = workouts.filter(w => w !== 'Rest').length;
+            document.getElementById('workoutsDone').textContent = `${workoutCount}/7`;
+            
+            const totalTime = workoutCount * 45; // Average 45 min per workout
+            document.getElementById('totalTime').textContent = totalTime + ' min';
+            
+            const totalCalories = workoutCount * 300; // Average 300 cal per workout
+            document.getElementById('totalCalories').textContent = totalCalories;
+            
+            // Calculate streak
+            let streak = localStorage.getItem('workoutStreak') || 0;
+            document.getElementById('streak').textContent = streak + ' days';
+        }
+
+        function updateStats() {
+            document.getElementById('totalExercises').textContent = exercises.length;
+            document.getElementById('totalCategories').textContent = [...new Set(exercises.map(e => e.category))].length;
+        }
+
+        // Download Functions
+        function downloadPlanAsPNG() {
+            const plan = {
+                week: document.getElementById('weekSelect').value,
+                mon: document.getElementById('monExercise').value,
+                tue: document.getElementById('tueExercise').value,
+                wed: document.getElementById('wedExercise').value,
+                thu: document.getElementById('thuExercise').value,
+                fri: document.getElementById('friExercise').value,
+                sat: document.getElementById('satExercise').value,
+                sun: document.getElementById('sunExercise').value
+            };
+            
+            const planText = `WEEKLY WORKOUT PLAN
+━━━━━━━━━━━━━━━━━━━━━
+Week ${plan.week}
+
+Monday:    ${plan.mon}
+Tuesday:   ${plan.tue}
+Wednesday: ${plan.wed}
+Thursday:  ${plan.thu}
+Friday:    ${plan.fri}
+Saturday:  ${plan.sat}
+Sunday:    ${plan.sun}
+━━━━━━━━━━━━━━━━━━━━━
+Total Workouts: ${Object.values(plan).filter(v => v !== 'Rest').length-1}/7
+
+Generated by EcoPulse 360 - Exercise Planner`;
+
+            // Create blob and download
+            const blob = new Blob([planText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `workout-plan-week-${plan.week}.txt`;
+            a.click();
+        }
+
+        function downloadPlanAsPDF() {
+            const plan = {
+                week: document.getElementById('weekSelect').value,
+                mon: document.getElementById('monExercise').value,
+                tue: document.getElementById('tueExercise').value,
+                wed: document.getElementById('wedExercise').value,
+                thu: document.getElementById('thuExercise').value,
+                fri: document.getElementById('friExercise').value,
+                sat: document.getElementById('satExercise').value,
+                sun: document.getElementById('sunExercise').value
+            };
+            
+            // Create HTML content
+            const content = `
+                <html>
+                <head>
+                    <title>Workout Plan</title>
+                    <style>
+                        body { font-family: Arial; padding: 30px; }
+                        h1 { color: #3498db; }
+                        .plan { margin-top: 20px; }
+                        .day { margin: 10px 0; padding: 10px; border-left: 4px solid #3498db; }
+                        .footer { margin-top: 30px; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Weekly Workout Plan - Week ${plan.week}</h1>
+                    <div class="plan">
+                        <div class="day"><strong>Monday:</strong> ${plan.mon}</div>
+                        <div class="day"><strong>Tuesday:</strong> ${plan.tue}</div>
+                        <div class="day"><strong>Wednesday:</strong> ${plan.wed}</div>
+                        <div class="day"><strong>Thursday:</strong> ${plan.thu}</div>
+                        <div class="day"><strong>Friday:</strong> ${plan.fri}</div>
+                        <div class="day"><strong>Saturday:</strong> ${plan.sat}</div>
+                        <div class="day"><strong>Sunday:</strong> ${plan.sun}</div>
+                    </div>
+                    <div class="footer">
+                        Total Workouts: ${Object.values(plan).filter(v => v !== 'Rest').length-1}/7<br>
+                        Generated by EcoPulse 360 - Exercise Planner
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `workout-plan-week-${plan.week}.html`;
+            a.click();
+        }
+
+        // Theme Toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            this.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-sun"></i> Light Mode';
+        });
+    </script>
+    <script src="js/theme.js"></script>
+</body>
+</html>

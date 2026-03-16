@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EcoPulse 360 - Sign In</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+body{
+font-family: Arial;
+background: linear-gradient(135deg,#27ae60,#16a085);
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0;
+}
+
+.auth-container{
+width:900px;
+background:#111;
+border-radius:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+overflow:hidden;
+box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.auth-left{
+background:linear-gradient(135deg,#27ae60,#16a085);
+color:white;
+padding:40px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.auth-left h1{
+font-size:32px;
+margin-bottom:10px;
+}
+
+.auth-left p{
+opacity:0.9;
+}
+
+.auth-right{
+padding:40px;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+.form-group input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #333;
+background:#1e1e1e;
+color:white;
+}
+
+.form-group input:focus{
+outline:none;
+border-color:#27ae60;
+}
+
+.btn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#27ae60;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#2ecc71;
+}
+
+.switch{
+text-align:center;
+margin-top:10px;
+cursor:pointer;
+color:#27ae60;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+<!-- LEFT SIDE -->
+<div class="auth-left">
+
+<h1><i class="fas fa-leaf"></i> EcoPulse 360</h1>
+
+<p>
+Join the smart wellness and environmental ecosystem.
+Track health, nature therapy and green activities.
+</p>
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div class="auth-right">
+
+<h2 id="formTitle">Sign In</h2>
+
+<!-- LOGIN FORM -->
+
+<div id="loginForm">
+
+<div class="form-group">
+<input type="email" id="loginEmail" placeholder="Email">
+</div>
+
+<div class="form-group">
+<input type="password" id="loginPassword" placeholder="Password">
+</div>
+
+<button class="btn" onclick="login()">Sign In</button>
+
+<div class="switch" onclick="showRegister()">Create Account</div>
+
+</div>
+
+<!-- REGISTER FORM -->
+
+<div id="registerForm" style="display:none">
+
+<div class="form-group">
+<input type="text" id="name" placeholder="Full Name">
+</div>
+
+<div class="form-group">
+<input type="email" id="email" placeholder="Email">
+</div>
+
+<div class="form-group">
+<input type="text" id="phone" placeholder="Phone Number">
+</div>
+
+<div class="form-group">
+<input type="number" id="age" placeholder="Age">
+</div>
+
+<div class="form-group">
+<input type="number" id="weight" placeholder="Weight (kg)">
+</div>
+
+<div class="form-group">
+<input type="number" id="height" placeholder="Height (cm)">
+</div>
+
+<div class="form-group">
+<input type="password" id="password" placeholder="Password">
+</div>
+
+<button class="btn" onclick="register()">Register</button>
+
+<div class="switch" onclick="showLogin()">Already have account?</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+
+function showRegister(){
+
+document.getElementById("loginForm").style.display="none";
+document.getElementById("registerForm").style.display="block";
+document.getElementById("formTitle").innerText="Register";
+
+}
+
+function showLogin(){
+
+document.getElementById("loginForm").style.display="block";
+document.getElementById("registerForm").style.display="none";
+document.getElementById("formTitle").innerText="Sign In";
+
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://ibfeegtzehgspswvlyna.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliZmVlZ3R6ZWhnc3Bzd3ZseW5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTY5ODAsImV4cCI6MjA4NzU5Mjk4MH0.I5CPOxe69SQ3O0qqb5A6Zx-pAWzLmZpXyu97mt9Zvag";
+
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+async function register(){
+
+console.log("Register clicked");
+
+let user = {
+name:document.getElementById("name").value,
+email:document.getElementById("email").value,
+phone:document.getElementById("phone").value,
+age:document.getElementById("age").value,
+weight:document.getElementById("weight").value,
+height:document.getElementById("height").value,
+password:document.getElementById("password").value
+};
+
+const { data, error } = await supabaseClient
+.from("users")
+.insert([user]);
+
+if(error){
+
+alert(error.message);
+console.log(error);
+
+}else{
+
+alert("Registration successful");
+
+showLogin();
+
+}
+
+}
+async function login(){
+
+console.log("Signin clicked");
+
+let email = document.getElementById("loginEmail").value;
+let password = document.getElementById("loginPassword").value;
+
+if(!email || !password){
+alert("Please enter email and password");
+return;
+}
+
+const { data, error } = await supabaseClient
+.from("users")
+.select("*")
+.eq("email", email)
+.eq("password", password)
+.single();
+
+if(error || !data){
+
+alert("Invalid login");
+
+}else{
+
+alert("Login successful");
+
+localStorage.setItem("user", JSON.stringify(data));
+
+window.location.href = "index.html";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>

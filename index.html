@@ -624,8 +624,8 @@ body::before {
             <span>EcoPulse 360</span>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
-            <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
+           <a href="index.html" class="active"><i class="active"></i> Dashboard</a>
+            <!-- <a href="agriculture.html"><i class="fas fa-tractor"></i> Agriculture</a>
             <a href="forest.html"><i class="fas fa-tree"></i> Forest</a>
             <a href="energy.html"><i class="fas fa-solar-panel"></i> Energy</a>
             <a href="waste.html"><i class="fas fa-recycle"></i> Waste</a>
@@ -633,8 +633,11 @@ body::before {
             <a href="disaster.html"><i class="fas fa-house-flood"></i> Disaster</a>
             <a href="water.html"><i class="fas fa-water"></i> Water</a>
             <a href="ev.html"><i class="fas fa-car"></i> EV</a>
-            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a>
+            <a href="pollution.html"><i class="fas fa-industry"></i> Pollution</a> -->
             <a href="healthcare.html"><i class="fas fa-heartbeat"></i> Health</a>
+             <a href="diet-planner.html"><i class="fas fa-home"></i> diet planner</a>
+            <a href="exercise.html"><i class="fas fa-home"></i> exercise</a>
+            <a href="games.html"><i class="fas fa-home"></i> Games</a>
         </div>
         <div class="nav-right">
             <button class="theme-toggle" id="themeToggle">
@@ -943,6 +946,10 @@ body::before {
     <script src="js/ai-assistant.js"></script>
     <script src="js/main.js"></script>
     <script>
+
+       
+
+
         // Initialize Charts
         document.addEventListener('DOMContentLoaded', function() {
             // Carbon Reduction Chart
@@ -1272,6 +1279,15 @@ class EcoAI {
 
 // Initialize AI Assistant
 const ecoAI = new EcoAI();
+
+
+let user = JSON.parse(localStorage.getItem("user"));
+
+if(user){
+
+document.getElementById("username").innerText = user.name;
+
+}
     </script>
 
 </body>
